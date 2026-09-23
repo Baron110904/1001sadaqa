@@ -1,0 +1,20 @@
+-- AlterTable
+ALTER TABLE "seasonal_campaigns" ADD COLUMN     "dailyCount" INTEGER,
+ADD COLUMN     "dailyCtaLabel" TEXT,
+ADD COLUMN     "dailyCtaUrl" TEXT,
+ADD COLUMN     "dailyEnabled" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "dailyTime" TEXT,
+ADD COLUMN     "dailyTitle" TEXT,
+ADD COLUMN     "figures" TEXT[],
+ADD COLUMN     "greeting" TEXT,
+ADD COLUMN     "greetingLatin" TEXT,
+ADD COLUMN     "heroLead" TEXT,
+ADD COLUMN     "heroTitle" TEXT,
+ADD COLUMN     "marquee" TEXT[],
+ADD COLUMN     "offers" TEXT[],
+ADD COLUMN     "pillLabel" TEXT,
+ADD COLUMN     "progressCurrent" INTEGER,
+ADD COLUMN     "progressUnit" TEXT,
+ADD COLUMN     "secondaryLabel" TEXT,
+ADD COLUMN     "secondaryUrl" TEXT;
+

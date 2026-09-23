@@ -1,0 +1,1170 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// 1001 SADAQA — schéma de données
+//
+// Les modèles User, Program, Project, Impact, News, Testimonial, Partner,
+// Contact, Donation et Volunteer reprennent l'annexe 7.1 du cahier des charges.
+//
+// Les modèles suivants sont des ajouts, chacun rattaché à un bloc des maquettes
+// qui serait sinon codé en dur et donc non éditable par l'équipe :
+//   Campaign            → « Causes à soutenir » (accueil, barres de progression)
+//   TeamMember          → « Équipe & gouvernance » (/about)
+//   VolunteerMission    → « Missions ouvertes » (/take-action/volunteer)
+//   PartnerDocument     → « Documents à télécharger » (/partners)
+//   PartnershipRequest  → formulaire de mise en relation B2B (/partners)
+//   MediaAsset          → Media Library + traçabilité du droit à l'image
+//   Setting             → paramètres du site, dont la passerelle de paiement
+//
+// Refonte de septembre 2026 — guide de contenu des pages :
+//   Domain              → les quatre domaines d'intervention (§4.3)
+//   Event               → événements produits par un programme (§4.5)
+//   Program             → étendu aux treize rubriques de la fiche (§4.4)
+//   Project             → étendu aux quinze rubriques ; l'état du cycle de vie
+//                         est désormais distinct de la publication (§5.2, §5.4)
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Administration ───────────────────────────────────────────────────────────
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  password     String // haché (bcrypt)
+  name         String
+  role         Role         @default(EDITOR)
+  isActive     Boolean      @default(true)
+  refreshToken String? // haché
+  news         News[]
+  mediaAssets  MediaAsset[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("users")
+}
+
+// ── Contenu institutionnel ───────────────────────────────────────────────────
+
+/// Domaine d'intervention : le premier niveau de la page Programmes.
+model Domain {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String
+  icon        String?
+  /// Numéros des ODD auxquels le domaine contribue (§5.7).
+  sdgs        Int[]
+  order       Int       @default(0)
+  isActive    Boolean   @default(true)
+  programs    Program[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("domains")
+}
+
+/// Programme : deuxième niveau. Les rubriques sont des champs distincts et non
+/// un bloc de texte libre — c'est ce qui garantit que les huit fiches se
+/// ressemblent, quelle que soit la personne qui les rédige (§4.7).
+model Program {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  /// Libellé court utilisé par les puces de filtre de la page /projets.
+  shortLabel  String
+  /// Phrase de résumé de l'en-tête de fiche.
+  description String
+  icon        String?
+  image       String?
+
+  // ── Rubriques de la fiche programme (§4.4) ──
+  /// Le défi auquel le programme répond.
+  context    String?
+  /// Ce que le programme vise.
+  objectives String?
+  /// Qui est accompagné, selon quels critères.
+  audience   String?
+  /// Ce qui est concrètement mis en œuvre.
+  activities String[]
+  /// Ce que le programme doit produire.
+  outcomes   String?
+
+  domainId  String?
+  domain    Domain?    @relation(fields: [domainId], references: [id])
+  order     Int        @default(0)
+  /// Avancement du programme, filtré par la page publique.
+  status    ProgramStatus @default(ACTIF)
+  isActive  Boolean    @default(true)
+  projects  Project[]
+  campaigns Campaign[]
+  donations Donation[]
+  events    Event[]
+  documents Document[]
+  news      News[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([domainId])
+  @@map("programs")
+}
+
+/// Événement produit par un programme : distribution, campagne de santé,
+/// journée de sensibilisation, action de Ramadan ou de Tabaski (§4.5).
+model Event {
+  id          String     @id @default(cuid())
+  title       String
+  slug        String     @unique
+  programId   String?
+  program     Program?   @relation(fields: [programId], references: [id])
+  startDate   DateTime
+  /// Renseignée lorsque l'événement s'étend sur une période.
+  endDate     DateTime?
+  location    String
+  kind        EventKind  @default(DISTRIBUTION)
+  description String
+  /// Ce que l'événement a produit : bénéficiaires touchés, quantités.
+  figures     String[]
+  image       String?
+  gallery     String[]
+  /// Relie les éditions successives d'un rendez-vous annuel ou mensuel.
+  recurrence  Recurrence @default(PONCTUEL)
+  order       Int        @default(0)
+  isPublished Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([programId])
+  @@map("events")
+}
+
+/// Projet : la page de la preuve. L'état décrit où en est le projet, et non
+/// s'il est visible — les deux étaient confondus dans une seule énumération,
+/// ce qui empêchait d'afficher publiquement un projet « à financer » (§5.2).
+model Project {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  description String
+  content     String?
+
+  // ── Rubriques de la fiche projet (§5.4) ──
+  /// Le besoin auquel le projet répond.
+  problem    String?
+  /// Ce que le projet vise à produire.
+  objectives String?
+  /// Nombre et profil des personnes touchées.
+  audience   String?
+
+  programId String
+  program   Program   @relation(fields: [programId], references: [id])
+  startDate DateTime?
+  endDate   DateTime?
+  location  String?
+
+  /// Montant du projet ou besoin de financement.
+  budget           Float?
+  /// Tous les montants ne sont pas communicables : le dossier institutionnel
+  /// écrit « budget disponible » sans publier de chiffre. La visibilité se
+  /// décide donc projet par projet (§5.4).
+  budgetVisibility BudgetVisibility @default(MASQUE)
+  /// Pourcentage de réalisation ou de financement.
+  progress         Int?
+  progressAt       DateTime?
+
+  /// Numéros des ODD auxquels le projet contribue (§5.7).
+  sdgs Int[]
+
+  image       String?
+  gallery     String[]
+  /// Vidéos de terrain : une adresse par ligne (YouTube, Vimeo, fichier).
+  videos      String[]
+  documents   Document[]
+  status      ProjectStatus @default(EN_PREPARATION)
+  /// Visible du public. Distinct de l'état d'avancement ci-dessus.
+  isPublished Boolean       @default(false)
+  order       Int           @default(0)
+  impacts     Impact[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([programId])
+  @@map("projects")
+}
+
+model Impact {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  indicator String // ex. « familles servies »
+  value     String // ex. « 400 »
+  period    DateTime
+  verified  Boolean  @default(false)
+  // Indicateur mis en avant sur la carte projet
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([projectId])
+  @@map("impacts")
+}
+
+model News {
+  id          String       @id @default(cuid())
+  title       String
+  slug        String       @unique
+  excerpt     String?
+  content     String
+  image       String?
+  /// Légende de l'image à la une.
+  imageCaption String?
+  /// Crédit photo, obligatoire dès qu'une photo n'est pas de l'association.
+  imageCredit  String?
+  category    NewsCategory @default(TERRAIN)
+  authorId    String
+  author      User         @relation(fields: [authorId], references: [id])
+  /// Programme dont l'article rend compte. Alimente le filtre de la liste.
+  programId   String?
+  program     Program?     @relation(fields: [programId], references: [id])
+  publishedAt DateTime?
+  isPublished Boolean      @default(false)
+  isFeatured  Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([authorId])
+  @@map("news")
+}
+
+model Testimonial {
+  id        String          @id @default(cuid())
+  name      String
+  role      String?
+  content   String
+  image     String?
+  type      TestimonialType @default(BENEFICIARY)
+  order     Int             @default(0)
+  isActive  Boolean         @default(true)
+  createdAt DateTime        @default(now())
+
+  @@map("testimonials")
+}
+
+/// Partenaire. Le mur de logos public et, pour ceux qui ont signé une
+/// convention, l'accès à l'espace partenaire (§7.6.4).
+model Partner {
+  id       String      @id @default(cuid())
+  name     String
+  logo     String
+  website  String?
+  type     PartnerType @default(INSTITUTION)
+  order    Int         @default(0)
+  isActive Boolean     @default(true)
+
+  // ── Convention ──
+  /// Un partenaire conventionné dispose d'un espace connecté. Le compte n'est
+  /// jamais créé en libre inscription : l'administration l'ouvre après
+  /// signature, et le partenaire reçoit une invitation.
+  isConventioned Boolean   @default(false)
+  conventionFrom DateTime?
+  conventionTo   DateTime?
+  /// Interlocuteur dédié au sein de l'association.
+  contactName    String?
+  contactEmail   String?
+
+  seats         PartnerSeat[]
+  contributions PartnerContribution[]
+  documents     Document[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("partners")
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?
+  image     String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("team_members")
+}
+
+model Campaign {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  // Promesse concrète affichée sous le titre
+  claim     String
+  image     String?
+  // Montants en francs CFA (XOF)
+  goal      Float
+  raised    Float    @default(0)
+  programId String?
+  program   Program? @relation(fields: [programId], references: [id])
+  isUrgent  Boolean  @default(false)
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([programId])
+  @@map("campaigns")
+}
+
+model VolunteerMission {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  description String
+  kind        MissionKind @default(FIELD)
+  // ex. « 1 samedi par mois · Cotonou »
+  commitment  String
+  order       Int         @default(0)
+  isActive    Boolean     @default(true)
+  volunteers  Volunteer[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@map("volunteer_missions")
+}
+
+/// Document téléchargeable.
+///
+/// La visibilité décide qui peut l'obtenir : tout le monde, les seuls
+/// partenaires conventionnés, ou personne hors de l'administration. Un
+/// document réservé n'est jamais servi depuis le dossier public ; l'accès
+/// passe par un lien signé à durée limitée (§7.6.4).
+model Document {
+  id         String             @id @default(cuid())
+  title      String
+  fileUrl    String
+  fileType   String             @default("PDF")
+  /// Taille lisible, ex. « 1,2 Mo ».
+  fileSize   String?
+  visibility DocumentVisibility @default(PUBLIC)
+  partnerId  String?
+  partner    Partner?           @relation(fields: [partnerId], references: [id])
+  projectId  String?
+  project    Project?           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  programId  String?
+  program    Program?           @relation(fields: [programId], references: [id], onDelete: Cascade)
+  order      Int                @default(0)
+  isActive   Boolean            @default(true)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([visibility])
+  @@index([partnerId])
+  @@index([projectId])
+  @@map("partner_documents")
+}
+
+// ── Interactions entrantes ───────────────────────────────────────────────────
+
+model Contact {
+  id               String        @id @default(cuid())
+  name             String
+  email            String
+  phone            String?
+  subject          String
+  message          String
+  status           ContactStatus @default(PENDING)
+  // ── Traçabilité de la soumission (§10.2) ──
+  pageOrigin       String?
+  trafficSource    String?
+  campaign         String?
+  consentPrivacy   Boolean       @default(false)
+  consentPrivacyAt DateTime?
+  consentNews      Boolean       @default(false)
+  consentNewsAt    DateTime?
+  /// Version de la politique de confidentialité acceptée. Sans elle, il devient
+  /// impossible de démontrer à quoi une personne a consenti le jour où elle
+  /// s'est inscrite.
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+
+  @@map("contacts")
+}
+
+model Donation {
+  id          String            @id @default(cuid())
+  donorName   String
+  donorEmail  String
+  donorPhone  String?
+  /// Pays et ville du donateur, choisis dans des listes liées à la saisie.
+  /// Utiles au reçu, et à la lecture de l'origine géographique des soutiens —
+  /// la diaspora pèse lourd dans les dons, et rien ne le mesurait jusqu'ici.
+  donorCountry String?
+  donorCity    String?
+  amount      Float
+  currency    String            @default("XOF")
+  method      DonationMethod
+  frequency   DonationFrequency @default(ONE_TIME)
+  // Affectation : null = « là où le besoin est le plus urgent »
+  programId   String?
+  program     Program?          @relation(fields: [programId], references: [id])
+  status      DonationStatus    @default(PENDING)
+  // Référence renvoyée par la passerelle de paiement, quand elle est activée
+  providerRef String?
+  /// Anonymat **public** : le donateur reste connu de l'association — ce qui
+  /// permet le reçu, la traçabilité comptable et le remerciement — mais son
+  /// identité n'apparaît nulle part publiquement. Le filtrage est appliqué à la
+  /// source, dans les requêtes publiques et les exports (§7.7.4).
+  isAnonymous Boolean           @default(false)
+  accountId   String?
+  account     Account?          @relation(fields: [accountId], references: [id])
+
+  // ── Traçabilité de la soumission (§10.2) ──
+  pageOrigin       String?
+  trafficSource    String?
+  campaign         String?
+  consentPrivacy   Boolean   @default(false)
+  consentPrivacyAt DateTime?
+  consentNews      Boolean   @default(false)
+  consentNewsAt    DateTime?
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([programId])
+  @@map("donations")
+}
+
+model Volunteer {
+  id           String            @id @default(cuid())
+  name         String
+  email        String
+  phone        String
+  availability String?
+  skills       String[]
+  message      String?
+  missionId    String?
+  mission      VolunteerMission? @relation(fields: [missionId], references: [id])
+  status       VolunteerStatus   @default(PENDING)
+  accountId    String?
+  account      Account?          @relation(fields: [accountId], references: [id])
+  /// Programme souhaité, alimenté depuis les huit programmes.
+  programId    String?
+  /// Terrain, support ou indifférent.
+  preference   String?
+  city         String?
+  profession   String?
+  experience   String?
+
+  // ── Traçabilité de la soumission (§10.2) ──
+  pageOrigin       String?
+  trafficSource    String?
+  campaign         String?
+  consentPrivacy   Boolean   @default(false)
+  consentPrivacyAt DateTime?
+  consentNews      Boolean   @default(false)
+  consentNewsAt    DateTime?
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([missionId])
+  @@map("volunteers")
+}
+
+model PartnershipRequest {
+  id           String        @id @default(cuid())
+  organisation String
+  contactName  String
+  email        String
+  phone        String?
+  // Type de partenariat envisagé, saisi librement
+  intent       String
+  status       ContactStatus @default(PENDING)
+  /// Fonction du responsable, secteur et type d'organisation (§7.6.3).
+  role         String?
+  sector       String?
+  orgType      String?
+  projectId    String?
+
+  // ── Traçabilité de la soumission (§10.2) ──
+  pageOrigin       String?
+  trafficSource    String?
+  campaign         String?
+  consentPrivacy   Boolean   @default(false)
+  consentPrivacyAt DateTime?
+  consentNews      Boolean   @default(false)
+  consentNewsAt    DateTime?
+  /// Version de la politique de confidentialité acceptée. Sans elle, il devient
+  /// impossible de démontrer à quoi une personne a consenti le jour où elle
+  /// s'est inscrite.
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+
+  @@map("partnership_requests")
+}
+
+// ── Media Library ────────────────────────────────────────────────────────────
+
+// Point de vigilance du cahier des charges : le consentement n'est pas un
+// booléen. On trace la nature de l'autorisation, sa portée, sa durée et le
+// signataire. La publication est refusée côté service si le consentement
+// n'est pas valide (voir media.service.ts → assertPublishable).
+model MediaAsset {
+  id            String      @id @default(cuid())
+  bucket        MediaBucket
+  objectKey     String      @unique
+  url           String
+  mimeType      String
+  sizeBytes     Int
+  width         Int?
+  height        Int?
+  title         String?
+  altText       String?
+  credit        String?
+  tags          String[]
+  // Date de captation du média (distincte de la date d'import)
+  capturedAt    DateTime?
+  capturedPlace String?
+
+  // ── Droit à l'image ──
+  consentStatus     ConsentStatus  @default(MISSING)
+  // Nature de l'autorisation : écrite, orale enregistrée, non requise…
+  consentKind       ConsentKind?
+  // Portée autorisée : WEB, PRESS, SOCIAL, PRINT
+  consentScopes     ConsentScope[]
+  consentSignedBy   String?
+  // Le signataire est-il le représentant légal d'une personne mineure ?
+  consentIsGuardian Boolean        @default(false)
+  consentSignedAt   DateTime?
+  // Fin de validité de l'autorisation ; null = sans limite de durée
+  consentExpiresAt  DateTime?
+  consentNotes      String?
+  consentProofUrl   String?
+
+  showInGallery Boolean  @default(false)
+  order         Int      @default(0)
+  uploadedById  String?
+  uploadedBy    User?    @relation(fields: [uploadedById], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([bucket])
+  @@index([uploadedById])
+  @@map("media_assets")
+}
+
+// ── Communauté ───────────────────────────────────────────────────────────────
+
+/// Compte d'une personne ou d'une organisation extérieure à l'association.
+///
+/// Distinct de `User`, qui est un compte d'administration : les deux n'ont ni
+/// le même cycle de vie, ni la même surface de risque. Une même personne peut
+/// cumuler les profils — membre qui donne et fait du bénévolat — sans créer
+/// plusieurs comptes (§7.8).
+model Account {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  password     String // haché (bcrypt)
+  name         String
+  phone        String?
+  isActive     Boolean   @default(true)
+  refreshToken String? // haché
+  lastLoginAt  DateTime?
+
+  member       Member?
+  volunteer    Volunteer[]
+  donations    Donation[]
+  /// Habilitations sur des organisations partenaires.
+  partnerSeats PartnerSeat[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accounts")
+}
+
+/// Adhésion à l'association.
+///
+/// Le compte se crée depuis le site ; l'administration valide ensuite, comme le
+/// demandent les statuts. Le montant mensuel est déclaratif et modifiable à
+/// tout moment : il n'engage aucun prélèvement (§7.4.2).
+model Member {
+  id        String   @id @default(cuid())
+  accountId String?  @unique
+  account   Account? @relation(fields: [accountId], references: [id])
+
+  name          String
+  email         String
+  phone         String
+  city          String
+  country       String   @default("Bénin")
+  profession    String?
+  /// Domaines d'intervention qui motivent l'adhésion.
+  interests     String[]
+  motivation    String?
+  /// Vie associative, terrain, mobilisation de partenaires, appui technique.
+  participation String[]
+
+  /// Montant mensuel choisi, plancher de 1 000 F CFA. Déclaratif.
+  pledgedAmount Float        @default(1000)
+  status        MemberStatus @default(EN_ATTENTE)
+  /// Motif d'un refus, communiqué au demandeur.
+  decisionNote  String?
+  joinedAt      DateTime?
+
+  contributions Contribution[]
+
+  // ── Traçabilité de la soumission (§10.2) ──
+  pageOrigin       String?
+  trafficSource    String?
+  campaign         String?
+  consentPrivacy   Boolean   @default(false)
+  consentPrivacyAt DateTime?
+  consentNews      Boolean   @default(false)
+  consentNewsAt    DateTime?
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@map("members")
+}
+
+/// Un versement de cotisation.
+///
+/// Une ligne par versement, jamais un abonnement : peu de fournisseurs Mobile
+/// Money au Bénin proposent le prélèvement récurrent, et un échec de débit
+/// silencieux transformerait un membre engagé en membre « en défaut » sans
+/// qu'il l'ait voulu (§7.4.2). Le montant d'une échéance n'engage pas les
+/// suivantes.
+model Contribution {
+  id          String             @id @default(cuid())
+  memberId    String
+  member      Member             @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  amount      Float
+  /// Mois et année de rattachement du versement.
+  period      DateTime
+  paidAt      DateTime?
+  method      DonationMethod     @default(MOBILE_MONEY)
+  providerRef String?
+  status      ContributionStatus @default(EN_ATTENTE)
+  /// Distingue un versement saisi par la trésorerie d'un paiement en ligne.
+  recordedBy  RecordedBy         @default(SYSTEME)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@index([memberId])
+  @@index([period])
+  @@map("contributions")
+}
+
+/// Habilitation d'une personne sur une organisation partenaire.
+///
+/// Une organisation peut avoir plusieurs personnes habilitées, chacune avec ses
+/// propres identifiants (§7.6.4).
+model PartnerSeat {
+  id        String   @id @default(cuid())
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  partnerId String
+  partner   Partner  @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  role      String   @default("Contact")
+  createdAt DateTime @default(now())
+
+  @@unique([accountId, partnerId])
+  @@index([partnerId])
+  @@map("partner_seats")
+}
+
+/// Contribution d'un partenaire, financière ou non.
+model PartnerContribution {
+  id          String             @id @default(cuid())
+  partnerId   String
+  partner     Partner            @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  kind        ContributionKind   @default(FINANCIER)
+  /// Montant lorsque la contribution est financière.
+  amount      Float?
+  description String?
+  occurredAt  DateTime
+  projectId   String?
+  programId   String?
+  status      ContributionStatus @default(CONFIRME)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@index([partnerId])
+  @@map("partner_contributions")
+}
+
+// ── Campagnes saisonnières ───────────────────────────────────────────────────
+
+/// Habillage saisonnier du site pendant le Ramadan et la Tabaski.
+///
+/// Le calendrier hégirien se décale d'environ onze jours chaque année : aucune
+/// date n'est codée en dur, l'activation est manuelle avec une période
+/// programmée (§2.6.2). Deux campagnes ne peuvent pas être actives à la fois —
+/// la règle est appliquée côté service.
+model SeasonalCampaign {
+  id          String        @id @default(cuid())
+  name        String
+  slug        String        @unique
+  theme       CampaignTheme @default(AUCUN)
+  startsAt    DateTime
+  endsAt      DateTime
+  /// Ancien bandeau haut, retire du site. Conserve pour ne pas perdre les
+  /// textes deja saisis, mais plus affiche nulle part.
+  bannerText  String?
+  bannerImage String?
+  ctaLabel    String        @default("Je contribue")
+  ctaUrl      String        @default("/communaute/donateur")
+  /// Objectif de collecte, facultatif.
+  goal        Float?
+
+  // ── Habillage festif de la page d'accueil ──
+  //
+  // Tout est facultatif : une campagne peut se limiter au bandeau haut. Dès
+  // que `heroTitle` est renseigné, l'accueil remplace son héros habituel par
+  // celui de la fête.
+
+  /// Salutation en arabe, au-dessus du titre.
+  greeting      String?
+  /// Translittération latine de la salutation.
+  greetingLatin String?
+  /// Libellé de la pastille affichée dans l'en-tête du site.
+  pillLabel     String?
+  /// Titre du héros. Le caractère « | » marque un saut de ligne.
+  heroTitle     String?
+  /// Paragraphe d'introduction du héros.
+  heroLead      String?
+  /// Second bouton du héros, à côté de `ctaLabel`.
+  secondaryLabel String?
+  secondaryUrl   String?
+
+  /// Unité comptée par l'objectif : « iftars », « parts ».
+  progressUnit    String?
+  /// Avancement, dans cette unité.
+  progressCurrent Int?
+
+  /// Chiffres libres du bandeau, un par ligne, au format « valeur|libellé ».
+  figures String[]
+  /// Offres de contribution, au format « libellé|montant|description ».
+  /// Un montant vide produit une carte à montant libre.
+  offers  String[]
+  /// Mentions du bandeau défilant.
+  marquee String[]
+
+  // ── Bande basse du jour ──
+  //
+  // Barre fixée au bas de toutes les pages pendant la campagne. Pensée pour
+  // le Ramadan, où l'information change chaque soir.
+  dailyEnabled  Boolean @default(false)
+  dailyTitle    String?
+  /// Heure de rupture du jeûne, au format « 18:52 ».
+  dailyTime     String?
+  /// Nombre de couverts prévus.
+  dailyCount    Int?
+  dailyCtaLabel String?
+  dailyCtaUrl   String?
+  /// Interrupteur d'urgence : coupe l'habillage sans toucher aux dates.
+  isActive    Boolean       @default(false)
+  /// Événement récurrent dont cette campagne est l'édition de l'année.
+  eventId     String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([isActive, startsAt, endsAt])
+  @@map("seasonal_campaigns")
+}
+
+// ── Configuration ────────────────────────────────────────────────────────────
+
+// Paramètres éditables depuis le back-office. La passerelle de paiement
+// (fournisseur, clés, moyens activés) vit ici : l'activer ne demande aucun
+// déploiement de code. Les valeurs marquées isSecret ne sortent jamais de
+// l'API publique.
+/// Inscription à la lettre d'information.
+///
+/// Le consentement est horodaté et la version de la politique conservée : sans
+/// ces deux données, il devient impossible de démontrer à quoi une personne a
+/// consenti le jour où elle s'est inscrite (§10.2).
+///
+/// Le désabonnement conserve la ligne en la désactivant plutôt que de
+/// l'effacer : réinscrire quelqu'un qui s'était désabonné est une faute, et
+/// une ligne supprimée ne garde aucune trace de son refus.
+model NewsletterSubscription {
+  id     String  @id @default(cuid())
+  email  String  @unique
+  name   String?
+  /// Page depuis laquelle l'inscription a été faite.
+  source String?
+
+  isActive         Boolean   @default(true)
+  consentAt        DateTime  @default(now())
+  unsubscribedAt   DateTime?
+  policyVersion    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("newsletter_subscriptions")
+}
+
+/// Une catégorie de denrées suivie par la banque alimentaire.
+///
+/// Le stock n'est pas saisi à la main : il est la somme des mouvements. Une
+/// quantité modifiable directement finirait toujours par diverger du registre,
+/// et l'écart serait invisible — alors que c'est précisément ce registre qui
+/// rend le don traçable pour celui qui l'a fait.
+model FoodCategory {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique
+  /// Unité de mesure affichée : kg, L, unités…
+  unit String @default("kg")
+  /// Exemples de denrées attendues, affichés sous la carte de besoin.
+  examples    String?
+  /// Niveau visé. Sert de dénominateur : « 180 kg sur 250 ».
+  target      Float  @default(0)
+  /// En dessous, la catégorie est signalée « bas ».
+  lowLevel    Float  @default(0)
+  /// En dessous, elle est signalée « critique » et remonte en tête de page.
+  criticalLevel Float @default(0)
+
+  order    Int     @default(0)
+  isActive Boolean @default(true)
+
+  movements StockMovement[]
+  requests  FoodbankRequest[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("food_categories")
+}
+
+/// Une entrée ou une sortie de l'entrepôt.
+///
+/// Les deux sens vivent dans la même table : le stock d'une catégorie est la
+/// somme algébrique de ses mouvements, et le registre se lit d'un seul coup.
+model StockMovement {
+  id         String       @id @default(cuid())
+  categoryId String
+  category   FoodCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  direction MovementDirection
+  /// Toujours positive : c'est `direction` qui porte le sens.
+  quantity  Float
+
+  /// Qui donne, pour une entrée ; qui reçoit, pour une sortie.
+  counterpart String
+  /// Précision libre : « 38 paniers complets », « 400 L d'huile ».
+  detail      String?
+  /// Personnes servies par une sortie. Alimente le compteur du flux mensuel.
+  peopleServed Int?
+
+  occurredAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  /// Demande qui a produit ce mouvement, quand il vient du site public.
+  request FoodbankRequest?
+
+  @@index([categoryId])
+  @@index([occurredAt])
+  @@map("stock_movements")
+}
+
+/// Une demande déposée depuis le site : apporter une denrée, ou en recevoir.
+///
+/// Elle n'est **pas** un mouvement. Le stock ne bouge qu'à la validation, et
+/// c'est voulu : entre le clic d'un donateur et l'arrivée du sac à l'entrepôt,
+/// il y a un trajet qui n'aboutit pas toujours. Un registre qui compterait les
+/// intentions annoncerait des denrées que personne n'a vues.
+model FoodbankRequest {
+  id     String                @id @default(cuid())
+  kind   FoodbankRequestKind
+  status FoodbankRequestStatus @default(PENDING)
+
+  // ── Qui ──
+  name  String
+  email String
+  phone String?
+  /// Masque le nom sur le classement public. La personne reste connue de
+  /// l'association, qui doit pouvoir la recontacter et tenir sa comptabilité.
+  isAnonymous Boolean @default(false)
+
+  // ── Quoi ──
+  /// Nul pour un don « hors liste » : l'article n'existe pas encore en
+  /// catégorie. Une demande de retrait, elle, porte toujours une catégorie —
+  /// on ne réclame pas ce que la banque ne gère pas.
+  categoryId String?
+  category   FoodCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  /// Libellé saisi quand le donateur choisit « Autre ».
+  otherLabel String?
+  quantity   Float
+  /// Unité figée au dépôt : celle de la catégorie, ou celle saisie pour un
+  /// article hors liste. La catégorie peut changer d'unité ensuite.
+  unit    String
+  message String?
+
+  /// Mouvement engendré par la validation. Sa présence dit que le stock a
+  /// bougé ; son absence, que rien n'a été compté.
+  movementId String?        @unique
+  movement   StockMovement? @relation(fields: [movementId], references: [id], onDelete: SetNull)
+
+  handledAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([kind, status])
+  @@index([createdAt])
+  @@map("foodbank_requests")
+}
+
+/// Mot laissé par une personne accompagnée par la banque.
+///
+/// Publié seulement après lecture. Une association ne peut pas afficher sur
+/// son site un texte que personne n'a lu : le temps de retirer un propos
+/// déplacé, il a déjà été vu, capté, partagé.
+model FoodbankComment {
+  id          String  @id @default(cuid())
+  authorName  String
+  /// Le mot paraît sous « Une personne accompagnée » plutôt que sous un nom.
+  isAnonymous Boolean @default(false)
+  message     String
+  isPublished Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isPublished, createdAt])
+  @@map("foodbank_comments")
+}
+
+model Setting {
+  key       String       @id
+  group     SettingGroup @default(GENERAL)
+  value     Json
+  label     String
+  isSecret  Boolean      @default(false)
+  updatedAt DateTime     @updatedAt
+
+  @@index([group])
+  @@map("settings")
+}
+
+// ── Énumérations ─────────────────────────────────────────────────────────────
+
+enum Role {
+  ADMIN
+  EDITOR
+  CONTRIBUTOR
+}
+
+/// Les quatre états du §5.2. Chacun appelle un bouton d'action différent :
+/// un projet réalisé invite à en soutenir un semblable, un projet à financer
+/// invite à le financer.
+enum ProjectStatus {
+  REALISE
+  EN_COURS
+  A_FINANCER
+  EN_PREPARATION
+}
+
+/// État d'avancement d'un programme, distinct de `isActive`.
+///
+/// `isActive` décide de la publication : un programme masqué ne doit pas
+/// apparaître sur le site. L'état ci-dessous décrit où en est le programme, et
+/// reste public dans les deux cas — c'est lui que filtre la page Programmes.
+enum ProgramStatus {
+  ACTIF
+  EN_PREPARATION
+}
+
+/// Sens d'un mouvement de stock de la banque alimentaire.
+enum MovementDirection {
+  ENTREE
+  SORTIE
+}
+
+/// Sens d'une demande déposée depuis le site.
+enum FoodbankRequestKind {
+  /// Apporter une denrée : deviendra une entrée de stock.
+  DON
+  /// Recevoir une denrée : deviendra une sortie de stock.
+  RETRAIT
+}
+
+enum FoodbankRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum BudgetVisibility {
+  PUBLIC
+  PARTENAIRE
+  MASQUE
+}
+
+enum EventKind {
+  DISTRIBUTION
+  CAMPAGNE_SANTE
+  SENSIBILISATION
+  COLLECTE
+  JOURNEE_SOLIDAIRE
+}
+
+enum Recurrence {
+  PONCTUEL
+  ANNUEL
+  MENSUEL
+}
+
+enum PartnerType {
+  INSTITUTION
+  ENTERPRISE
+  FOUNDATION
+  NGO
+}
+
+enum ContactStatus {
+  PENDING
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+enum DonationMethod {
+  MOBILE_MONEY
+  BANK_TRANSFER
+  CARD
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+enum VolunteerStatus {
+  PENDING
+  CONTACTED
+  ACTIVE
+  INACTIVE
+}
+
+enum NewsCategory {
+  COMMUNIQUE
+  TERRAIN
+  PARTENARIAT
+  INSTITUTION
+}
+
+enum TestimonialType {
+  BENEFICIARY
+  VOLUNTEER
+  PARTNER
+}
+
+enum DonationFrequency {
+  ONE_TIME
+  MONTHLY
+}
+
+enum MissionKind {
+  FIELD
+  SKILLS
+}
+
+enum MediaBucket {
+  BRAND
+  PROGRAMS
+  PROJECTS
+  NEWS
+  TESTIMONIALS
+  PARTNERS
+  FIELD
+  // Ajouté aux sept buckets du cahier des charges (§ 4.5) : les documents
+  // téléchargeables de l'espace partenaires ont besoin de leur rangement.
+  DOCUMENTS
+}
+
+enum ConsentStatus {
+  MISSING
+  PENDING
+  GRANTED
+  REFUSED
+  EXPIRED
+}
+
+enum ConsentKind {
+  WRITTEN
+  RECORDED_ORAL
+  NOT_REQUIRED
+}
+
+enum ConsentScope {
+  WEB
+  PRESS
+  SOCIAL
+  PRINT
+}
+
+enum SettingGroup {
+  GENERAL
+  CONTACT
+  SOCIAL
+  PAYMENT
+  ANALYTICS
+}
+
+enum MemberStatus {
+  EN_ATTENTE
+  ACTIF
+  SUSPENDU
+  RADIE
+}
+
+enum ContributionStatus {
+  EN_ATTENTE
+  CONFIRME
+  ECHOUE
+}
+
+/// Distingue un versement encaissé en ligne d'un versement saisi à la main par
+/// la trésorerie — espèces ou virement reçus hors du site.
+enum RecordedBy {
+  SYSTEME
+  TRESORERIE
+}
+
+enum ContributionKind {
+  FINANCIER
+  NATURE
+  COMPETENCES
+  LOGISTIQUE
+}
+
+enum CampaignTheme {
+  RAMADAN
+  TABASKI
+  AUCUN
+}
+
+enum DocumentVisibility {
+  PUBLIC
+  PARTENAIRE
+  PRIVE
+}

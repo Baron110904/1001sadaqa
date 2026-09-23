@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sadaqa-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sadaqa
+      POSTGRES_PASSWORD: sadaqa
+      POSTGRES_DB: sadaqa
+    # 5434 côté hôte : 5432 et 5433 sont déjà occupés sur ce poste.
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sadaqa -d sadaqa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: sadaqa-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: sadaqa
+      MINIO_ROOT_PASSWORD: sadaqa-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
+  minio-data:

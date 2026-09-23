@@ -1,0 +1,35 @@
+{
+  "name": "sadaqa-web",
+  "version": "1.0.0",
+  "description": "Site web institutionnel 1001 SADAQA",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3101",
+    "build": "next build",
+    "start": "next start --port 3100",
+    "lint": "next lint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:rapport": "playwright show-report tests/rapport",
+    "preview": "next build && next start --port 3100"
+  },
+  "dependencies": {
+    "lucide-react": "^0.469.0",
+    "motion": "^12.0.0",
+    "next": "^15.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.3"
+  },
+  "overrides": {
+    "postcss": "^8.5.28"
+  }
+}

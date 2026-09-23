@@ -1,0 +1,707 @@
+{
+  "meta": {
+    "siteName": "1001 SADAQA",
+    "tagline": "Association humanitaire et sociale - Cotonou, Bénin",
+    "defaultDescription": "1001 SADAQA transforme les actes de générosité en actions concrètes pour les populations vulnérables à Cotonou, au Bénin: protection sociale, sécurité alimentaire, santé communautaire, eau et hygiène, autonomisation économique."
+  },
+  "nav": {
+    "about": "À propos",
+    "programs": "Nos programmes",
+    "projects": "Nos projets",
+    "news": "Actualités",
+    "contact": "Contact",
+    "menu": "Ouvrir le menu",
+    "close": "Fermer le menu",
+    "skipToContent": "Aller au contenu",
+    "community": "Communauté",
+    "communityMember": "Membre",
+    "communityVolunteer": "Bénévole",
+    "communityPartner": "Partenaire",
+    "communityDonor": "Faire un don",
+    "space": "Mon espace"
+  },
+  "header": {
+    "needHelp": "Besoin d'aide ?",
+    "donate": "Faire un don"
+  },
+  "footer": {
+    "act": "Agir",
+    "discover": "Découvrir",
+    "follow": "Suivre",
+    "donate": "Faire un don",
+    "becomeVolunteer": "Devenir bénévole",
+    "becomePartner": "Devenir partenaire",
+    "about": "Qui sommes-nous",
+    "programs": "Nos programmes",
+    "projects": "Nos projets",
+    "news": "Actualités & médias",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "whatsapp": "WhatsApp Business",
+    "credits": "Crédits des visuels",
+    "rights": "© 2026 1001 SADAQA · Association humanitaire et sociale, Cotonou, Bénin."
+  },
+  "common": {
+    "learnMore": "En savoir plus",
+    "seeAll": "Tout voir",
+    "seeProjects": "Voir les projets liés",
+    "backToList": "Retour à la liste",
+    "download": "Télécharger",
+    "send": "Envoyer",
+    "sending": "Envoi en cours…",
+    "required": "Champ obligatoire",
+    "inProgress": "En cours",
+    "completed": "Terminé",
+    "collected": "collectés",
+    "goal": "objectif",
+    "readArticle": "Lire l'article",
+    "loading": "Chargement…",
+    "whatsappMessage": "Bonjour, je vous contacte depuis le site de 1001 SADAQA."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Bienvenue chez 1001 SADAQA",
+      "titleAccent": "Ensemble, transformons",
+      "titleRest": "durablement des vies",
+      "lead": "Association humanitaire et sociale basée à Cotonou, nous transformons les actes de générosité en actions concrètes pour les populations vulnérables: protéger, nourrir, soigner, autonomiser.",
+      "primaryCta": "Faire un don",
+      "secondaryCta": "Voir nos actions",
+      "pillar1": "Protéger · Nourrir",
+      "pillar2": "Soigner · Autonomiser",
+      "cardTitle": "Aider une famille",
+      "cardBody": "Un don de 10 000 F couvre une semaine de repas pour un foyer.",
+      "scroll": "Découvrir"
+    },
+    "about": {
+      "eyebrow": "Qui sommes-nous",
+      "title": "Unis par la solidarité,|des vies qui changent",
+      "body": "Notre objectif est de contribuer à l'amélioration durable des conditions de vie des populations vulnérables par la mise en œuvre de programmes sociaux et humanitaires à fort impact.",
+      "projectsLabel": "projets menés depuis la création",
+      "featureTitle": "Accès aux soins",
+      "featureBody": "Consultations, orientation médicale et prévention communautaire",
+      "peopleLabel": "Personnes aidées",
+      "peopleBody": "Accompagnées par nos programmes et nos bénévoles.",
+      "cta": "L'association"
+    },
+    "programs": {
+      "eyebrow": "Nos programmes",
+      "title": "Nos domaines d'action",
+      "lead": "Des programmes structurés qui répondent aux besoins immédiats et préparent l'autonomie des personnes et des communautés."
+    },
+    "whatWeDo": {
+      "eyebrow": "Ce que nous faisons",
+      "title": "Bâtir l'espoir,|installer le durable",
+      "items": {
+        "empowerment": {
+          "title": "Autonomisation économique",
+          "body": "Formation, alphabétisation financière et appui aux activités génératrices de revenus, pour passer de l'assistance à l'autonomie."
+        },
+        "emergency": {
+          "title": "Aide d'urgence",
+          "body": "Distributions alimentaires, orientation médicale et réponse rapide aux situations critiques signalées par les relais de quartier."
+        },
+        "longTerm": {
+          "title": "Accompagnement durable",
+          "body": "Un référent par famille suivie, des visites régulières et un suivi des indicateurs sur plusieurs années - pas une action ponctuelle."
+        }
+      }
+    },
+    "causes": {
+      "eyebrow": "Causes à soutenir",
+      "title": "Trois urgences, maintenant",
+      "support": "Soutenir cette cause"
+    },
+    "why": {
+      "eyebrow": "Pourquoi nous",
+      "title": "Agir ensemble,|tenir dans la durée",
+      "lead": "Solidarité, dignité et accompagnement durable: trois piliers qui structurent chacune de nos interventions, de l'urgence à l'autonomie.",
+      "statPrograms": "programmes d'action",
+      "statProjects": "projets menés",
+      "statCommunities": "communes couvertes"
+    },
+    "donateBand": {
+      "eyebrow": "Faire un don",
+      "title": "Votre don est affecté à|un programme identifié",
+      "body": "Ponctuel ou mensuel, par Mobile Money, carte ou virement. Un compte rendu d'affectation vous parvient chaque trimestre.",
+      "quickTitle": "Don rapide",
+      "customAmount": "Montant libre",
+      "email": "Adresse e-mail",
+      "continue": "Continuer"
+    },
+    "method": {
+      "eyebrow": "Notre méthode",
+      "title": "Comment se déroule une action",
+      "step": "Étape",
+      "steps": {
+        "identify": {
+          "title": "Identifier",
+          "body": "Repérage des besoins avec les relais communautaires et vérification sur le terrain."
+        },
+        "mobilise": {
+          "title": "Mobiliser",
+          "body": "Collecte de dons, partenariats et engagement des bénévoles autour d'un objectif chiffré."
+        },
+        "act": {
+          "title": "Agir",
+          "body": "Mise en œuvre sur le terrain, avec un référent par projet et un calendrier public."
+        },
+        "report": {
+          "title": "Rendre compte",
+          "body": "Suivi des indicateurs et compte rendu aux donateurs et aux partenaires, chaque trimestre."
+        }
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Témoignages",
+      "title": "Ce qu'ils en disent",
+      "types": {
+        "BENEFICIARY": "Bénéficiaire",
+        "VOLUNTEER": "Bénévole",
+        "PARTNER": "Partenaire"
+      }
+    },
+    "join": {
+      "eyebrow": "Rejoindre la communauté",
+      "title": "Quatre façons|d'agir avec nous",
+      "lead": "Adhérer, donner de son temps, engager son organisation ou soutenir financièrement: chaque parcours compte, et chacun commence ici.",
+      "paths": {
+        "member": {
+          "title": "Membre",
+          "body": "Rejoignez l'association, participez à la vie démocratique et soutenez son fonctionnement par une cotisation.",
+          "cta": "Adhérer"
+        },
+        "volunteer": {
+          "title": "Bénévole",
+          "body": "Donnez du temps sur le terrain ou vos compétences à distance, selon vos disponibilités.",
+          "cta": "Se proposer"
+        },
+        "partner": {
+          "title": "Partenaire",
+          "body": "Entreprises, institutions et fondations: construisons un partenariat financier, matériel ou de compétences.",
+          "cta": "Nous écrire"
+        },
+        "donor": {
+          "title": "Faire un don",
+          "body": "Ponctuel ou mensuel, affecté à un programme identifié, avec un compte rendu d'affectation.",
+          "cta": "Donner"
+        }
+      }
+    },
+    "gallery": {
+      "eyebrow": "Media Library",
+      "title": "Notre galerie",
+      "open": "Agrandir l'image",
+      "closeViewer": "Fermer",
+      "previous": "Image précédente",
+      "next": "Image suivante"
+    },
+    "news": {
+      "eyebrow": "Actualités",
+      "title": "Histoires d'impact"
+    },
+    "marquee": "De l'assistance à l'autonomie",
+    "media": {
+      "accompaniment": "Enfants accompagnés par l'association, en classe",
+      "distribution": "Distribution alimentaire aux familles suivies",
+      "training": "Atelier de formation professionnelle",
+      "team": "Équipe et bénévoles de l'association en intervention.",
+      "hero": "Bénévoles de l'association auprès d'un groupe d'enfants."
+    }
+  },
+  "about": {
+    "eyebrow": "Qui sommes-nous",
+    "title": "Une association née|d'un geste simple",
+    "lead": "1001 SADAQA est une association humanitaire et sociale basée à Cotonou, au Bénin, qui œuvre en faveur des populations vulnérables. L'association transforme les actes de générosité en actions concrètes pour aider celles et ceux qui en ont le plus besoin.",
+    "missionTitle": "Notre mission",
+    "missionBody": "L'objectif principal de 1001 SADAQA est de contribuer à l'amélioration durable des conditions de vie des populations vulnérables par la mise en œuvre de programmes sociaux et humanitaires à fort impact.",
+    "commitmentTitle": "Notre engagement",
+    "commitmentBody": "1001 SADAQA agit avec la conviction que la générosité et la solidarité sont des valeurs universelles, capables de transformer durablement les vies des plus vulnérables.",
+    "approachTitle": "Notre approche",
+    "approachLead": "Trois piliers essentiels",
+    "pillars": {
+      "solidarity": {
+        "title": "Solidarité",
+        "body": "Agir ensemble pour les plus vulnérables"
+      },
+      "dignity": {
+        "title": "Dignité",
+        "body": "Respecter chaque personne, quelle qu’elle soit."
+      },
+      "support": {
+        "title": "Accompagnement durable",
+        "body": "Assurer un suivi dans la durée"
+      }
+    },
+    "ambitionBefore": "Notre ambition stratégique: faire évoluer progressivement nos interventions, de l'assistance d'urgence vers",
+    "ambitionAccent": "l'autonomisation",
+    "ambitionAfter": "des personnes et des communautés",
+    "teamTitle": "Équipe & gouvernance",
+    "teamLead": "Les instances de l'association et les personnes qui la portent au quotidien.",
+    "fsm": {
+      "eyebrow": "Forum Social Mondial · Cotonou 2026",
+      "title": "Du 4 au 8 août 2026,|nous y serons",
+      "body": "Le Forum Social Mondial réunit organisations de la société civile, mouvements sociaux, associations et réseaux engagés dans la construction d'alternatives face aux inégalités et à l'exclusion sociale.",
+      "objectivesTitle": "Nos objectifs de participation",
+      "objectives": {
+        "one": "Présenter nos actions de solidarité et de développement social.",
+        "two": "Partager notre expérience de terrain",
+        "three": "Renforcer nos capacités institutionnelles",
+        "four": "Développer des partenariats avec des organisations nationales et internationales."
+      }
+    },
+    "history": {
+      "title": "Notre histoire",
+      "body": "1001 SADAQA est une organisation non gouvernementale fondée à Cotonou en 2026, à la suite de plusieurs initiatives solidaires menées depuis 2024. Elle est née d’un constat de terrain: les gestes ponctuels de solidarité, aussi précieux soient-ils, ne suffisent pas à transformer durablement les vies. Distribuer un repas ou offrir un soin soulage une détresse immédiate, mais ne répond pas aux aspirations profondes des bénéficiaires - retrouver leur dignité, accéder à l’éducation, construire une autonomie économique. C’est pourquoi nous avons conçu un modèle intégré qui accompagne chaque personne dans un parcours structuré: de l’aide d’urgence à l’autonomisation, jusqu’à la sortie durable de la précarité.",
+      "nameTitle": "Le sens de notre nom",
+      "nameBody": "Le mot sadaqa porte une idée de don volontaire, de générosité et d’action accomplie au bénéfice d’autrui. Notre organisation puise dans cette inspiration tout en lui donnant une portée résolument universelle: elle est ouverte à tous et agit pour tous, sans distinction d’origine, de culture ou de condition sociale. Le nombre 1001 exprime la multiplicité des façons d’agir - offrir un repas, donner de son temps, partager une compétence, soutenir un enfant, faciliter l’accès aux soins, accompagner une femme vers l’autonomie, donner accès à l’eau, mobiliser son entreprise, ou simplement tendre la main.",
+      "trajectory": "Sadaqa → Solidarité → Impact"
+    },
+    "visionTitle": "Notre vision",
+    "visionBody": "Bâtir un monde où la solidarité devient un véritable moteur de transformation sociale, de dignité et d’autonomie.",
+    "values": {
+      "eyebrow": "Nos valeurs",
+      "title": "Ce qui guide|chacune de nos actions",
+      "lead": "Cinq valeurs, et une philosophie d’intervention qui les résume.",
+      "items": {
+        "dignity": {
+          "title": "Dignité humaine",
+          "body": "Chaque bénéficiaire est accompagné avec respect, écoute et bienveillance."
+        },
+        "universality": {
+          "title": "Universalité",
+          "body": "Nos actions sont ouvertes à tous, sans distinction d’origine, de culture ou de condition sociale."
+        },
+        "transparency": {
+          "title": "Transparence",
+          "body": "Nous assurons une gestion rigoureuse des ressources et une traçabilité des interventions."
+        },
+        "equity": {
+          "title": "Équité",
+          "body": "Nous accordons une attention prioritaire aux personnes les plus vulnérables."
+        },
+        "innovation": {
+          "title": "Innovation sociale",
+          "body": "Nous développons des solutions adaptées aux réalités locales et orientées vers un impact durable."
+        }
+      },
+      "philosophyTitle": "Philosophie d’intervention",
+      "philosophyQuote": "De l’assistance à l’autonomie",
+      "philosophyBody": "Notre approche repose sur une conviction: l’aide ne doit pas seulement répondre aux besoins immédiats, elle doit créer les conditions d’une autonomie durable. Notre modèle suit un parcours progressif - protéger, nourrir, soigner, autonomiser."
+    },
+    "governance": {
+      "eyebrow": "Gouvernance",
+      "title": "Une organisation structurée,|transparente et responsable",
+      "lead": "La gouvernance de 1001 SADAQA repose sur une structure claire garantissant une prise de décision efficace, une gestion transparente des ressources et une mise en œuvre rigoureuse des programmes. Elle s’appuie sur quatre niveaux complémentaires.",
+      "bodies": {
+        "assembly": {
+          "title": "Assemblée générale",
+          "body": "Organe suprême de l’organisation: elle définit les orientations stratégiques, approuve les rapports d’activités et financiers, et élit les membres du conseil d’administration."
+        },
+        "board": {
+          "title": "Conseil d’administration",
+          "body": "Instance de pilotage stratégique: il supervise la gestion, valide les programmes et les budgets, et veille au respect de la mission et des valeurs."
+        },
+        "executive": {
+          "title": "Bureau exécutif",
+          "body": "Chargé de la mise en œuvre opérationnelle: une présidente, une vice-présidente, une secrétaire générale et une trésorière. Il assure la coordination des activités, la gestion quotidienne et le suivi des partenariats."
+        },
+        "committees": {
+          "title": "Comités techniques",
+          "body": "Des comités spécialisés accompagnent la qualité des interventions: santé communautaire, nutrition et sécurité alimentaire, protection sociale, éducation et autonomisation, actions d’urgence."
+        }
+      },
+      "accountabilityTitle": "Transparence et redevabilité",
+      "accountability": {
+        "traceability": {
+          "title": "Traçabilité",
+          "body": "Chaque don, financier ou en nature, est enregistré et utilisé exclusivement pour les objectifs de l’organisation."
+        },
+        "control": {
+          "title": "Contrôle",
+          "body": "La gestion est suivie par le conseil d’administration et vérifiée par des audits externes."
+        },
+        "reporting": {
+          "title": "Communication",
+          "body": "Des rapports annuels détaillent les activités, les résultats et l’utilisation des fonds, partagés avec les bailleurs et les partenaires."
+        }
+      }
+    },
+    "strategy": {
+      "eyebrow": "Vision stratégique 2026 - 2030",
+      "title": "Le cap|des cinq prochaines années",
+      "lead": "À travers sa vision stratégique 2026 - 2030, 1001 SADAQA aspire à bâtir une solidarité qui ne se limite pas à répondre aux besoins d’aujourd’hui, mais qui donne aux communautés les moyens de construire leur avenir.",
+      "axesTitle": "Nos trois axes",
+      "axes": {
+        "programs": {
+          "title": "Étendre et structurer les programmes",
+          "body": "Développer la banque alimentaire, étendre les programmes eau, hygiène et assainissement, et structurer la protection sociale."
+        },
+        "organisation": {
+          "title": "Consolider une organisation professionnelle",
+          "body": "Renforcer la gouvernance, garantir la redevabilité par des outils numériques de suivi, et diversifier les ressources financières."
+        },
+        "autonomy": {
+          "title": "Développer l’autonomisation durable",
+          "body": "Déployer les programmes d’autonomisation économique, renforcer la mesure de l’impact, et promouvoir un modèle africain de solidarité durable."
+        }
+      },
+      "roadmapTitle": "Feuille de route",
+      "roadmap": {
+        "structure": {
+          "period": "2026",
+          "title": "Structurer",
+          "body": "Consolider l’organisation interne, formaliser les programmes, lancer les projets pilotes prioritaires, renforcer les outils de suivi et mobiliser les premiers partenaires structurants."
+        },
+        "deploy": {
+          "period": "2027 - 2028",
+          "title": "Déployer",
+          "body": "Étendre les interventions à plusieurs localités du Bénin, développer la banque alimentaire, renforcer les programmes sociaux, alimentaires, sanitaires et WASH, déployer le programme Empowerment."
+        },
+        "transform": {
+          "period": "2029 - 2030",
+          "title": "Transformer",
+          "body": "Consolider les programmes ayant démontré leur efficacité, documenter et évaluer l’impact, développer un modèle reproductible et préparer l’extension en Afrique de l’Ouest."
+        }
+      }
+    },
+    "figures": {
+      "eyebrow": "Chiffres clés",
+      "title": "1001 SADAQA|en chiffres",
+      "programs": "programmes structurants",
+      "projects": "projets menés",
+      "people": "personnes aidées",
+      "communities": "communes couvertes",
+      "partnersTitle": "Ils nous accompagnent"
+    },
+    "cta": {
+      "title": "Rejoindre 1001 SADAQA",
+      "body": "Adhérer à l’association, ou engager votre organisation à nos côtés.",
+      "primary": "Devenir membre",
+      "secondary": "Devenir partenaire"
+    }
+  },
+  "programs": {
+    "eyebrow": "Nos programmes",
+    "title": "Quatre domaines,|huit programmes",
+    "lead": "De la réponse à l’urgence à l’autonomie durable: ce que nous faisons, pour qui, et avec quels résultats.",
+    "detail": {
+      "backLink": "Tous les programmes",
+      "aboutTitle": "Ce que couvre ce programme",
+      "projectsTitle": "Projets rattachés",
+      "noProjects": "Les projets de ce programme seront publiés prochainement.",
+      "ctaTitle": "Soutenir ce programme",
+      "ctaBody": "Votre don peut être affecté directement à ce programme, ponctuellement ou chaque mois"
+    }
+  },
+  "projects": {
+    "eyebrow": "Nos projets & réalisations",
+    "title": "La preuve|avant la promesse",
+    "all": "Tous",
+    "empty": "Aucun projet ne correspond à ce filtre pour le moment.",
+    "testimonialEyebrow": "Témoignage",
+    "detail": {
+      "backLink": "Tous les projets",
+      "impactTitle": "Données d'impact",
+      "verified": "Vérifié",
+      "unverified": "En cours de vérification",
+      "programLabel": "Programme",
+      "periodLabel": "Période",
+      "locationLabel": "Lieu",
+      "budgetLabel": "Budget",
+      "galleryTitle": "En images",
+      "problemTitle": "La problématique",
+      "objectivesTitle": "Nos objectifs",
+      "audienceTitle": "Les bénéficiaires",
+      "progressLabel": "Avancement",
+      "progressAt": "Mis à jour le",
+      "ctaTitle": "Soutenir ce type d'action",
+      "ctaBody": "Un don affecté à ce programme finance directement des projets comparables"
+    },
+    "status": {
+      "REALISE": "Réalisé",
+      "EN_COURS": "En cours",
+      "A_FINANCER": "À financer",
+      "EN_PREPARATION": "En préparation"
+    },
+    "statusCta": {
+      "REALISE": "Soutenir un projet similaire",
+      "EN_COURS": "Faire un don affecté",
+      "A_FINANCER": "Financer ce projet",
+      "EN_PREPARATION": "Être informé du lancement"
+    },
+    "impact": {
+      "completed": "Projets réalisés",
+      "ongoing": "Projets en cours",
+      "people": "Personnes aidées",
+      "communities": "Communes couvertes"
+    },
+    "summary": {
+      "title": "Synthèse de nos projets",
+      "lead": "Tous les projets d'un coup d'œil, avec leur programme de rattachement, leur zone d'intervention et leur état d'avancement.",
+      "project": "Projet",
+      "program": "Programme",
+      "place": "Lieu",
+      "period": "Période",
+      "state": "État"
+    },
+    "sdg": {
+      "title": "Les objectifs mondiaux que nous servons",
+      "lead": "Nos domaines d'intervention contribuent aux objectifs de développement durable des Nations unies. Cette correspondance est la référence commune de nos bailleurs institutionnels.",
+      "projectTitle": "Ce projet contribue aux ODD"
+    },
+    "completedTitle": "Ce que nous avons déjà réalisé",
+    "preparationTitle": "Ce qui est en préparation",
+    "ongoingTitle": "Ce qui est en cours",
+    "fundingTitle": "Ce qui attend un financement",
+    "lead": "Ce qui a déjà été fait, ce qui est en cours, et ce qui attend un financement. Chaque projet se termine par une possibilité d’agir."
+  },
+  "news": {
+    "eyebrow": "Actualités & médias",
+    "title": "Le terrain, en direct",
+    "lead": "Comptes rendus de terrain, communiqués et annonces de partenariat: le suivi de nos actions, au fil des mois.",
+    "featured": "À la une",
+    "empty": "Les premières actualités seront publiées prochainement",
+    "searchLabel": "Rechercher dans les actualités",
+    "searchPlaceholder": "Rechercher un mot dans les titres et les textes…",
+    "searchAction": "Rechercher",
+    "categoryFilter": "Catégorie",
+    "yearFilter": "Année",
+    "allCategories": "Toutes les catégories",
+    "allYears": "Toutes les années",
+    "resultsSingular": "article correspond",
+    "resultsPlural": "articles correspondent",
+    "resultsFor": "à la recherche",
+    "pagination": "Pages d'actualités",
+    "categories": {
+      "COMMUNIQUE": "Communiqué",
+      "TERRAIN": "Terrain",
+      "PARTENARIAT": "Partenariat",
+      "INSTITUTION": "Institution"
+    },
+    "detail": {
+      "backLink": "Toutes les actualités",
+      "home": "Accueil",
+      "breadcrumb": "Fil d'Ariane",
+      "publishedOn": "Publié le",
+      "by": "par",
+      "readingTime": "min de lecture",
+      "share": "Partager:",
+      "shareOn": "s'ouvre dans un nouvel onglet",
+      "moreTitle": "À lire également",
+      "cta": {
+        "donate": {
+          "title": "Soutenir ce type d'action",
+          "body": "Votre don est affecté à un programme identifié, avec un compte rendu d'affectation.",
+          "action": "Faire un don"
+        },
+        "volunteer": {
+          "title": "Donner de son temps",
+          "body": "Sur le terrain ou à distance, selon vos disponibilités et vos compétences.",
+          "action": "Devenir bénévole"
+        },
+        "partner": {
+          "title": "Engager son organisation",
+          "body": "Entreprises, institutions et fondations: construisons un partenariat qui a du sens.",
+          "action": "Devenir partenaire"
+        }
+      }
+    },
+    "programFilter": "Programme",
+    "allPrograms": "Tous les programmes",
+    "newsletter": {
+      "title": "Recevoir la lettre d’information",
+      "lead": "Un courriel par mois: ce que l’association a fait, ce qu’elle prépare, et les besoins du moment. Pas davantage."
+    }
+  },
+  "partners": {
+    "eyebrow": "Espace partenaires",
+    "title": "Construire l'impact,|pas seulement le financer",
+    "lead": "Entreprises, institutions et bailleurs: voici comment nous travaillons, ce que nous mesurons et ce que nous vous transmettons.",
+    "offers": {
+      "skills": {
+        "title": "Mécénat de compétences",
+        "body": "UX/UI, développement, hébergement, gestion de projet: co-construisons des outils robustes."
+      },
+      "funding": {
+        "title": "Financement de programme",
+        "body": "Soutenir un chantier identifié, avec indicateurs de suivi et reporting régulier."
+      },
+      "inKind": {
+        "title": "Dons en nature & logistique",
+        "body": "Denrées, matériel médical, fournitures scolaires, transport et stockage."
+      }
+    },
+    "documentsTitle": "Documents à télécharger",
+    "documentsEmpty": "Les documents seront mis en ligne prochainement.",
+    "form": {
+      "title": "Prendre contact",
+      "body": "Décrivez votre organisation et le type de partenariat envisagé.",
+      "organisation": "Organisation",
+      "contactName": "Contact",
+      "email": "E-mail professionnel",
+      "phone": "Téléphone (facultatif)",
+      "intent": "Type de partenariat envisagé",
+      "submit": "Envoyer la demande",
+      "success": "Votre demande est enregistrée."
+    },
+    "partnersTitle": "Ils nous accompagnent",
+    "partnersLead": "Entreprises et institutions qui soutiennent nos programmes."
+  },
+  "takeAction": {
+    "eyebrow": "Agir avec nous",
+    "title": "Trois façons|de vous engager",
+    "lead": "Un don, du temps ou une compétence: chaque forme d'engagement se traduit par une action identifiée sur le terrain.",
+    "donate": {
+      "title": "Faire un don",
+      "body": "Ponctuel ou mensuel, affecté au programme de votre choix, avec un compte rendu trimestriel.",
+      "cta": "Faire un don"
+    },
+    "volunteer": {
+      "title": "Devenir bénévole",
+      "body": "Des missions de terrain et des missions à distance, calibrées sur le temps que vous pouvez donner.",
+      "cta": "Voir les missions"
+    },
+    "partner": {
+      "title": "Devenir partenaire",
+      "body": "Mécénat de compétences, financement de programme ou don en nature, avec un cadre de suivi clair.",
+      "cta": "Nous écrire"
+    }
+  },
+  "donate": {
+    "eyebrow": "Faire un don",
+    "title": "Votre don, affecté|à un programme",
+    "steps": {
+      "frequency": "1 - Fréquence",
+      "amount": "2 - Montant",
+      "allocation": "3 - Affectation",
+      "details": "4 - Vos coordonnées"
+    },
+    "frequency": {
+      "oneTime": "Don ponctuel",
+      "monthly": "Don mensuel"
+    },
+    "amounts": {
+      "a5000": "Un panier alimentaire",
+      "a10000": "Une consultation médicale",
+      "a25000": "Un kit scolaire complet",
+      "a50000": "Un mois d'accompagnement",
+      "custom": "Autre montant",
+      "customLabel": "Montant en francs CFA",
+      "minimum": "Le montant minimum est de 500 F."
+    },
+    "allocation": {
+      "urgent": "Là où le besoin est le plus urgent"
+    },
+    "fields": {
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Adresse e-mail",
+      "phone": "Téléphone (Mobile Money)",
+      "country": "Pays",
+      "countryPlaceholder": "Choisissez votre pays",
+      "city": "Ville",
+      "cityPlaceholder": "Tapez les premières lettres",
+      "cityWaiting": "Choisissez d’abord un pays",
+      "anonymous": "Rendre mon don anonyme",
+      "anonymousHelp": "Votre nom n’apparaîtra sur aucun affichage public. L’association le conserve pour votre reçu et sa comptabilité."
+    },
+    "methods": {
+      "label": "Moyen de paiement",
+      "MOBILE_MONEY": "Mobile Money",
+      "BANK_TRANSFER": "Virement",
+      "CARD": "Carte"
+    },
+    "summary": {
+      "title": "Récapitulatif",
+      "allocation": "Affectation",
+      "frequency": "Fréquence",
+      "methods": "Moyens",
+      "perMonth": "par mois",
+      "submit": "Valider mon don",
+      "note": "Un reçu vous est envoyé par e-mail, et un compte rendu d'affectation vous parvient chaque trimestre."
+    },
+    "success": {
+      "title": "Merci - votre don est enregistré",
+      "reference": "Référence",
+      "manualIntro": "Il reste une étape pour finaliser le règlement:.",
+      "backHome": "Revenir à l'accueil",
+      "newDonation": "Faire un autre don",
+      "accountTitle": "Retrouvez ce don plus tard",
+      "accountBody": "Créez votre espace avec cette même adresse: ce don et vos prochains engagements y seront rattachés automatiquement.",
+      "accountCta": "Créer mon espace"
+    }
+  },
+  "volunteer": {
+    "eyebrow": "Devenir bénévole",
+    "title": "Donnez ce que vous|savez faire",
+    "lead": "Du temps sur le terrain ou une compétence à distance: les deux comptent, à condition de tenir dans la durée.",
+    "missionsTitle": "Missions ouvertes",
+    "missionsEmpty": "Aucune mission n'est ouverte actuellement. Écrivez-nous, nous conservons les candidatures.",
+    "kinds": {
+      "FIELD": "Terrain",
+      "SKILLS": "Compétences"
+    },
+    "form": {
+      "title": "Candidater",
+      "body": "Remplissez ce formulaire: un membre de l'équipe vous rappelle pour un premier échange.",
+      "name": "Prénom et nom",
+      "phone": "Téléphone",
+      "email": "Adresse e-mail",
+      "mission": "Mission souhaitée",
+      "missionAny": "Peu importe, selon vos besoins",
+      "availability": "Disponibilités et compétences",
+      "submit": "Envoyer ma candidature",
+      "success": "Votre candidature est enregistrée. Un membre de l'équipe vous rappelle prochainement."
+    }
+  },
+  "contact": {
+    "eyebrow": "Nous contacter",
+    "title": "Écrivez-nous,|passez nous voir",
+    "form": {
+      "name": "Prénom et nom",
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "subject": "Objet",
+      "message": "Votre message",
+      "submit": "Envoyer",
+      "success": "Votre message est parti. Nous vous répondons dans les meilleurs délais."
+    },
+    "addressLabel": "Adresse",
+    "reachLabel": "Téléphone & e-mail",
+    "whatsappLabel": "WhatsApp Business",
+    "whatsappCta": "Discuter maintenant",
+    "mapLabel": "Fidjrossè, Cotonou",
+    "mapTitle": "Localisation de 1001 SADAQA à Cotonou",
+    "openInMaps": "Ouvrir dans une carte",
+    "socialTitle": "Nous suivre",
+    "socialLead": "Les actions de terrain, les annonces et les appels à la solidarité, au fil des publications.",
+    "openInNewTab": "ouvre un nouvel onglet"
+  },
+  "credits": {
+    "eyebrow": "Crédits",
+    "title": "Crédits des visuels",
+    "lead": "Les photographies actuellement en ligne proviennent de Wikimedia Commons et sont sous licence libre. Elles illustrent la mise en page en attendant les visuels du SADAQA Media Engine.",
+    "warningTitle": "Ces photos ne représentent pas des bénéficiaires de l'association",
+    "warningBody": "Les personnes qui y figurent n'ont aucun lien avec 1001 SADAQA et n'ont pas consenti à illustrer ses programmes. Ces visuels sont provisoires et seront remplacés par les médias de l'association, dont les consentements sont tracés dans la Media Library.",
+    "tableSlot": "Emplacement",
+    "tableTitle": "Fichier",
+    "tableAuthor": "Auteur",
+    "tableLicense": "Licence",
+    "tableSource": "Source",
+    "sourceLink": "Voir sur Commons",
+    "brandTitle": "Autres visuels",
+    "brandBody": "Le logo et les portraits de l'équipe sont fournis par l'association et ne relèvent pas de ces licences."
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Cette page n'existe pas",
+    "body": "Le lien est peut-être erroné, ou la page a été déplacée.",
+    "cta": "Revenir à l'accueil"
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "body": "Le contenu n'a pas pu être chargé. Réessayez dans un instant.",
+    "retry": "Réessayer",
+    "home": "Revenir à l'accueil"
+  }
+}

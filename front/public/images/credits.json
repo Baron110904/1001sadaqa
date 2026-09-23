@@ -1,0 +1,402 @@
+[
+  {
+    "slot": "campaigns/cantine",
+    "file": "/images/campaigns/cantine.jpg",
+    "title": "African woman blowing on fire.jpg",
+    "author": "Nglazi",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AAfrican_woman_blowing_on_fire.jpg",
+    "width": 1800,
+    "height": 1200,
+    "era": "contemporain"
+  },
+  {
+    "slot": "campaigns/forage",
+    "file": "/images/campaigns/forage.jpg",
+    "title": "Drilling for clean water (7534901370).jpg",
+    "author": "Oxfam East Africa",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ADrilling_for_clean_water_%287534901370%29.jpg",
+    "width": 1800,
+    "height": 1196
+  },
+  {
+    "slot": "campaigns/kits-scolaires",
+    "file": "/images/campaigns/kits-scolaires.jpg",
+    "title": "US Navy 090304-N-1688B-335 Cameroon Navy Lt. Cmdr. Hamadou Lame, left, watches as students from the Naval Base Basic School in Sekondi, Ghana receive school books and supplies donated by Project Handclasp.jpg",
+    "author": "U.S. Navy photo by Mass Communication Specialist 3rd Class Matthew Bookwalter",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File%3AUS_Navy_090304-N-1688B-335_Cameroon_Navy_Lt._Cmdr._Hamadou_Lame%2C_left%2C_watches_as_students_from_the_Naval_Base_Basic_School_in_Sekondi%2C_Ghana_receive_school_books_and_supplies_donated_by_Project_Handclasp.jpg",
+    "width": 1800,
+    "height": 1205
+  },
+  {
+    "slot": "gallery/01",
+    "file": "/images/gallery/01.jpg",
+    "title": "Benin - Market photo 13.jpg",
+    "author": "Abby Wendle",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Benin_-_Market_photo_13.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "gallery/02",
+    "file": "/images/gallery/02.jpg",
+    "title": "Ganvié fishing village on stilts in Benin (10282059623) (2).jpg",
+    "author": "jbdodane",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGanvi%C3%A9_fishing_village_on_stilts_in_Benin_%2810282059623%29_%282%29.jpg",
+    "width": 1800,
+    "height": 1192
+  },
+  {
+    "slot": "gallery/03",
+    "file": "/images/gallery/03.jpg",
+    "title": "US Navy 070908-N-3255B-005 U.S. Navy Europe-Africa Band members sing and dance with children at Yatima Group Orphanage.jpg",
+    "author": "U.S. Navy photo by Gillian Brigham",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File%3AUS_Navy_070908-N-3255B-005_U.S._Navy_Europe-Africa_Band_members_sing_and_dance_with_children_at_Yatima_Group_Orphanage.jpg",
+    "width": 1800,
+    "height": 1197
+  },
+  {
+    "slot": "gallery/04",
+    "file": "/images/gallery/04.jpg",
+    "title": "Africa Food Security 15 (10665294293).jpg",
+    "author": "Stephen Morrison/AusAID",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AAfrica_Food_Security_15_%2810665294293%29.jpg",
+    "width": 1800,
+    "height": 1197,
+    "era": "contemporain"
+  },
+  {
+    "slot": "gallery/05",
+    "file": "/images/gallery/05.jpg",
+    "title": "A weaver's shop.jpg",
+    "author": "Hajer Ben Charrada",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AA_weaver%27s_shop.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "gallery/06",
+    "file": "/images/gallery/06.jpg",
+    "title": "Kindonou.jpg",
+    "author": "KODJOME Romaric",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AKindonou.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "home/about-accompagnement",
+    "file": "/images/home/about-accompagnement.jpg",
+    "title": "Wikipedia lecture in Benin in 2017.jpg",
+    "author": "Kulttuurinavigaattori",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AWikipedia_lecture_in_Benin_in_2017.jpg",
+    "width": 1800,
+    "height": 1011
+  },
+  {
+    "slot": "home/about-distribution",
+    "file": "/images/home/about-distribution.jpg",
+    "title": "WFP food distribution in Bamako, Mali (8511062128).jpg",
+    "author": "DFID - UK Department for International Development",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AWFP_food_distribution_in_Bamako%2C_Mali_%288511062128%29.jpg",
+    "width": 1800,
+    "height": 1200,
+    "era": "contemporain"
+  },
+  {
+    "slot": "home/atelier-formation",
+    "file": "/images/home/atelier-formation.jpg",
+    "title": "Couturière dans son atelier.jpg",
+    "author": "Minette Lontsie",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACouturi%C3%A8re_dans_son_atelier.jpg",
+    "width": 1800,
+    "height": 1226
+  },
+  {
+    "slot": "home/equipe-benevoles",
+    "file": "/images/home/equipe-benevoles.jpg",
+    "title": "Guinea Red Cross volunteers (3).jpg",
+    "author": "CDC Global",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGuinea_Red_Cross_volunteers_%283%29.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "home/hero",
+    "file": "/images/home/hero.jpg",
+    "title": "Guinea Red Cross volunteers.jpg",
+    "author": "CDC Global",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AGuinea_Red_Cross_volunteers.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "news/bilan-rentree",
+    "file": "/images/news/bilan-rentree.jpg",
+    "title": "School children (Lukhanyo Primary School, Zwelihle Township (Hermanus, South Africa) 02.jpg",
+    "author": "Godot13",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ASchool_children_%28Lukhanyo_Primary_School%2C_Zwelihle_Township_%28Hermanus%2C_South_Africa%29_02.jpg",
+    "width": 1800,
+    "height": 1196
+  },
+  {
+    "slot": "news/consultations-medicales",
+    "file": "/images/news/consultations-medicales.jpg",
+    "title": "Caf babies.jpg",
+    "author": "hdptcar (Flickr User)",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACaf_babies.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "news/convention-mecenat",
+    "file": "/images/news/convention-mecenat.jpg",
+    "title": "2016 06 27 Ghana Workshop-10 (19019026659).jpg",
+    "author": "AMISOM Public Information",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File%3A2016_06_27_Ghana_Workshop-10_%2819019026659%29.jpg",
+    "width": 1800,
+    "height": 1201,
+    "era": "contemporain"
+  },
+  {
+    "slot": "news/distribution-images",
+    "file": "/images/news/distribution-images.jpg",
+    "title": "Africa Humanitarian Food Aid 21 (10665202905).jpg",
+    "author": "Kate Holt/AusAID",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AAfrica_Humanitarian_Food_Aid_21_%2810665202905%29.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "news/fsm-cotonou",
+    "file": "/images/news/fsm-cotonou.jpg",
+    "title": "Cotonou-Benin (2013).jpg",
+    "author": "jbdodane",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACotonou-Benin_%282013%29.jpg",
+    "width": 1800,
+    "height": 1192,
+    "era": "contemporain"
+  },
+  {
+    "slot": "news/gouvernance",
+    "file": "/images/news/gouvernance.jpg",
+    "title": "Apprentissage d'utilisation de wiki.jpg",
+    "author": "Gbehlon",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AApprentissage_d%27utilisation_de_wiki.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "news/wash-fidjrosse",
+    "file": "/images/news/wash-fidjrosse.jpg",
+    "title": "Promoting handwashing (8203372328).jpg",
+    "author": "USAID in Africa",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File%3APromoting_handwashing_%288203372328%29.jpg",
+    "width": 1800,
+    "height": 1192,
+    "era": "contemporain"
+  },
+  {
+    "slot": "programs/eau-hygiene",
+    "file": "/images/programs/eau-hygiene.jpg",
+    "title": "LRPI HandPump Installation.jpg",
+    "author": "Gizvula27",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ALRPI_HandPump_Installation.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "programs/education-autonomisation",
+    "file": "/images/programs/education-autonomisation.jpg",
+    "title": "Coiffeuses.jpg",
+    "author": "Megnon",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACoiffeuses.jpg",
+    "width": 1800,
+    "height": 1013,
+    "era": "contemporain"
+  },
+  {
+    "slot": "programs/enfance-aines",
+    "file": "/images/programs/enfance-aines.jpg",
+    "title": "Tilinanu Orphanage.jpg",
+    "author": "Yankho Kawalewale",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ATilinanu_Orphanage.jpg",
+    "width": 1800,
+    "height": 1083,
+    "era": "contemporain"
+  },
+  {
+    "slot": "programs/sante-prevention",
+    "file": "/images/programs/sante-prevention.jpg",
+    "title": "Centre de santé de Zogbodomey au Bénin 01.jpg",
+    "author": "Adoscam",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ACentre_de_sant%C3%A9_de_Zogbodomey_au_B%C3%A9nin_01.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "programs/securite-alimentaire",
+    "file": "/images/programs/securite-alimentaire.jpg",
+    "title": "WFP food distribution in Bamako, Mali (8511062128).jpg",
+    "author": "DFID - UK Department for International Development",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AWFP_food_distribution_in_Bamako%2C_Mali_%288511062128%29.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "projects/accompagnement-orphelins",
+    "file": "/images/projects/accompagnement-orphelins.jpg",
+    "title": "Partie de Bao. Village de Chuma, Tanzanie.jpg",
+    "author": "Cécile Furet",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3APartie_de_Bao._Village_de_Chuma%2C_Tanzanie.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "projects/consultations-foraines",
+    "file": "/images/projects/consultations-foraines.jpg",
+    "title": "Dispensaire à Lalo au Bénin.jpg",
+    "author": "Roger soro",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ADispensaire_%C3%A0_Lalo_au_B%C3%A9nin.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "projects/paniers-solidaires",
+    "file": "/images/projects/paniers-solidaires.jpg",
+    "title": "Woman Selling Gari.jpg",
+    "author": "Amuzujoe",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AWoman_Selling_Gari.jpg",
+    "width": 1800,
+    "height": 1200,
+    "era": "contemporain"
+  },
+  {
+    "slot": "projects/point-eau",
+    "file": "/images/projects/point-eau.jpg",
+    "title": "Village water well.jpg",
+    "author": "Francesca Calisti",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AVillage_water_well.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "projects/rentree-scolaire",
+    "file": "/images/projects/rentree-scolaire.jpg",
+    "title": "3-3 11dec (27).jpg",
+    "author": "FabienneEtMarc",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3A3-3_11dec_%2827%29.jpg",
+    "width": 1800,
+    "height": 1200
+  },
+  {
+    "slot": "projects/visites-aines",
+    "file": "/images/projects/visites-aines.jpg",
+    "title": "Deux femmes âgées assises sur une natte de paille, assistant probablement à un cours sur le christianisme - A63748S.jpg",
+    "author": "Gadmer Frédéric",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3ADeux_femmes_%C3%A2g%C3%A9es_assises_sur_une_natte_de_paille%2C_assistant_probablement_%C3%A0_un_cours_sur_le_christianisme_-_A63748S.jpg",
+    "width": 1800,
+    "height": 1335,
+    "era": "archives"
+  },
+  {
+    "slot": "programs/banque-alimentaire",
+    "file": "/images/programs/banque-alimentaire.jpg",
+    "title": "Banque de céréales de Ouazellé.jpg",
+    "author": "Le Soleil dans la Main",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Banque_de_c%C3%A9r%C3%A9ales_de_Ouazell%C3%A9.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "programs/mother-baby-care",
+    "file": "/images/programs/mother-baby-care.jpg",
+    "title": "Mother and child waiting in clinic.jpg",
+    "author": "Mike Blyth",
+    "license": "CC BY 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mother_and_child_waiting_in_clinic.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "programs/seniors-care",
+    "file": "/images/programs/seniors-care.jpg",
+    "title": "An elderly man weaving a basket.jpg",
+    "author": "Shahadusadik",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:An_elderly_man_weaving_a_basket.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "events/nuit-des-benevoles",
+    "file": "/images/events/nuit-des-benevoles.jpg",
+    "title": "Charity work in Ghana 3.jpg",
+    "author": "Fquasie",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Charity_work_in_Ghana_3.jpg",
+    "width": 1800,
+    "height": 1200,
+    "era": "contemporain"
+  },
+  {
+    "slot": "events/nuit-des-entreprises",
+    "file": "/images/events/nuit-des-entreprises.jpg",
+    "title": "Le Dôme - Centre international de conférences de Cotonou - vue de nuit 01.jpg",
+    "author": "Fawaz.tairou",
+    "license": "CC BY 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Le_D%C3%B4me_-_Centre_international_de_conf%C3%A9rences_de_Cotonou_-_vue_de_nuit_01.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  },
+  {
+    "slot": "events/tabaski-solidaire",
+    "file": "/images/events/tabaski-solidaire.jpg",
+    "title": "Des moutons pour la Tabaski sur la plage de Ngor à Dakar.jpg",
+    "author": "Tbo47",
+    "license": "CC0",
+    "source": "https://commons.wikimedia.org/wiki/File:Des_moutons_pour_la_Tabaski_sur_la_plage_de_Ngor_%C3%A0_Dakar.jpg",
+    "width": 1800,
+    "height": 1350,
+    "era": "contemporain"
+  }
+]

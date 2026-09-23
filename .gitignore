@@ -1,0 +1,51 @@
+# Ancien dépôt, conservé le temps de vérifier la reprise
+front/.git.sauvegarde/
+
+# Dépendances
+node_modules/
+
+# Secrets et configuration locale
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.local.example
+
+# Sorties de build
+.next/
+# Le mode développement a son propre dossier, pour ne pas écraser la
+# construction de production. Voir front/next.config.ts.
+.next-dev/
+dist/
+out/
+*.tsbuildinfo
+
+# Client Prisma généré
+back/node_modules/.prisma/
+
+# Journaux et divers
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Artefacts des tests de bout en bout
+front/tests/rapport/
+front/test-results/
+playwright-report/
+# État des campagnes saisonnières à rendre à l'association après un passage
+# des tests. Propre à une exécution, jamais à partager.
+front/tests/e2e/.campagnes-a-rendre.json
+
+
+# Documents de travail internes
+#
+# Maquettes, cahier des charges, notes d'outillage et guides d'exploitation :
+# utiles à l'équipe, sans intérêt pour le dépôt — et le guide de déploiement
+# nomme des services et des adresses qui n'ont pas à circuler.
+Design/
+Spécifications/
+.claude/
+CLAUDE.md
+DEPLOIEMENT.md
+LANCER.md
