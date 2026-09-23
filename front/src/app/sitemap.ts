@@ -1,7 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { getNews, getPrograms, getProjects } from '@/lib/api';
-
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100').replace(/\/$/, '');
+import { SITE_URL as SITE } from '@/lib/site';
 
 const STATIC_PATHS = [
   '',

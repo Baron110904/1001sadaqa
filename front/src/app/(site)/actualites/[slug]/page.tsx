@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/site';
 import { text } from '@/lib/text';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ChevronRight, Clock, Facebook, Linkedin, MessageCircle } from 'lucide-react';
@@ -104,7 +105,7 @@ export default async function ArticlePage({
   // Les liens de partage sont de simples adresses : aucun script, aucun
   // traceur tiers, et ils fonctionnent même si le visiteur refuse le
   // JavaScript.
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://1001sadaqa.com';
+  const site = SITE_URL;
   const adresse = encodeURIComponent(`${site}/actualites/${article.slug}`);
   const titre = encodeURIComponent(article.title);
 

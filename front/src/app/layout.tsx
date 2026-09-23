@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Outfit, Plus_Jakarta_Sans } from 'next/font/google';
 import type { ReactNode } from 'react';
 import { text } from '@/lib/text';
+import { SITE_URL } from '@/lib/site';
 import './globals.css';
 
 // Outfit pour les titres : géométrique, très lisible en gros corps.
@@ -28,10 +29,9 @@ export const viewport: Viewport = {
 
 export function generateMetadata(): Metadata {
   const t = text('meta');
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3100';
 
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: new URL(SITE_URL),
     title: {
       default: `${t('siteName')} - ${t('tagline')}`,
       template: `%s · ${t('siteName')}`,
