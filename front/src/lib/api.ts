@@ -111,6 +111,14 @@ async function getWithFallback<T>(
   try {
     return await get<T>(path, tags, options);
   } catch (error) {
+    // Next signale « cette page doit être rendue à la demande » en levant une
+    // exception, qu'il attend de recevoir en retour. L'avaler comme une panne
+    // d'API lui faisait figer la page avec la valeur de repli : une campagne
+    // saisonnière n'apparaissait alors jamais sur les pages pré-rendues, et
+    // rien ne le signalait hormis un avertissement noyé dans le journal de
+    // construction.
+    if ((error as { digest?: unknown })?.digest === 'DYNAMIC_SERVER_USAGE') throw error;
+
     console.warn(`[api] repli sur la valeur par défaut - ${String(error)}`);
     return fallback;
   }
