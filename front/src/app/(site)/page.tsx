@@ -119,17 +119,24 @@ export default async function HomePage() {
                 </div>
               </RevealItem>
 
-              <RevealItem>
-                {/* Les repas partagés plutôt que les personnes aidées : le
-                    chiffre se compte, là où « personnes aidées » recouvrait
-                    des réalités trop différentes pour s'additionner. Il se
-                    règle au back-office, rubrique Général. */}
-                <StatTile
-                  value={stats.mealsShared}
-                  label={t('about.peopleLabel')}
-                  description={t('about.peopleBody')}
-                />
-              </RevealItem>
+              {/* Les repas partagés plutôt que les personnes aidées : le
+                  chiffre se compte, là où « personnes aidées » recouvrait des
+                  réalités trop différentes pour s'additionner. Il se règle au
+                  back-office, rubrique Général.
+
+                  La tuile disparaît si le chiffre manque, au lieu d'afficher
+                  un « 0 ». Le cas se produit quand le site est déployé avant
+                  l'API : celle-ci ne connaît pas encore le champ, et une
+                  association qui annonce zéro repas partagé dit pire que rien. */}
+              {stats.mealsShared > 0 && (
+                <RevealItem>
+                  <StatTile
+                    value={stats.mealsShared}
+                    label={t('about.peopleLabel')}
+                    description={t('about.peopleBody')}
+                  />
+                </RevealItem>
+              )}
             </RevealGroup>
 
             <Reveal delay={0.2} className="mt-8">
