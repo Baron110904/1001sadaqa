@@ -2,24 +2,13 @@ import type { Metadata } from 'next';
 import { text } from '@/lib/text';
 // TikTok n'a pas d'icône dédiée dans lucide : `Music2` est le symbole retenu
 // par la bibliothèque pour les plateformes musicales.
-import { ArrowRight, ExternalLink, Facebook, Linkedin, MapPin, Music2 } from 'lucide-react';
+import { ArrowRight, ExternalLink, Facebook, Linkedin, Music2 } from 'lucide-react';
 import { getSettings } from '@/lib/api';
 import { PageHero } from '@/components/blocks/PageHero';
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { whatsappLink } from '@/lib/format';
 import { headingLines } from '@/lib/heading';
-
-/**
- * Position du siège, quartier de Fidjrossè à Cotonou.
- *
- * Coordonnées relevées sur Nominatim (OpenStreetMap) pour « Fidjrossè, 12ᵉ
- * arrondissement, Cotonou » — la première valeur utilisée était approximative
- * d'environ un kilomètre et demi. Le numéro de lot n'étant pas cartographié,
- * le repère pointe le quartier ; c'est le niveau de précision honnête ici.
- */
-const MAP_LAT = 6.3525;
-const MAP_LON = 2.3675;
 
 export function generateMetadata(): Metadata {
   const t = text('contact');
@@ -47,8 +36,6 @@ export default async function ContactPage() {
     Icon: typeof Facebook;
   }[];
 
-  const delta = 0.012;
-  const bbox = `${MAP_LON - delta}%2C${MAP_LAT - delta}%2C${MAP_LON + delta}%2C${MAP_LAT + delta}`;
 
   return (
     <>
@@ -114,41 +101,6 @@ export default async function ContactPage() {
               </RevealItem>
             )}
 
-            <RevealItem>
-              <div className="overflow-hidden rounded-card border border-ink/10 bg-sand">
-                {/* Carte OpenStreetMap : aucune clé d'API, aucun traceur tiers.
-                    Le chargement est différé pour ne pas peser sur la page. */}
-                <iframe
-                  title={t('mapTitle')}
-                  loading="lazy"
-                  className="h-72 w-full border-0"
-                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${MAP_LAT}%2C${MAP_LON}`}
-                />
-
-                {/* L'adresse complète est répétée sous la carte : le repère
-                    situe le quartier, ce libellé donne le lot exact - que la
-                    cartographie ne contient pas. */}
-                <div className="flex flex-wrap items-start justify-between gap-3 bg-paper px-5 py-4">
-                  <p className="flex items-start gap-2.5 text-[0.8125rem] leading-relaxed text-ink">
-                    <MapPin className="mt-0.5 size-4 shrink-0 text-gold" aria-hidden />
-                    <span>
-                      <span className="block font-semibold">{t('mapLabel')}</span>
-                      <span className="block text-muted">{address}</span>
-                    </span>
-                  </p>
-
-                  <a
-                    href={`https://www.openstreetmap.org/?mlat=${MAP_LAT}&mlon=${MAP_LON}#map=16/${MAP_LAT}/${MAP_LON}`}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="link-sweep link-tap inline-flex shrink-0 items-center gap-1.5 text-[0.8125rem] font-medium text-leaf"
-                  >
-                    {t('openInMaps')}
-                    <ExternalLink className="size-3.5" aria-hidden />
-                  </a>
-                </div>
-              </div>
-            </RevealItem>
           </RevealGroup>
         </div>
       </section>

@@ -65,6 +65,12 @@ export const DEFAULT_SETTINGS: SettingSeed[] = [
     value: 1200,
   },
   {
+    key: 'impact.mealsShared',
+    group: SettingGroup.GENERAL,
+    label: 'Repas partagés (chiffre affiché sur le site)',
+    value: 11000,
+  },
+  {
     key: 'impact.communities',
     group: SettingGroup.GENERAL,
     label: 'Communes couvertes',
@@ -87,7 +93,7 @@ export const DEFAULT_SETTINGS: SettingSeed[] = [
     key: 'contact.address',
     group: SettingGroup.CONTACT,
     label: 'Adresse',
-    value: 'Fidjrossè, Houta M/ASSANI Lot 3561, Cotonou, Bénin',
+    value: 'Fidjrossè, Houta',
   },
   {
     key: 'contact.whatsapp',

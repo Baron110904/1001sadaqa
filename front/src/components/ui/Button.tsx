@@ -6,7 +6,7 @@ import type { ComponentProps, PointerEvent, ReactNode } from 'react';
 import Link from 'next/link';
 import { transition } from '@/components/motion/motion-config';
 
-export type ButtonVariant = 'primary' | 'dark' | 'outline' | 'ghost' | 'whatsapp';
+export type ButtonVariant = 'primary' | 'dark' | 'light' | 'outline' | 'ghost' | 'whatsapp';
 export type ButtonSize = 'md' | 'lg' | 'sm';
 
 // whitespace-nowrap : sans cela, « Faire un don » se casse en deux lignes dans
@@ -17,6 +17,9 @@ const BASE =
 const VARIANTS: Record<ButtonVariant, string> = {
   primary: 'bg-gold text-ink hover:bg-gold-deep',
   dark: 'bg-ink text-paper hover:bg-ink-deep',
+  // Pleine et claire, pour un second bouton fort sur un fond sombre : plus
+  // présent qu'un contour, sans concurrencer l'appel au don.
+  light: 'bg-paper text-ink hover:bg-mist',
   outline: 'border border-paper/30 text-paper hover:border-paper/70 hover:bg-paper/10',
   ghost: 'border border-ink/15 text-ink hover:border-ink/40 hover:bg-ink/5',
   whatsapp: 'bg-whatsapp text-ink hover:brightness-95',
@@ -25,7 +28,9 @@ const VARIANTS: Record<ButtonVariant, string> = {
 const SIZES: Record<ButtonSize, string> = {
   sm: 'px-4 py-2 text-[0.8125rem]',
   md: 'px-6 py-3 text-[0.9375rem]',
-  lg: 'px-8 py-4 text-base',
+  // Légèrement plus généreux que la taille d'origine (px-8 py-4, 1 rem) :
+  // ces boutons portent les appels principaux de l'accueil.
+  lg: 'px-9 py-[1.1rem] text-[1.0625rem]',
 };
 
 interface SurfaceProps {

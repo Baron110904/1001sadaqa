@@ -39,7 +39,8 @@
     "linkedin": "LinkedIn",
     "whatsapp": "WhatsApp Business",
     "credits": "Crédits des visuels",
-    "rights": "© 2026 1001 SADAQA · Association humanitaire et sociale, Cotonou, Bénin."
+    "rights": "© 2026 1001 SADAQA · Association humanitaire et sociale, Cotonou, Bénin.",
+    "translate": "Site en français — votre navigateur peut le traduire."
   },
   "common": {
     "learnMore": "En savoir plus",
@@ -70,17 +71,18 @@
       "pillar2": "Soigner · Autonomiser",
       "cardTitle": "Aider une famille",
       "cardBody": "Un don de 10 000 F couvre une semaine de repas pour un foyer.",
-      "scroll": "Découvrir"
+      "scroll": "Découvrir",
+      "foodbankCta": "Banque alimentaire"
     },
     "about": {
       "eyebrow": "Qui sommes-nous",
-      "title": "Unis par la solidarité,|des vies qui changent",
+      "title": "De la générosité,|des actions concrètes",
       "body": "Notre objectif est de contribuer à l'amélioration durable des conditions de vie des populations vulnérables par la mise en œuvre de programmes sociaux et humanitaires à fort impact.",
       "projectsLabel": "projets menés depuis la création",
       "featureTitle": "Accès aux soins",
       "featureBody": "Consultations, orientation médicale et prévention communautaire",
-      "peopleLabel": "Personnes aidées",
-      "peopleBody": "Accompagnées par nos programmes et nos bénévoles.",
+      "peopleLabel": "Repas partagés",
+      "peopleBody": "Distribués aux familles, aux orphelinats et aux personnes isolées.",
       "cta": "L'association"
     },
     "programs": {

@@ -264,9 +264,13 @@
   }
 
   /* Sur-titre doré des sections. */
+  /* Les surtitres de section et d'en-tête de page. Montés de 0,6875 à 0,8125
+     rem : en capitales très espacées, la taille d'origine devenait difficile à
+     lire — c'est le cas de « Nos projets & réalisations », qui porte à lui seul
+     l'intitulé de la page. */
   .eyebrow {
     font-family: var(--font-display);
-    font-size: 0.6875rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;

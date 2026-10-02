@@ -27,6 +27,7 @@ import {
 } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { DEFAULT_SETTINGS } from '../src/modules/settings/settings.constants';
+import { seedCampagnes } from './campagnes';
 import { seedDemo } from './demo';
 
 const prisma = new PrismaClient();
@@ -90,22 +91,26 @@ const PROGRAMS = [
     shortLabel: 'Orphelins',
     description: 'Protection et accompagnement des enfants vulnérables.',
     icon: 'baby',
-    image: '/images/programs/enfance-aines.jpg',
+    image: '/images/programs/orphan-care.jpg',
     context:
-      'De nombreux enfants vulnérables grandissent dans des conditions fragiles, avec un accès limité à l’éducation, aux soins, à la nutrition et à un environnement protecteur.',
+      'Orphan Care Project — programme intégré de santé, nutrition, éducation et parrainage des orphelins, mené en partenariat avec Ajanta Pharma. De nombreux enfants vulnérables grandissent dans des conditions fragiles, avec un accès limité à l’éducation, aux soins, à la nutrition et à un environnement protecteur. Un enfant soutenu aujourd’hui, un avenir transformé demain.',
     objectives:
-      'Accompagner progressivement vingt structures d’accueil partenaires, objectif pilote du projet Orphan Care.',
+      'Améliorer durablement le bien-être des orphelins en répondant à leurs besoins essentiels par une prise en charge globale et continue, et accompagner progressivement vingt structures d’accueil partenaires.',
     audience:
-      'Orphelins et enfants vulnérables, ainsi que les structures d’accueil qui les prennent en charge.',
+      'Orphelins vivant en institution, enfants en situation de vulnérabilité, et orphelinats partenaires.',
+    // Les six piliers du programme, tels qu'ils figurent sur la fiche de
+    // l'association. Chaque ligne nomme le pilier puis ce qu'il recouvre : la
+    // liste reste lisible d'un coup d'œil sans perdre le détail.
     activities: [
-      'Soutien nutritionnel et alimentaire',
-      'Accès aux soins de santé',
-      'Accompagnement scolaire et éducatif',
-      'Suivi social individualisé',
-      'Accompagnement des structures partenaires accueillant des enfants vulnérables',
+      'Santé de l’enfant — consultations médicales, dépistage des maladies, vaccination, déparasitage, santé bucco-dentaire et visuelle, distribution de médicaments essentiels',
+      'Nutrition — évaluation nutritionnelle, compléments, lait maternisé, bouillies enrichies, paniers alimentaires, repas solidaires et suivi de la croissance',
+      'Éducation — parrainage scolaire, fournitures, uniformes, bibliothèque, soutien scolaire, éducation numérique et activités culturelles',
+      'Hygiène — kits d’hygiène, sensibilisation aux bonnes pratiques, hygiène bucco-dentaire, hygiène menstruelle des adolescentes, amélioration des installations sanitaires des orphelinats',
+      'Parrainage — d’un enfant, d’une fratrie ou d’un orphelinat ; de la santé, de la nutrition, de l’éducation ou des repas, avec suivi personnalisé et rapports aux parrains',
+      'Protection et bien-être — soutien psychosocial, accompagnement spirituel et moral, activités sportives et récréatives, sorties éducatives, célébration des fêtes et anniversaires, renforcement des droits de l’enfant',
     ],
     outcomes:
-      'Des enfants mieux protégés, en meilleure santé, scolarisés et accompagnés pour construire leur avenir.',
+      'Amélioration de la santé, réduction de la malnutrition, augmentation du taux de scolarisation, meilleures conditions d’hygiène, réseau de parrains solide et durable, et des enfants protégés, épanouis et confiants.',
     order: 1,
   },
   {
@@ -117,17 +122,23 @@ const PROGRAMS = [
     description: 'Préserver la dignité des personnes âgées.',
     icon: 'users',
     context:
-      'Les personnes âgées vulnérables sont souvent confrontées à l’isolement social, aux difficultés économiques et à un accès limité aux soins.',
-    audience: 'Personnes âgées en situation de vulnérabilité ou d’isolement.',
+      'Seniors Care Project, mené avec HIMMA (Health Investment & Medical Assistance). La population âgée augmente rapidement en Afrique, et les familles font face à de nouveaux défis : urbanisation, migration, vieillissement, dépendance. Les personnes âgées vulnérables sont souvent confrontées à l’isolement social, aux difficultés économiques et à un accès limité aux soins. Prendre soin de nos aînés est un acte de foi, une responsabilité, une Sadaqa Jâriya.',
+    objectives:
+      'Améliorer la qualité de vie des personnes âgées par des services de santé, d’accompagnement social et de soutien adaptés à leurs besoins et à leurs valeurs, en visant la référence ouest-africaine d’une prise en charge globale et digne.',
+    audience:
+      'Personnes âgées en situation de vulnérabilité ou d’isolement, et les familles et aidants qui les entourent.',
+    // Les cinq services clés, puis le continuum de prise en charge : c'est ce
+    // second point qui distingue le programme d'une simple aide ponctuelle.
     activities: [
-      'Soutien alimentaire',
-      'Accompagnement social',
-      'Accès aux soins essentiels',
-      'Visites communautaires',
-      'Maintien du lien social et valorisation de leur place dans la communauté',
+      'Santé — bilans réguliers, dépistage (diabète, hypertension, vue, audition), consultations de gériatrie, accès aux médicaments essentiels, suivi des maladies chroniques',
+      'Assistance sociale — aide alimentaire mensuelle, kits d’hygiène, soutien financier aux plus vulnérables, appui administratif',
+      'Soins et accompagnement à domicile — visites, soins infirmiers, aide à la mobilité, accompagnement psychologique, télémédecine et suivi à distance',
+      'Équipements et aides techniques — fauteuils roulants, cannes et déambulateurs, lunettes et appareils auditifs, lits médicalisés, matériel de soins',
+      'Prévention et éducation — vieillissement en bonne santé, nutrition et activité physique, droits des personnes âgées, formation et soutien des aidants familiaux',
+      'Un continuum de prise en charge — centre de jour, puis soins à domicile, résidence médicalisée et séjours de répit pour soulager les familles',
     ],
     outcomes:
-      'Des personnes âgées accompagnées, respectées et maintenues dans un environnement plus digne et solidaire.',
+      'Des aînés dont la qualité de vie et l’espérance de vie en bonne santé s’améliorent, des familles et des aidants soutenus, et une solidarité durable et organisée autour d’eux — dans le respect de la dignité, de la culture et des valeurs familiales.',
     order: 2,
   },
   {
@@ -139,18 +150,22 @@ const PROGRAMS = [
     description: 'Santé et nutrition de la mère et de l’enfant.',
     icon: 'heart',
     context:
-      'De nombreuses femmes enceintes, jeunes mamans et enfants de moins de cinq ans restent exposés à la malnutrition, aux maladies évitables et à un accès insuffisant aux soins.',
-    audience: 'Femmes enceintes, jeunes mères allaitantes et enfants de moins de cinq ans.',
+      'Mother & Baby Care Project, mené avec HIMMA (Health Investment & Medical Assistance). Les femmes enceintes et les jeunes enfants sont vulnérables à la malnutrition et aux maladies évitables ; le manque de soins appropriés limite le développement et l’avenir des enfants. Prendre soin des mères et des bébés, c’est construire l’avenir de nos communautés.',
+    objectives:
+      'Améliorer la santé, la nutrition et le bien-être des femmes enceintes, des mères et des enfants de 0 à 5 ans grâce à des services intégrés, accessibles et de qualité.',
+    audience:
+      'Femmes enceintes, jeunes mères allaitantes et enfants de 0 à 5 ans, ainsi que leur entourage familial.',
+    // Les quatre services clés, puis le continuum qui va de la grossesse au
+    // suivi familial — c'est la continuité qui fait l'efficacité du programme.
     activities: [
-      'Suivi de la grossesse et orientation vers les soins prénataux',
-      'Soutien nutritionnel des femmes enceintes et allaitantes',
-      'Promotion de l’allaitement maternel',
-      'Suivi de la croissance et du développement de l’enfant',
-      'Prévention des maladies évitables et sensibilisation familiale',
-      'Distribution de kits nutritionnels et d’hygiène selon les besoins',
+      'Santé maternelle — consultations prénatales et postnatales, supplémentation en fer, acide folique et micronutriments, dépistage de l’anémie, préparation à l’accouchement, kits d’accouchement, accompagnement psychosocial',
+      'Nutrition du bébé — promotion de l’allaitement maternel exclusif, dépistage de la malnutrition, aliments thérapeutiques et complémentaires, compléments nutritionnels, démonstrations culinaires et conseils',
+      'Santé de l’enfant — vaccination, déparasitage, dépistage des retards de croissance, suivi du développement psychomoteur, référencement vers les structures de santé',
+      'Éducation parentale — nutrition de la mère et de l’enfant, soins du nouveau-né, développement précoce, prévention des maladies, planification familiale volontaire',
+      'Un continuum de prise en charge — grossesse, naissance, 0-2 ans, 2-5 ans, puis suivi familial continu',
     ],
     outcomes:
-      'Des mères mieux accompagnées, des enfants en meilleure santé et des familles renforcées pour offrir à chaque enfant un bon départ dans la vie.',
+      'Réduction de la mortalité maternelle et infantile, recul de la malnutrition et des maladies évitables, un bon départ dans la vie pour chaque enfant, et des communautés renforcées sur le long terme.',
     order: 3,
   },
   {
@@ -161,21 +176,26 @@ const PROGRAMS = [
     description:
       'Repas, paniers et cantines solidaires au bénéfice des familles et des personnes en difficulté.',
     icon: 'utensils',
-    image: '/images/programs/securite-alimentaire.jpg',
+    image: '/images/programs/programme-alimentaire.jpg',
     context:
-      'L’insécurité alimentaire fragilise les familles, réduit les opportunités éducatives des enfants et augmente la vulnérabilité des personnes déjà précaires.',
+      'Nourrir aujourd’hui, restaurer la dignité, construire demain. L’insécurité alimentaire fragilise les familles, réduit les opportunités éducatives des enfants et augmente la vulnérabilité des personnes déjà précaires. Un programme intégré pour répondre à l’urgence alimentaire et construire un avenir meilleur pour les plus vulnérables.',
+    objectives:
+      'Objectifs mensuels : 500 repas chauds distribués, 100 paniers remis, 2 orphelinats soutenus — plus de 1 000 vies touchées chaque mois.',
     audience:
-      'Familles vulnérables, enfants et personnes en difficulté accueillis dans les hôpitaux et structures sociales partenaires.',
+      'Personnes sans abri, malades, travailleurs précaires et personnes démunies ; familles vulnérables, avec priorité aux veuves, aux familles nombreuses et aux personnes en difficulté ; orphelinats partenaires.',
+    // Les trois volets de la fiche, avec leur rythme et leur contenu réels :
+    // c'est la régularité annoncée qui engage l'association, et c'est elle que
+    // le donateur doit pouvoir lire.
     activities: [
-      '1001 Paniers : distribution de colis alimentaires aux familles vulnérables',
-      '1001 Iftar : distribution de repas pendant le mois de Ramadan',
-      '1001 Repas Solidaires : actions alimentaires régulières au bénéfice des personnes en difficulté',
-      'Cantines Solidaires : soutien à l’alimentation régulière des enfants et des personnes vulnérables au sein des hôpitaux et structures sociales partenaires',
-      'Tabaski Solidaire : collecte et distribution de viande aux familles vulnérables',
-      'Actions nutritionnelles ciblées : accompagnement adapté aux enfants, aux femmes enceintes, aux mères allaitantes et aux personnes âgées',
+      '1001 Repas offerts — un repas chaud et nutritif chaque semaine, 2 à 4 distributions par mois, préparés dans le respect des normes d’hygiène',
+      '1001 Paniers — une distribution majeure par mois de kits alimentaires essentiels (riz ou maïs, huile, sel, sucre, lait, pâtes), avec suivi des bénéficiaires et évaluation de l’impact',
+      '1001 Orphelinats — 1 à 2 orphelinats visités par mois : appui en vivres, médicaments, produits d’hygiène et activités éducatives, parrainage et reporting régulier',
+      '1001 Iftar — distribution de repas de rupture du jeûne pendant le mois de Ramadan',
+      'Tabaski Solidaire — collecte et distribution de viande aux familles vulnérables',
+      'Cantines solidaires et actions nutritionnelles ciblées — enfants, femmes enceintes, mères allaitantes et personnes âgées, dans les hôpitaux et structures sociales partenaires',
     ],
     outcomes:
-      'Une amélioration de l’accès à une alimentation suffisante, nutritive et digne, un soutien renforcé aux familles vulnérables et une réduction progressive du gaspillage alimentaire.',
+      'Ce que représente un don : 1 000 F pour un repas, 15 000 F pour un panier, 150 000 F pour soutenir un orphelinat un mois. Au-delà des chiffres : un accès amélioré à une alimentation suffisante, nutritive et digne, un soutien renforcé aux familles vulnérables et une réduction progressive du gaspillage, grâce aux producteurs locaux, importateurs, supermarchés et entreprises partenaires.',
     order: 4,
   },
   {
@@ -188,18 +208,22 @@ const PROGRAMS = [
       'Dispositif permanent de collecte, de stockage et de redistribution des denrées. Projet en cours de développement.',
     icon: 'warehouse',
     context:
-      'Les dons et surplus alimentaires se perdent faute d’un dispositif permanent capable de les collecter, de les contrôler et de les redistribuer aux familles et aux structures sociales.',
+      'Collectons aujourd’hui pour nourrir des milliers de familles demain. Les dons et surplus alimentaires se perdent faute d’un dispositif permanent capable de les collecter, de les contrôler et de les redistribuer. Ensemble, transformons les surplus en sourires et l’abondance en solidarité.',
     objectives:
-      'Mettre en place un dispositif permanent de collecte des dons et surplus alimentaires, de stockage, de contrôle et de redistribution au profit des familles et structures sociales partenaires.',
+      'Zéro faim, zéro gaspillage. Mettre en place un dispositif permanent de collecte des dons et surplus alimentaires, de stockage, de contrôle et de redistribution au profit des familles et structures sociales partenaires.',
+    audience:
+      'Côté dons : producteurs, importateurs, industries agroalimentaires, grandes surfaces et supermarchés, restaurateurs et hôtels, entreprises et particuliers — chaque acteur compte. Côté redistribution : familles vulnérables, orphelinats, cantines solidaires et structures sociales partenaires.',
+    // Ce qu'on peut apporter, et sous quelle forme : c'est la question que se
+    // pose un donateur devant sa réserve, et la fiche doit y répondre seule.
     activities: [
-      'Collecte des dons et des surplus alimentaires',
-      'Stockage et contrôle des denrées',
-      'Redistribution aux familles et aux structures sociales partenaires',
-      'Lutte contre le gaspillage alimentaire',
-      'Traçabilité des dons reçus et redistribués',
+      'Denrées acceptées — riz, huile, sucre, pâtes alimentaires, conserves, lait en poudre, produits d’hygiène et bien d’autres. Tous les produits doivent être non périmés et en bon état',
+      'Formes de don — denrées alimentaires, produits d’hygiène, matériel ou équipements, soutien financier, compétences et bénévolat',
+      'Collecte, contrôle et stockage des denrées, avec traçabilité de chaque entrée et de chaque sortie',
+      'Redistribution vers les 1001 Repas offerts, les 1001 Paniers solidaires, les orphelinats soutenus, les cantines solidaires et les interventions d’urgence',
+      'Lutte contre le gaspillage alimentaire, par la reprise des invendus et des surplus',
     ],
     outcomes:
-      'Le développement d’un mécanisme durable de solidarité alimentaire, au service des familles vulnérables et des structures partenaires.',
+      'Un mécanisme durable de solidarité alimentaire : des dons collectés, contrôlés, stockés et distribués dans la transparence la plus totale, au service des familles vulnérables et des structures partenaires.',
     order: 5,
   },
   {
@@ -209,21 +233,23 @@ const PROGRAMS = [
     shortLabel: 'Santé',
     description: 'Accès aux soins et prévention au plus près des populations.',
     icon: 'stethoscope',
-    image: '/images/programs/sante-prevention.jpg',
+    image: '/images/programs/community-health.jpg',
     context:
       'Les populations vulnérables rencontrent encore des obstacles importants pour accéder aux soins : coût des consultations, manque d’information, retard de diagnostic et difficultés d’accès aux médicaments essentiels.',
+    objectives:
+      'Prévenir, dépister et soigner au plus près des populations : un geste pour soi, un bien pour tous. Une communauté en bonne santé est une communauté qui progresse.',
     audience:
-      'Populations vulnérables éloignées des services de santé, à Cotonou et dans les communes d’intervention.',
+      'Enfants et adolescents, adultes, personnes âgées, personnes vivant avec un handicap, femmes et jeunes filles, et plus largement les communautés vulnérables éloignées des services de santé, à Cotonou et dans les communes d’intervention.',
+    // Les quatre services de la fiche, avec le détail des dépistages proposés :
+    // c'est ce qui permet à quelqu'un de savoir s'il est concerné.
     activities: [
-      'Dépistage et prévention des maladies',
-      'Consultations médicales solidaires',
-      'Campagnes de vaccination',
-      'Distribution de médicaments essentiels selon les besoins identifiés',
-      'Sensibilisation à la santé et à l’hygiène',
-      'Actions de santé bucco-dentaire et de soutien psychosocial',
+      'Sensibilisation communautaire — hygiène et assainissement, nutrition et alimentation saine, santé maternelle et infantile, vaccination, lutte contre les maladies transmissibles, santé mentale et bien-être',
+      'Dépistage gratuit — diabète, hypertension artérielle, VIH et hépatites, paludisme, anémie, cancer du col de l’utérus, et autres selon le contexte',
+      'Consultations médicales — consultations générales, suivi des maladies chroniques, soins de première nécessité, orientation et référence, conseils personnalisés',
+      'Distribution de médicaments — traitements de base gratuits ou à faible coût, suppléments (fer, acide folique, vitamines), moustiquaires imprégnées, kits d’hygiène',
     ],
     outcomes:
-      'Des communautés mieux informées, des maladies détectées plus précocement et un accès renforcé aux services de santé essentiels.',
+      'Prévention et réduction des maladies, amélioration de la santé et de la qualité de vie, renforcement des capacités des communautés, moins d’absentéisme et plus de productivité — des communautés plus fortes et plus résilientes.',
     order: 6,
   },
   {
@@ -233,18 +259,22 @@ const PROGRAMS = [
     shortLabel: 'WASH',
     description: 'Accès à l’eau potable, hygiène et assainissement pour les communautés.',
     icon: 'droplets',
-    image: '/images/programs/eau-hygiene.jpg',
+    image: '/images/programs/wash.jpg',
     context:
-      'L’accès insuffisant à l’eau potable et aux infrastructures d’assainissement contribue à la propagation des maladies et fragilise les conditions de vie des communautés.',
-    audience: 'Communautés rurales et quartiers privés d’accès à une eau potable sûre.',
+      'WASH Project — Water, Sanitation, Hygiene. L’accès insuffisant à l’eau potable et aux infrastructures d’assainissement contribue à la propagation des maladies et fragilise les conditions de vie des communautés. L’eau est un droit, l’hygiène sauve des vies.',
+    objectives:
+      'De l’eau propre, des vies en bonne santé : améliorer l’accès à l’eau potable et promouvoir de bonnes pratiques d’hygiène pour des communautés en meilleure santé.',
+    audience:
+      'Familles vulnérables, communautés rurales et périurbaines, écoles et établissements d’enseignement, centres de santé, orphelinats et centres d’accueil, personnes âgées, personnes vivant avec un handicap, collectivités locales et organisations communautaires.',
+    // Les trois volets de l'acronyme, chacun avec ses ouvrages concrets — ce
+    // sont eux qui rendent un financement lisible pour un donateur.
     activities: [
-      'Construire et réhabiliter des points d’eau',
-      'Installer des solutions adaptées comme les pompes solaires',
-      'Promouvoir les pratiques d’hygiène',
-      'Soutenir les campagnes communautaires de salubrité',
+      'Accès à l’eau potable — construction de forages, réhabilitation de puits, installation de pompes manuelles ou solaires, réservoirs et châteaux d’eau, systèmes simplifiés d’adduction, collecte et stockage des eaux de pluie',
+      'Hygiène — distribution de kits d’hygiène familiale, promotion du lavage des mains, sensibilisation aux bonnes pratiques, traitement et stockage sécurisé de l’eau',
+      'Assainissement — appui à l’assainissement des ménages, aménagement de points de lavage des mains, campagnes communautaires de salubrité, promotion d’un environnement propre autour des points d’eau',
     ],
     outcomes:
-      'Un meilleur accès à l’eau potable, une réduction des maladies hydriques et des communautés plus résilientes.',
+      'Un accès accru à une eau potable de qualité, la réduction des maladies d’origine hydrique, de meilleures pratiques d’hygiène et des conditions de vie améliorées — des communautés plus saines et plus résilientes.',
     order: 7,
   },
   {
@@ -254,21 +284,26 @@ const PROGRAMS = [
     shortLabel: 'Autonomie',
     description: 'Autonomisation économique des femmes et des jeunes en situation de précarité.',
     icon: 'trending-up',
-    image: '/images/programs/education-autonomisation.jpg',
+    image: '/images/programs/empowerment.jpg',
     context:
       'La dépendance à l’aide ponctuelle limite la capacité des familles vulnérables, notamment des femmes et des jeunes, à construire un avenir stable.',
-    objectives: 'Permettre une sortie durable de la pauvreté.',
-    audience: 'Femmes et jeunes en situation de précarité.',
+    objectives:
+      'De l’assistance à l’autonomisation : accompagner les personnes vulnérables dans un parcours de transformation pour bâtir un avenir digne et autonome, et permettre une sortie durable de la pauvreté.',
+    audience:
+      'Femmes vulnérables, jeunes majeurs de 18 à 35 ans, chefs de famille à faibles revenus, et toute personne motivée, prête à construire son avenir.',
+    // Le parcours en six étapes est le cœur du programme : c'est lui qui
+    // distingue un accompagnement d'une aide ponctuelle, et il se lit comme
+    // une progression, de l'urgence à la sortie du dispositif.
     activities: [
-      'Identification des capacités et des besoins',
-      'Formations professionnelles et entrepreneuriales',
-      'Éducation financière',
-      'Accompagnement personnalisé',
-      'Dotation en outils ou kits de démarrage',
-      'Mentorat et mise en réseau',
+      '1. Urgence — répondre aux besoins essentiels et protéger la dignité',
+      '2. Stabilisation — sécuriser la situation et préparer le bénéficiaire à l’autonomisation',
+      '3. Empowerment — développement des compétences : formation, coaching, éducation financière, développement personnel',
+      '4. Autonomisation économique — création d’activité, accès à l’emploi ou développement d’une entreprise',
+      '5. Suivi et consolidation — coaching, mentorat et suivi régulier pour renforcer les acquis et développer l’activité',
+      '6. Graduation — un bénéficiaire autonome et résilient, acteur du développement de sa communauté',
     ],
     outcomes:
-      'Des bénéficiaires capables de développer une activité économique, d’améliorer leurs revenus et de devenir acteurs de leur propre développement.',
+      'Ce que le programme met à disposition : formations professionnelles et entrepreneuriales, kits de démarrage et appui à la création d’activités, accompagnement personnalisé et mentorat, suivi et coaching jusqu’à l’autonomie, mise en relation avec les marchés et les partenaires. Au bout du parcours : des bénéficiaires capables de développer une activité, d’améliorer leurs revenus et de devenir acteurs de leur propre développement.',
     order: 8,
   },
 ];
@@ -1082,6 +1117,9 @@ async function main(): Promise<void> {
 
   // Ce qui arrive par les formulaires : messages, adhésions, dons. Sans eux,
   // le tableau de bord n'affiche que des zéros.
+  // Les habillages de fête : contenus permanents, absents d'une base neuve.
+  const campagnes = await seedCampagnes(prisma);
+
   const demo = await seedDemo(prisma);
 
   const counts = {
@@ -1103,6 +1141,7 @@ async function main(): Promise<void> {
 
   console.log('Seed terminé.', counts);
   console.log('Données de démonstration :', demo);
+  console.log('Campagnes saisonnières :', campagnes);
   console.log(`Compte administrateur : ${email}`);
 }
 

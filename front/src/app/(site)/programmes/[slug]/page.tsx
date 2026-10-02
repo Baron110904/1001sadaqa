@@ -114,7 +114,12 @@ export default async function ProgramPage({
           <ParallaxMedia
             src={program.image ?? '/images/home/hero.jpg'}
             alt={program.title}
-            className="aspect-4/3 rounded-card lg:aspect-3/4"
+            // 2/3, soit 0,667 : le rapport exact de la plupart des affiches de
+            // l'association. Le cadre paysage des petits écrans en coupait la
+            // moitié ; un cadre 3/4 en aurait encore rogné un dixième de la
+            // hauteur, c'est-à-dire le logo en haut et les coordonnées en bas.
+            // Les deux affiches en 0,71 perdent une marge latérale, sans texte.
+            className="aspect-2/3 rounded-card"
             sizes="(max-width: 1024px) 100vw, 42vw"
           />
         </div>

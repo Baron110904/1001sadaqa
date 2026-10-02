@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 /** Les quatre repères de la page, en ancres. */
 const SECTIONS = [
   { href: '/banque-alimentaire#besoins', label: 'Besoins' },
-  { href: '/banque-alimentaire#stock', label: 'Stock' },
+  { href: '/banque-alimentaire/stock', label: 'Stock' },
   { href: '/banque-alimentaire#mouvements', label: 'Mouvements' },
   { href: '/banque-alimentaire#agir', label: 'Donner ou demander' },
   { href: '/banque-alimentaire/donateurs', label: 'Donateurs' },

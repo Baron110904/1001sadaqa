@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowDown, ArrowUp } from 'lucide-react';
+import { ArrowDown, ArrowRight, ArrowUp } from 'lucide-react';
 import { getFoodbank, getFoodbankComments } from '@/lib/api';
 import type { FoodCategoryState, StockLevel, StockMovementRow } from '@/lib/types';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
@@ -195,12 +195,6 @@ export default async function FoodbankPage() {
             </Reveal>
           </div>
 
-          <Reveal delay={0.16} className="lg:pt-10">
-            <p className="text-base leading-relaxed text-muted">
-              Les niveaux sont publiés en direct. Quand une catégorie passe sous son seuil,
-              elle apparaît ici - vous savez exactement quoi apporter.
-            </p>
-          </Reveal>
         </div>
 
         {banque.needs.length > 0 && (
@@ -214,46 +208,30 @@ export default async function FoodbankPage() {
         )}
       </section>
 
-      {/* ── L'état complet du stock ───────────────────────────────────── */}
-      <section id="stock" className="container-page scroll-mt-24 pb-14 md:pb-20">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink/10 pb-5">
-          <h2 className="text-title font-display font-bold text-ink">L’état complet du stock</h2>
-          {/* Pas de total toutes catégories confondues : additionner des kg,
-              des litres et des unités donnerait un nombre qui ne veut rien
-              dire. On compte ce qui se compte - les catégories, et celles qui
-              demandent une attention. */}
-          <p className="text-[0.875rem] text-muted">
-            {banque.categories.length} catégories suivies
-            {banque.needs.length > 0 && ` · ${banque.needs.length} sous leur seuil`}
-          </p>
-        </div>
+      {/* ── Renvoi vers l'inventaire ───────────────────────────────────
+          Le détail du stock a sa propre page : un inventaire se consulte, on y
+          cherche un article et on trie par ce qui manque. Ces gestes appellent
+          un tableau, pas une grille de vignettes au milieu d'une page de
+          présentation. Ici, on n'en garde que la mesure et le lien. */}
+      <section className="container-page pb-14 md:pb-20">
+        <div className="flex flex-wrap items-center justify-between gap-5 rounded-panel border border-ink/12 bg-mist px-6 py-6 md:px-8">
+          <div>
+            <h2 className="text-title font-display font-bold text-ink">L’état complet du stock</h2>
+            <p className="mt-2 text-[0.9375rem] text-muted">
+              {banque.categories.length} articles suivis
+              {banque.needs.length > 0 && ` · ${banque.needs.length} sous leur seuil`} — avec
+              recherche, filtres et niveaux visés.
+            </p>
+          </div>
 
-        <RevealGroup
-          className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
-          stagger={0.04}
-          as="ul"
-        >
-          {banque.categories.map((categorie) => {
-            const niveau = NIVEAUX[categorie.level];
-            return (
-              <RevealItem key={categorie.id} as="li">
-                <div className={`h-full rounded-card border p-4 ${niveau.carte}`}>
-                  <p className="text-[0.8125rem] font-medium text-ink">{categorie.name}</p>
-                  <p className="mt-2 font-display text-[1.375rem] leading-none font-bold tracking-tight text-ink tabular">
-                    {formatNumber(categorie.quantity)}{' '}
-                    <span className="text-[0.875rem] font-semibold">{categorie.unit}</span>
-                  </p>
-                  <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-ink/8">
-                    <div
-                      className={`h-full rounded-full ${niveau.barre}`}
-                      style={{ width: `${part(categorie)}%` }}
-                    />
-                  </div>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealGroup>
+          <Link
+            href="/banque-alimentaire/stock"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-ink px-5 py-3 font-display text-[0.875rem] font-semibold text-paper transition-colors hover:bg-ink/90"
+          >
+            Consulter l’inventaire
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
+        </div>
       </section>
 
       {/* ── Le flux du mois ───────────────────────────────────────────── */}

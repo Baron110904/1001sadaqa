@@ -127,9 +127,21 @@ export async function SiteFooter({ settings }: { settings: SiteSettings }) {
 
         <div className="mt-14 flex flex-col gap-4 border-t border-paper/12 pt-7 text-xs text-paper/45 sm:flex-row sm:items-center sm:justify-between">
           <p>{t('rights')}</p>
-          <Link href="/credits" className="link-sweep link-tap transition-colors hover:text-paper/80">
-            {t('credits')}
-          </Link>
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            {/* Le site est rédigé en français et déclaré comme tel : les
+                navigateurs proposent donc leur propre traduction. Ce rappel
+                s'adresse à qui ne sait pas que la fonction existe — rien n'est
+                à installer, et nous ne substituons pas notre traduction à la
+                leur. */}
+            <p>{t('translate')}</p>
+            <Link
+              href="/credits"
+              className="link-sweep link-tap transition-colors hover:text-paper/80"
+            >
+              {t('credits')}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

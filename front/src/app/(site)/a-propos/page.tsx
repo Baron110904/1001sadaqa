@@ -104,10 +104,10 @@ export default async function AboutPage() {
               {/* La bordure haute dorée reprend la maquette : elle marque les
                   valeurs sans ajouter d'icône. */}
               <div className="h-full rounded-card border border-ink/10 border-t-2 border-t-gold bg-paper p-6">
-                <h3 className="font-display text-[1.0625rem] font-bold tracking-tight text-ink">
+                <h3 className="font-display text-[1.1875rem] font-bold tracking-tight text-ink">
                   {t(`values.items.${valeur}.title`)}
                 </h3>
-                <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-muted">
+                <p className="mt-2.5 text-[1.0625rem] leading-relaxed text-muted">
                   {t(`values.items.${valeur}.body`)}
                 </p>
               </div>

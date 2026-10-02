@@ -250,7 +250,7 @@ const SETTINGS_FALLBACK: SiteSettings = {
   'site.name': '1001 SADAQA',
   'contact.phone': '+229 01 91 43 45 91',
   'contact.email': 'contact@1001sadaqa.com',
-  'contact.address': 'Fidjrossè, Houta M/ASSANI Lot 3561, Cotonou, Bénin',
+  'contact.address': 'Fidjrossè, Houta',
   'contact.whatsapp': '2290191434591',
   'social.facebook': 'https://www.facebook.com/profile.php?id=61587609625367',
   payment: {

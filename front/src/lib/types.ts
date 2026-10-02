@@ -256,6 +256,7 @@ export interface SiteStats {
   programs: number;
   projects: number;
   peopleHelped: number;
+  mealsShared: number;
   communities: number;
 }
 

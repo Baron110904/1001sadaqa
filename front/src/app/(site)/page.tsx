@@ -9,7 +9,6 @@ import {
   getProjects,
   getSeasonalCampaign,
   getStats,
-  getTestimonials,
 } from '@/lib/api';
 import { hasHero } from '@/lib/seasonal';
 import { HomeHero } from '@/components/blocks/HomeHero';
@@ -19,7 +18,6 @@ import { ProgramCard } from '@/components/blocks/ProgramCard';
 import { ProjectCard } from '@/components/blocks/ProjectCard';
 import { CampaignCard } from '@/components/blocks/CampaignCard';
 import { NewsCard } from '@/components/blocks/NewsCard';
-import { TestimonialCard } from '@/components/blocks/TestimonialCard';
 import { StatTile } from '@/components/blocks/StatTile';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { MediaFrame } from '@/components/ui/MediaFrame';
@@ -35,14 +33,14 @@ export default async function HomePage() {
   const t = text('home');
   const tCommon = text('common');
   const tProjects = text('projects');
+  const tAbout = text('about');
 
   // Les lectures partent en parallèle : le rendu attend la plus lente, pas
   // leur somme.
-  const [programs, campaigns, testimonials, news, stats, featuredProjects, seasonal, banque] =
+  const [programs, campaigns, news, stats, featuredProjects, seasonal, banque] =
     await Promise.all([
       getPrograms(),
       getCampaigns(),
-      getTestimonials(),
       getNews({ limit: 3 }),
       getStats(),
       getProjects({ limit: 4 }),
@@ -122,9 +120,12 @@ export default async function HomePage() {
               </RevealItem>
 
               <RevealItem>
+                {/* Les repas partagés plutôt que les personnes aidées : le
+                    chiffre se compte, là où « personnes aidées » recouvrait
+                    des réalités trop différentes pour s'additionner. Il se
+                    règle au back-office, rubrique Général. */}
                 <StatTile
-                  value={stats.peopleHelped}
-                  suffix="+"
+                  value={stats.mealsShared}
                   label={t('about.peopleLabel')}
                   description={t('about.peopleBody')}
                 />
@@ -268,24 +269,42 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* ── Témoignages ──────────────────────────────────────────────── */}
-      {testimonials.length > 0 && (
-        <section className="container-page py-20 md:py-28">
-          <SectionHeading
-            eyebrow={t('testimonials.eyebrow')}
-            lines={headingLines(t('testimonials.title'))}
-            align="center"
-          />
+      {/* ── Notre histoire ───────────────────────────────────────────── */}
+      {/* À la place des témoignages : le récit de la fondation dit mieux ce
+          qu'est l'association que trois citations. Le texte est celui de la
+          page « À propos », tenu à un seul endroit — le réécrire ici en ferait
+          deux versions qui divergeraient. */}
+      <section className="container-page py-20 md:py-28">
+        {/* Le récit vient de l'espace de noms de la page « À propos », où il
+            est tenu : le recopier sous `home` en ferait deux versions qui
+            divergeraient au premier remaniement. */}
+        <SectionHeading
+          eyebrow={t('about.eyebrow')}
+          lines={headingLines(tAbout('history.title'))}
+          align="center"
+        />
 
-          <RevealGroup className="mt-14 grid gap-4 md:grid-cols-3" stagger={0.1}>
-            {testimonials.slice(0, 3).map((testimonial) => (
-              <RevealItem key={testimonial.id}>
-                <TestimonialCard testimonial={testimonial} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
-        </section>
-      )}
+        <Reveal delay={0.1}>
+          <div className="mx-auto mt-10 max-w-3xl space-y-5">
+            {tAbout('history.body')
+              .split('\n')
+              .filter(Boolean)
+              .map((paragraphe, rang) => (
+                <p key={rang} className="text-[1.0625rem] leading-relaxed text-muted">
+                  {paragraphe}
+                </p>
+              ))}
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="mt-9 flex justify-center">
+            <ActionLink href="/a-propos" variant="dark">
+              {t('about.cta')}
+            </ActionLink>
+          </div>
+        </Reveal>
+      </section>
 
       {/* ── Banque alimentaire ───────────────────────────────────────── */}
       {/* Les chiffres viennent de l'entrepôt, pas d'un texte à tenir à jour :
