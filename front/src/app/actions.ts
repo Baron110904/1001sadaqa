@@ -123,6 +123,8 @@ export async function sendPartnership(
 
 export interface DonationState extends SubmitResult {
   receipt?: DonationReceipt;
+  /** Prénom pour nommer le remerciement ; absent si le don est anonyme. */
+  donorFirstName?: string;
 }
 
 export async function sendDonation(
@@ -132,6 +134,7 @@ export async function sendDonation(
   const amount = Number(text(form, 'amount'));
   const firstName = text(form, 'firstName');
   const lastName = text(form, 'lastName');
+  const isAnonymous = form.get('isAnonymous') === 'on';
 
   const result = await submit('/donations', {
     donorName: `${firstName} ${lastName}`.trim(),
@@ -143,7 +146,10 @@ export async function sendDonation(
     method: text(form, 'method'),
     frequency: text(form, 'frequency'),
     programId: optional(form, 'programId'),
-    isAnonymous: form.get('isAnonymous') === 'on',
+    // Rattache le don à la cause d'où il part : c'est ce lien qui fait monter
+    // la jauge de la cause une fois le paiement encaissé.
+    campaignId: optional(form, 'campaignId'),
+    isAnonymous,
   });
 
   if (!result.ok) return result;
@@ -158,7 +164,9 @@ export async function sendDonation(
   // l'action, d'où sa place hors de tout `try`.
   if (receipt.gateway.mode === 'online') redirect(receipt.gateway.url);
 
-  return { ...result, receipt };
+  // Le prénom ne repart vers l'écran de remerciement que si le donateur n'a
+  // pas demandé l'anonymat.
+  return { ...result, receipt, ...(isAnonymous ? {} : { donorFirstName: firstName }) };
 }
 
 // ── Demande d'adhésion ─────────────────────────────────────────────────────

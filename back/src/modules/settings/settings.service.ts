@@ -26,6 +26,22 @@ export interface PaymentConfig {
   bankDetails: string;
 }
 
+/**
+ * Préfixes de clés retirés de la réponse publique, bien que non secrètes.
+ *
+ * Les réglages de messagerie vivent dans le groupe `GENERAL` et ne portent pas
+ * le drapeau `isSecret` : `findPublic` les servait donc à qui les demandait.
+ * Ils sont vides tant que l'association n'a rien configuré — mais dès le
+ * premier enregistrement, l'adresse qui reçoit les formulaires et le serveur
+ * d'envoi devenaient publics, sans que rien ne le signale. Le site ne les lit
+ * jamais : leur place n'est pas sur une route ouverte.
+ *
+ * Le filtre porte sur le préfixe et non sur le groupe, les réglages de
+ * messagerie partageant `GENERAL` avec le nom du site et les indicateurs
+ * d'impact, qui eux doivent rester publics.
+ */
+const PREFIXES_PRIVES = ['mail.'];
+
 @Injectable()
 export class SettingsService implements OnModuleInit {
   constructor(private readonly prisma: PrismaService) {}
@@ -53,7 +69,11 @@ export class SettingsService implements OnModuleInit {
     const payment = await this.getPaymentConfig();
 
     return {
-      ...Object.fromEntries(settings.map((s) => [s.key, s.value])),
+      ...Object.fromEntries(
+        settings
+          .filter((s) => !PREFIXES_PRIVES.some((prefixe) => s.key.startsWith(prefixe)))
+          .map((s) => [s.key, s.value]),
+      ),
       payment: {
         enabled: payment.enabled,
         provider: payment.provider,

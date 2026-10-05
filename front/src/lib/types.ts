@@ -208,6 +208,23 @@ export interface NewsArticle {
   program?: ProgramRef | null;
 }
 
+/** Sens de prise de vue, qui décide du cadre d'affichage. */
+export type VideoOrientation = 'PORTRAIT' | 'LANDSCAPE';
+
+export interface Video {
+  id: string;
+  title: string;
+  description: string | null;
+  url: string;
+  poster: string | null;
+  orientation: VideoOrientation;
+  /** Durée en secondes ; `null` quand elle n'a pas pu être relevée. */
+  duration: number | null;
+  place: string | null;
+  recordedAt: string | null;
+  project: { id: string; title: string; slug: string } | null;
+}
+
 export interface Testimonial {
   id: string;
   name: string;
@@ -256,6 +273,7 @@ export interface SiteStats {
   programs: number;
   projects: number;
   peopleHelped: number;
+  mealsShared: number;
   communities: number;
 }
 

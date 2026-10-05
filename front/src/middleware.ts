@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { LANGUE_PAR_DEFAUT, estUneLangue } from '@/lib/langues';
 import { ACCESS_COOKIE, REFRESH_COOKIE, cookieOptions } from '@/lib/admin/session';
 import { expiryOf, renew, stillValid, type TokenPair } from '@/lib/admin/renew';
 
@@ -20,6 +21,26 @@ import { expiryOf, renew, stillValid, type TokenPair } from '@/lib/admin/renew';
  */
 export async function middleware(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
+
+  // ── Langue ────────────────────────────────────────────────────────────
+  //
+  // Le français vit à la racine : `/projets`, et non `/fr/projets`. Mais les
+  // pages publiques sont rangées sous un segment de langue, si bien que
+  // `/projets` serait pris pour une langue nommée « projets » et répondrait
+  // 404. On réécrit donc en interne vers `/fr/projets` — l'adresse affichée,
+  // elle, ne bouge pas, et aucune des adresses déjà communiquées ne change.
+  //
+  // Le back-office et sa page de connexion restent hors de ce mécanisme :
+  // ils ne sont pas traduits.
+  if (!pathname.startsWith('/admin')) {
+    const premier = pathname.split('/')[1] ?? '';
+    if (!estUneLangue(premier)) {
+      const reecrit = request.nextUrl.clone();
+      reecrit.pathname = `/${LANGUE_PAR_DEFAUT}${pathname}`;
+      return NextResponse.rewrite(reecrit);
+    }
+    return NextResponse.next();
+  }
 
   if (pathname === '/admin/login') {
     const response = NextResponse.next();
@@ -90,5 +111,9 @@ function expiredSession(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin', '/admin/:path*'],
+  // Le middleware voit désormais tout le site, puisqu'il décide de la langue.
+  // Sont écartés les fichiers internes de Next, l'API, et les ressources
+  // servies telles quelles — les réécrire n'aurait aucun sens et coûterait
+  // un passage de middleware à chaque image.
+  matcher: ['/((?!_next/|api/|.*\\.[\\w]+$).*)'],
 };

@@ -16,16 +16,30 @@ interface FileFieldProps {
   required?: boolean;
   disabled?: boolean;
   /** `document` accepte les PDF et affiche une icône au lieu d'un aperçu. */
-  variant?: 'image' | 'document';
+  variant?: 'image' | 'document' | 'video';
+  /**
+   * Champ numérique du même formulaire à renseigner avec la durée du film.
+   *
+   * Le fichier porte sa durée : la faire relever par le navigateur évite de
+   * demander à l'équipe de chronométrer ses vidéos pour afficher « 0:48 ».
+   */
+  fillsDuration?: string;
 }
 
 const ACCEPT = {
   image: 'image/jpeg,image/png,image/webp,image/avif,image/svg+xml',
   document: 'application/pdf',
+  video: 'video/mp4,video/quicktime,video/webm',
 } as const;
 
-/** Plafond du stockage, en octets. Voir `MAX_BYTES` dans media.service.ts. */
+/**
+ * Plafond du stockage, en octets. Voir `MAX_BYTES` dans media.service.ts.
+ *
+ * Les films ont le leur : 25 Mo refusaient à peu près toute vidéo de terrain,
+ * une minute filmée au téléphone pesant couramment plus du double.
+ */
 const TAILLE_MAX = 25 * 1024 * 1024;
+const TAILLE_MAX_VIDEO = 200 * 1024 * 1024;
 
 function poidsLisible(octets: number): string {
   const mo = octets / (1024 * 1024);
@@ -49,6 +63,7 @@ export function FileField({
   required,
   disabled,
   variant = 'image',
+  fillsDuration,
 }: FileFieldProps) {
   const [url, setUrl] = useState(value);
   const [error, setError] = useState<string | null>(null);
@@ -56,17 +71,45 @@ export function FileField({
   const [pending, start] = useTransition();
   const input = useRef<HTMLInputElement>(null);
 
+  /**
+   * Relève la durée du film et la porte dans le champ voisin.
+   *
+   * Le fichier n'a pas besoin d'être envoyé pour cela : le navigateur lit ses
+   * métadonnées depuis le poste. En cas d'échec — format exotique, fichier
+   * abîmé — on ne dit rien et le champ reste saisissable à la main.
+   */
+  const releverLaDuree = (file: File) => {
+    if (!fillsDuration) return;
+
+    const lecteur = document.createElement('video');
+    const adresse = URL.createObjectURL(file);
+
+    lecteur.onloadedmetadata = () => {
+      const secondes = Math.round(lecteur.duration);
+      const cible = input.current?.form?.elements.namedItem(fillsDuration);
+      if (Number.isFinite(secondes) && cible instanceof HTMLInputElement) {
+        cible.value = String(secondes);
+      }
+      URL.revokeObjectURL(adresse);
+    };
+    lecteur.onerror = () => URL.revokeObjectURL(adresse);
+    lecteur.src = adresse;
+  };
+
   const send = (file: File) => {
     setError(null);
 
     // Un fichier trop lourd est écarté ici : l'envoyer quand même faisait
     // échouer l'action serveur, ce qui casse la page au lieu de l'expliquer.
-    if (file.size > TAILLE_MAX) {
+    const plafond = variant === 'video' ? TAILLE_MAX_VIDEO : TAILLE_MAX;
+    if (file.size > plafond) {
       setError(
-        `Ce fichier pèse ${poidsLisible(file.size)}. La limite est de 25 Mo - réduisez-le avant de l’envoyer.`,
+        `Ce fichier pèse ${poidsLisible(file.size)}. La limite est de ${Math.round(plafond / 1024 / 1024)} Mo - réduisez-le avant de l’envoyer.`,
       );
       return;
     }
+
+    releverLaDuree(file);
 
     const form = new FormData();
     form.append('file', file);
@@ -105,6 +148,18 @@ export function FileField({
                 fill
                 sizes="96px"
                 className="object-contain"
+                onError={() => setBroken(true)}
+              />
+            ) : variant === 'video' ? (
+              // La première image du film suffit à reconnaître le bon fichier,
+              // et `preload="metadata"` évite de rapatrier les 200 Mo pour
+              // l'obtenir.
+              <video
+                src={url}
+                preload="metadata"
+                muted
+                playsInline
+                className="size-full object-cover"
                 onError={() => setBroken(true)}
               />
             ) : (

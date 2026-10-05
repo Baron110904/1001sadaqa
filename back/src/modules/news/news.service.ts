@@ -6,10 +6,21 @@ import { paginate } from '../../common/dto/pagination.dto';
 import type { AuthenticatedUser } from '../../common/decorators/current-user.decorator';
 import { CreateNewsDto, NewsQueryDto, UpdateNewsDto } from './dto/news.dto';
 
-const publicWhere: Prisma.NewsWhereInput = {
+/**
+ * Ce que le site a le droit de montrer.
+ *
+ * Une fonction et non une constante : la péremption se juge à l'instant de la
+ * lecture. Figée au démarrage, la date serait celle du lancement de l'API, et
+ * un article expirerait des jours trop tard — ou jamais, sur un serveur qui ne
+ * redémarre pas.
+ */
+const publicWhere = (): Prisma.NewsWhereInput => ({
   isPublished: true,
   publishedAt: { not: null },
-};
+  // Sans date de péremption, l'article reste : c'est le cas des articles de
+  // fond, et celui de tout ce qui a été publié avant l'ajout du champ.
+  OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+});
 
 const authorSelect = { select: { id: true, name: true } } as const;
 const programSelect = { select: { id: true, title: true, slug: true, shortLabel: true } } as const;
@@ -22,7 +33,7 @@ export class NewsService {
     const recherche = query.q?.trim();
 
     const where: Prisma.NewsWhereInput = {
-      ...publicWhere,
+      ...publicWhere(),
       ...(query.category ? { category: query.category } : {}),
       // Le filtre par programme attendait ce lien : il existait dans
       // l'interface, sans rien pour le satisfaire côté données.
@@ -71,7 +82,7 @@ export class NewsService {
    */
   async findYearsPublic(): Promise<number[]> {
     const dates = await this.prisma.news.findMany({
-      where: publicWhere,
+      where: publicWhere(),
       select: { publishedAt: true },
     });
 
@@ -87,12 +98,12 @@ export class NewsService {
   async findFeaturedPublic() {
     return (
       (await this.prisma.news.findFirst({
-        where: { ...publicWhere, isFeatured: true },
+        where: { ...publicWhere(), isFeatured: true },
         orderBy: { publishedAt: 'desc' },
         include: { author: authorSelect, program: programSelect },
       })) ??
       this.prisma.news.findFirst({
-        where: publicWhere,
+        where: publicWhere(),
         orderBy: { publishedAt: 'desc' },
         include: { author: authorSelect, program: programSelect },
       })
@@ -101,7 +112,7 @@ export class NewsService {
 
   findBySlugPublic(slug: string) {
     return this.prisma.news.findFirstOrThrow({
-      where: { slug, ...publicWhere },
+      where: { slug, ...publicWhere() },
       include: { author: authorSelect, program: programSelect },
     });
   }

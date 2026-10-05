@@ -5,6 +5,7 @@ import {
   IsBoolean,
   IsEnum,
   IsInt,
+  IsISO8601,
   IsOptional,
   IsString,
   Max,
@@ -99,6 +100,16 @@ export class CreateNewsDto {
   @IsOptional()
   @IsBoolean()
   isFeatured?: boolean;
+
+  /**
+   * Date au-delà de laquelle l'article quitte le site.
+   *
+   * Facultative : un article de fond peut rester sans limite. Renseignée,
+   * elle retire l'actualité des listes et de la une sans intervention.
+   */
+  @IsOptional()
+  @IsISO8601()
+  expiresAt?: string;
 }
 
 export class UpdateNewsDto extends PartialType(CreateNewsDto) {}

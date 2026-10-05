@@ -2,14 +2,14 @@
 
 import Image from 'next/image';
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react';
-import { Menu, Moon, Phone, Sparkle, X } from 'lucide-react';
+import { ChevronRight, Menu, Moon, Phone, Sparkle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { text } from '@/lib/text';
+import { useText } from '@/lib/langue-client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { ActionLink } from '@/components/ui/Button';
 import { EASE_EXPO } from '@/components/motion/motion-config';
-import type { SeasonalCampaign } from '@/lib/types';
+import type { Domain, SeasonalCampaign } from '@/lib/types';
 
 /**
  * Sept entrées, pas davantage (§2.1).
@@ -47,12 +47,15 @@ const COMMUNITY_LINKS = [
 export function SiteHeader({
   phone,
   campaign,
+  domains,
 }: {
   phone: string;
   campaign: SeasonalCampaign | null;
+  /** Domaines et leurs programmes, pour le menu à deux niveaux. */
+  domains: Domain[];
 }) {
-  const t = text('nav');
-  const tHeader = text('header');
+  const t = useText('nav');
+  const tHeader = useText('header');
   const pathname = usePathname();
   const [condensed, setCondensed] = useState(false);
   const [open, setOpen] = useState(false);
@@ -117,7 +120,7 @@ export function SiteHeader({
               priority
               className="size-9 object-contain transition-transform duration-500 ease-out group-hover:scale-110"
             />
-            <span className="font-display text-[1.0625rem] font-bold tracking-tight text-paper">
+            <span translate="no" className="font-display text-[1.0625rem] font-bold tracking-tight text-paper">
               1001&nbsp;SADAQA
             </span>
           </Link>
@@ -134,13 +137,55 @@ export function SiteHeader({
                     {t(link.key)}
                   </Link>
 
+                  {/* ── Programmes : deux niveaux ──
+                      Les quatre domaines au premier niveau ; le survol de
+                      chacun déroule ses programmes sur le côté. Le second
+                      niveau s'ouvre aussi au focus clavier, et chaque domaine
+                      reste un lien à part entière : on l'atteint sans jamais
+                      passer par le survol — seul moyen sur un écran tactile. */}
+                  {'children' in link && link.children === 'domains' && domains.length > 0 && (
+                    <ul className="invisible absolute top-full left-0 z-50 mt-3 w-64 rounded-card border border-ink/10 bg-paper p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                      {domains.map((domaine) => (
+                        <li
+                          key={domaine.id}
+                          className="group/domaine relative border-b border-leaf/25 last:border-0"
+                        >
+                          <Link
+                            href={`/programmes#${domaine.slug}`}
+                            className="flex items-center justify-between gap-2 rounded-card px-3 py-2 text-[0.875rem] text-leaf transition-colors hover:bg-fog hover:text-ink"
+                          >
+                            {domaine.name}
+                            {(domaine.programs?.length ?? 0) > 0 && (
+                              <ChevronRight className="size-3.5 shrink-0 opacity-60" aria-hidden />
+                            )}
+                          </Link>
+
+                          {(domaine.programs?.length ?? 0) > 0 && (
+                            <ul className="invisible absolute top-0 left-full z-50 ml-1 w-60 rounded-card border border-ink/10 bg-paper p-2 opacity-0 shadow-xl transition-all duration-200 group-hover/domaine:visible group-hover/domaine:opacity-100 group-focus-within/domaine:visible group-focus-within/domaine:opacity-100">
+                              {domaine.programs?.map((programme) => (
+                                <li key={programme.id} className="border-b border-leaf/25 last:border-0">
+                                  <Link
+                                    href={`/programmes/${programme.slug}`}
+                                    className="block rounded-card px-3 py-2 text-[0.875rem] text-leaf transition-colors hover:bg-fog hover:text-ink"
+                                  >
+                                    {programme.title}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {'children' in link && link.children === 'community' && (
-                    <ul className="invisible absolute top-full left-0 z-50 mt-3 w-56 rounded-card border border-paper/12 bg-ink p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <ul className="invisible absolute top-full left-0 z-50 mt-3 w-56 rounded-card border border-ink/10 bg-paper p-2 opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                       {COMMUNITY_LINKS.map((parcours) => (
-                        <li key={parcours.href}>
+                        <li key={parcours.href} className="border-b border-leaf/25 last:border-0">
                           <Link
                             href={parcours.href}
-                            className="block rounded-card px-3 py-2 text-[0.875rem] text-paper/75 transition-colors hover:bg-paper/8 hover:text-paper"
+                            className="block rounded-card px-3 py-2 text-[0.875rem] text-leaf transition-colors hover:bg-fog hover:text-ink"
                           >
                             {t(parcours.key)}
                           </Link>

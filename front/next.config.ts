@@ -8,8 +8,20 @@ const config: NextConfig = {
     // Les fichiers du back-office passent par une action serveur, dont le corps
     // est limité à 1 Mo par défaut. Or une photo de téléphone en pèse trois ou
     // quatre : l'envoi échouait en erreur 500, sans message. On aligne la
-    // limite sur celle que l'API accepte (voir media.service.ts → MAX_BYTES).
-    serverActions: { bodySizeLimit: '25mb' },
+    // limite sur celle que l'API accepte pour les vidéos (voir
+    // media.service.ts → MAX_BYTES_VIDEO).
+    serverActions: { bodySizeLimit: '200mb' },
+    /**
+     * Second plafond, distinct du précédent et bien plus bas.
+     *
+     * Dès qu'un projet a un middleware — c'est le cas ici — Next met le corps
+     * de la requête en tampon pour le lui présenter, et s'arrête à 10 Mo.
+     * Au-delà, le formulaire arrive tronqué et l'action échoue sur
+     * « Unexpected end of form » : une erreur 500 que rien, côté écran, ne
+     * rattachait à la taille du fichier. Relever `serverActions` seul ne
+     * suffisait pas, et c'est ce qui rendait la panne incompréhensible.
+     */
+    middlewareClientMaxBodySize: '200mb',
   },
   images: {
     formats: ['image/avif', 'image/webp'],

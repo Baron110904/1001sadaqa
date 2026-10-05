@@ -39,8 +39,18 @@ test('changer de rubrique lit l’API depuis le navigateur', async ({ page }) =>
   for (const [url, titre] of RUBRIQUES) {
     await allerARubrique(page, url);
     await page.locator('main h1', { hasText: titre }).first().waitFor();
-    // La liste doit se peupler, pas rester sur sa silhouette d'attente.
-    await expect(page.locator('main table tbody tr').first()).toBeVisible();
+    // La liste doit avoir abouti, pas rester sur sa silhouette d'attente : une
+    // ligne, ou le message d'état vide. Exiger une ligne revenait à exiger que
+    // chaque rubrique soit peuplée — depuis que les actualités ont été vidées,
+    // ce test échouait sur une absence de contenu alors qu'il ne parle que de
+    // l'origine des lectures. Ni l'un ni l'autre n'apparaît pendant l'attente,
+    // la silhouette ne comportant pas de tableau : l'intention est préservée.
+    await expect(
+      page
+        .locator('main table tbody tr')
+        .or(page.locator('main p', { hasText: /pour le moment/ }))
+        .first(),
+    ).toBeVisible();
   }
 
   expect(

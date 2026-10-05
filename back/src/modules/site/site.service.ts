@@ -16,7 +16,7 @@ export class SiteService {
       this.prisma.program.count({ where: { isActive: true } }),
       this.prisma.project.count({ where: { isPublished: true } }),
       this.prisma.setting.findMany({
-        where: { key: { in: ['impact.peopleHelped', 'impact.communities'] } },
+        where: { key: { in: ['impact.peopleHelped', 'impact.mealsShared', 'impact.communities'] } },
       }),
     ]);
 
@@ -26,6 +26,7 @@ export class SiteService {
       programs,
       projects,
       peopleHelped: Number(byKey['impact.peopleHelped'] ?? 0),
+      mealsShared: Number(byKey['impact.mealsShared'] ?? 0),
       communities: Number(byKey['impact.communities'] ?? 0),
     };
   }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { text } from '@/lib/text';
+import { useText } from '@/lib/langue-client';
 import { sendVolunteer } from '@/app/actions';
 import { SelectField, TextAreaField, TextField } from '@/components/ui/Field';
 import { ActionButton } from '@/components/ui/Button';
@@ -19,8 +19,8 @@ import type { VolunteerMission } from '@/lib/types';
  * candidature arrive rattachée à une mission identifiée en base.
  */
 export function VolunteerForm({ missions }: { missions: VolunteerMission[] }) {
-  const t = text('volunteer.form');
-  const tCommon = text('common');
+  const t = useText('volunteer.form');
+  const tCommon = useText('common');
   const [state, action, pending] = useActionState<SubmitResult | null, FormData>(
     sendVolunteer,
     null,

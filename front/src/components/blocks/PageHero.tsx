@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { getSeasonalCampaign } from '@/lib/api';
 import { Reveal } from '@/components/motion/Reveal';
@@ -11,6 +12,8 @@ interface PageHeroProps {
   lead?: string;
   /** `cream` reprend le bandeau sable de la page bénévolat des maquettes. */
   tone?: 'dark' | 'cream';
+  /** Photographie de fond du bandeau, très assombrie. */
+  background?: string;
   children?: ReactNode;
 }
 
@@ -31,6 +34,7 @@ export async function PageHero({
   lines,
   lead,
   tone = 'dark',
+  background,
   children,
 }: PageHeroProps) {
   const dark = tone === 'dark';
@@ -41,10 +45,33 @@ export async function PageHero({
     <section
       className={`relative isolate overflow-hidden ${dark ? 'bg-ink-gradient' : 'bg-cream'}`}
     >
+      {/* Photographie de fond, très assombrie.
+          Elle donne du corps au bandeau sans jamais disputer la lisibilité au
+          titre : l'image est à 18 % d'opacité sous le dégradé vert, et le
+          texte reste sur un aplat franc. Sans image fournie, le bandeau garde
+          son aspect d'origine. */}
+      {dark && background && (
+        <Image
+          src={background}
+          alt=""
+          fill
+          priority={false}
+          sizes="100vw"
+          className="absolute inset-0 -z-10 object-cover opacity-[0.18]"
+        />
+      )}
       {dark && <div className="grain absolute inset-0" aria-hidden />}
       {fete && <FestiveDecor theme={fete} discret />}
 
-      <div className="container-page relative py-16 md:py-24">
+      {/* Quand le bandeau porte un contenu complémentaire — les chiffres de la
+          page Projets — celui-ci vient se poser au ras du bas du vert. D'où le
+          retrait du rembourrage inférieur ici : il est rendu au bloc enfant,
+          qui décide lui-même de sa respiration. */}
+      <div
+        className={`container-page relative pt-16 md:pt-24 ${
+          children ? 'pb-0' : 'pb-16 md:pb-24'
+        }`}
+      >
         <Reveal from="none">
           <p className={`eyebrow ${dark ? 'text-gold' : 'text-leaf'}`}>{eyebrow}</p>
         </Reveal>
@@ -68,12 +95,13 @@ export async function PageHero({
           </Reveal>
         )}
 
-        {children && (
-          <Reveal delay={0.34} className="mt-9">
-            {children}
-          </Reveal>
-        )}
       </div>
+
+      {children && (
+        <Reveal delay={0.34} className="container-page relative mt-10">
+          {children}
+        </Reveal>
+      )}
     </section>
   );
 }

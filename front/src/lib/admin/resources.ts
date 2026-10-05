@@ -39,6 +39,8 @@ export type FieldType =
   | 'date'
   | 'image'
   | 'file'
+  /** Fichier vidéo : formats et plafond de taille propres aux films. */
+  | 'video'
   /** Liste de lignes, une entrée par ligne saisie. */
   | 'list'
   /** Suite de nombres séparés par des virgules. */
@@ -52,7 +54,15 @@ export interface FieldDef {
   help?: string;
   options?: { value: string; label: string }[];
   /** Liste d'options à charger depuis l'API. */
-  optionsFrom?: 'programs' | 'domains' | 'foodCategories';
+  optionsFrom?: 'programs' | 'domains' | 'projects' | 'foodCategories';
+  /**
+   * Champ numérique à renseigner automatiquement avec la durée du film.
+   *
+   * Le navigateur lit la durée dans le fichier au moment du choix : l'équipe
+   * n'a pas à chronométrer ses vidéos, et la vignette annonce « 0:48 » sans
+   * que personne ne l'ait saisi.
+   */
+  fillsDuration?: string;
   /** Le champ occupe toute la largeur du formulaire. */
   wide?: boolean;
   min?: number;
@@ -199,7 +209,7 @@ export const RESOURCES: ResourceDef[] = [
 
   {
     slug: 'projets',
-    siblings: ["causes"],
+    siblings: ["causes", "videos"],
     tag: 'projects',
     bucket: 'PROJECTS',
     label: 'Projets',
@@ -291,6 +301,83 @@ export const RESOURCES: ResourceDef[] = [
   },
 
   {
+    slug: 'videos',
+    siblings: ['projets', 'causes'],
+    tag: 'videos',
+    // Le rangement « terrain » du stockage : c'est bien ce que sont ces films.
+    bucket: 'FIELD',
+    label: 'Vidéos',
+    labelOne: 'vidéo',
+    feminine: true,
+    navLabel: 'Vidéos',
+    paths: {
+      list: '/videos/admin',
+      create: '/videos',
+      item: '/videos/:id',
+    },
+    columns: [
+      { name: 'title', label: 'Titre' },
+      { name: 'orientation', label: 'Format', kind: 'badge' },
+      { name: 'place', label: 'Lieu' },
+      { name: 'order', label: 'Ordre', kind: 'number' },
+    ],
+    fields: [
+      { name: 'title', label: 'Titre', type: 'text', required: true, wide: true },
+      {
+        name: 'url',
+        label: 'Fichier vidéo',
+        type: 'video',
+        required: true,
+        wide: true,
+        fillsDuration: 'duration',
+        help: 'MP4, MOV ou WebM, jusqu’à 200 Mo. La durée est relevée toute seule.',
+      },
+      {
+        name: 'orientation',
+        label: 'Format d’affichage',
+        type: 'select',
+        options: [
+          { value: 'PORTRAIT', label: 'Portrait - cadre téléphone' },
+          { value: 'LANDSCAPE', label: 'Paysage - cadre large' },
+        ],
+        help: 'Choisissez le sens dans lequel la vidéo a été filmée.',
+      },
+      {
+        name: 'poster',
+        label: 'Image d’attente',
+        type: 'image',
+        help: 'Facultative : à défaut, la première image du film est utilisée.',
+      },
+      {
+        name: 'duration',
+        label: 'Durée (secondes)',
+        type: 'number',
+        min: 0,
+        help: 'Renseignée automatiquement au choix du fichier.',
+      },
+      {
+        name: 'projectId',
+        label: 'Projet concerné',
+        type: 'select',
+        optionsFrom: 'projects',
+        help: 'Facultatif : affiché sous la vidéo.',
+      },
+      { name: 'place', label: 'Lieu de tournage', type: 'text' },
+      { name: 'recordedAt', label: 'Date de tournage', type: 'date' },
+      { name: 'description', label: 'Description', type: 'textarea', wide: true },
+      {
+        name: 'isPublished',
+        label: 'Visible sur le site',
+        type: 'boolean',
+        defaultOn: true,
+      },
+      ORDER,
+    ],
+    writeRoles: ['ADMIN', 'EDITOR'],
+    deleteRoles: ['ADMIN'],
+  },
+
+  {
     slug: 'actualites',
     siblings: ["evenements"],
     tag: 'news',
@@ -354,6 +441,12 @@ export const RESOURCES: ResourceDef[] = [
       },
       { name: 'isPublished', label: 'Publier', type: 'boolean' },
       { name: 'isFeatured', label: 'Mettre à la une', type: 'boolean' },
+      {
+        name: 'expiresAt',
+        label: 'Retirer du site le',
+        type: 'date',
+        help: 'Une actualité n’est pas éternelle. Passée cette date, elle quitte les listes et la une d’elle-même. Laissez vide pour un article de fond, sans péremption.',
+      },
     ],
     writeRoles: ['ADMIN', 'EDITOR', 'CONTRIBUTOR'],
     deleteRoles: ['ADMIN', 'EDITOR'],
@@ -362,7 +455,7 @@ export const RESOURCES: ResourceDef[] = [
   {
     slug: 'causes',
     navLabel: 'Causes',
-    siblings: ["projets"],
+    siblings: ["projets", "videos"],
     tag: 'campaigns',
     bucket: 'PROJECTS',
     label: 'Causes à soutenir',
@@ -696,156 +789,6 @@ export const RESOURCES: ResourceDef[] = [
     deleteRoles: ['ADMIN'],
   },
 
-  {
-    slug: 'campagnes-saisonnieres',
-    tag: 'seasonal',
-    bucket: 'BRAND',
-    label: 'Campagnes saisonnières',
-    labelOne: 'campagne',
-    feminine: true,
-    paths: {
-      list: '/seasonal-campaigns',
-      create: '/seasonal-campaigns',
-      item: '/seasonal-campaigns/:id',
-    },
-    columns: [
-      { name: 'name', label: 'Campagne' },
-      { name: 'theme', label: 'Thème', kind: 'badge' },
-      { name: 'startsAt', label: 'Début' },
-      { name: 'isActive', label: 'Active', kind: 'boolean' },
-    ],
-    fields: [
-      { name: 'name', label: 'Nom', type: 'text', required: true, wide: true },
-      {
-        name: 'theme',
-        label: 'Thème',
-        type: 'select',
-        options: [
-          { value: 'RAMADAN', label: 'Ramadan' },
-          { value: 'TABASKI', label: 'Tabaski' },
-          { value: 'AUCUN', label: 'Aucun' },
-        ],
-      },
-      { name: 'startsAt', label: 'Début', type: 'date', required: true },
-      { name: 'endsAt', label: 'Fin', type: 'date', required: true },
-      {
-        name: 'bannerText',
-        label: 'Message du bandeau',
-        type: 'textarea',
-        required: true,
-        wide: true,
-      },
-      { name: 'bannerImage', label: 'Visuel du bandeau', type: 'image', wide: true },
-      {
-        name: 'pillLabel',
-        label: 'Pastille de l’en-tête',
-        type: 'text',
-        help: 'Affichée à côté du bouton de don, sur toutes les pages. Ex. : Ramadan 1447.',
-      },
-
-      // ── Héros de la page d'accueil ──
-      {
-        name: 'heroTitle',
-        label: 'Titre de la page d’accueil',
-        type: 'text',
-        wide: true,
-        help: 'Dès qu’il est renseigné, l’accueil remplace son titre habituel. Le caractère | passe à la ligne suivante.',
-      },
-      {
-        name: 'greeting',
-        label: 'Salutation en arabe',
-        type: 'text',
-        help: 'Ex. : رمضان مبارك. Laissez vide si vous n’en voulez pas.',
-      },
-      {
-        name: 'greetingLatin',
-        label: 'Salutation translittérée',
-        type: 'text',
-        help: 'Ex. : Ramadan Moubarak.',
-      },
-      {
-        name: 'heroLead',
-        label: 'Paragraphe d’introduction',
-        type: 'textarea',
-        wide: true,
-      },
-      { name: 'ctaLabel', label: 'Bouton principal', type: 'text' },
-      { name: 'ctaUrl', label: 'Destination du bouton principal', type: 'text' },
-      { name: 'secondaryLabel', label: 'Bouton secondaire', type: 'text' },
-      { name: 'secondaryUrl', label: 'Destination du bouton secondaire', type: 'text' },
-
-      // ── Avancement ──
-      { name: 'goal', label: 'Objectif', type: 'number' },
-      {
-        name: 'progressCurrent',
-        label: 'Avancement',
-        type: 'number',
-        help: 'Dans la même unité que l’objectif.',
-      },
-      {
-        name: 'progressUnit',
-        label: 'Unité comptée',
-        type: 'text',
-        help: 'Ex. : iftars, parts. Sert aux libellés « 68 parts déjà offertes ».',
-      },
-      {
-        name: 'figures',
-        label: 'Chiffres mis en avant',
-        type: 'list',
-        wide: true,
-        help: 'Une ligne par chiffre, au format valeur|libellé. Ex. : 4|quartiers couverts',
-      },
-
-      // ── Offres de contribution ──
-      {
-        name: 'offers',
-        label: 'Offres de contribution',
-        type: 'list',
-        wide: true,
-        help: 'Une ligne par carte, au format libellé|montant|description. Montant vide = montant libre. Ajoutez * au libellé pour mettre la carte en avant. Ex. : Un mouton entier*|95000|Sept parts distribuées.',
-      },
-      {
-        name: 'marquee',
-        label: 'Bandeau défilant',
-        type: 'list',
-        wide: true,
-        help: 'Une mention par ligne. Le bandeau n’apparaît qu’à partir de deux mentions.',
-      },
-
-      // ── Bande basse du jour ──
-      // La bande basse est propre au Ramadan : elle annonce l'heure de
-      // rupture du jeûne, qui n'a pas d'équivalent à la Tabaski. Sur une
-      // campagne d'un autre thème, ces champs restent sans effet.
-      {
-        name: 'dailyEnabled',
-        label: 'Afficher la bande du jour (Ramadan uniquement)',
-        type: 'boolean',
-        help: 'Barre fixée en bas de toutes les pages pendant la campagne. Sans effet sur une campagne qui n’est pas un Ramadan.',
-      },
-      { name: 'dailyTitle', label: 'Rendez-vous du jour', type: 'text', wide: true },
-      {
-        name: 'dailyTime',
-        label: 'Heure de rupture du jeûne',
-        type: 'text',
-        help: 'Au format 18:52.',
-      },
-      { name: 'dailyCount', label: 'Couverts prévus', type: 'number' },
-      // Le bouton mène au don, toujours : c'est le geste que la bande
-      // appelle. Il n'y a donc pas d'adresse à saisir — demander une URL dans
-      // un formulaire de contenu laisse un détail technique à la charge de
-      // qui rédige, et la première faute de frappe mène à une page absente.
-      { name: 'dailyCtaLabel', label: 'Bouton de la bande', type: 'text' },
-
-      {
-        name: 'isActive',
-        label: 'Activer l’habillage',
-        type: 'boolean',
-        help: 'Le site reprend son aspect normal à la fin de la période, sans intervention.',
-      },
-    ],
-    writeRoles: ['ADMIN'],
-    deleteRoles: ['ADMIN'],
-  },
 
   {
     slug: 'stocks',

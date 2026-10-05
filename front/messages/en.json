@@ -1,0 +1,713 @@
+{
+  "meta": {
+    "siteName": "1001 SADAQA",
+    "tagline": "Humanitarian and social association - Cotonou, Benin",
+    "defaultDescription": "1001 SADAQA turns acts of generosity into concrete action for vulnerable people in Cotonou, Benin: social protection, food security, community health, water and sanitation, economic empowerment."
+  },
+  "nav": {
+    "about": "About",
+    "programs": "Our programmes",
+    "projects": "Our projects",
+    "news": "News",
+    "contact": "Contact",
+    "menu": "Open menu",
+    "close": "Close menu",
+    "skipToContent": "Skip to content",
+    "community": "Community",
+    "communityMember": "Member",
+    "communityVolunteer": "Volunteer",
+    "communityPartner": "Partner",
+    "communityDonor": "Donate",
+    "space": "My account"
+  },
+  "header": {
+    "needHelp": "Need help?",
+    "donate": "Donate"
+  },
+  "footer": {
+    "act": "Take action",
+    "discover": "Discover",
+    "follow": "Follow",
+    "donate": "Donate",
+    "becomeVolunteer": "Become a volunteer",
+    "becomePartner": "Become a partner",
+    "about": "Who we are",
+    "programs": "Our programmes",
+    "projects": "Our projects",
+    "news": "News & media",
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "whatsapp": "WhatsApp Business",
+    "credits": "Image credits",
+    "rights": "© 2026 1001 SADAQA · Humanitarian and social association, Cotonou, Benin.",
+    "translate": "Also available in French and Arabic."
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "seeAll": "See all",
+    "seeProjects": "See related projects",
+    "backToList": "Back to the list",
+    "download": "Download",
+    "send": "Send",
+    "sending": "Sending…",
+    "required": "Required field",
+    "inProgress": "Ongoing",
+    "completed": "Completed",
+    "collected": "raised",
+    "goal": "goal",
+    "readArticle": "Read the article",
+    "loading": "Loading…",
+    "whatsappMessage": "Hello, I am contacting you from the 1001 SADAQA website."
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Welcome to 1001 SADAQA",
+      "titleAccent": "Together, let us change",
+      "titleRest": "lives for good",
+      "lead": "A humanitarian and social association based in Cotonou, we turn acts of generosity into concrete action for vulnerable people: protect, feed, care, empower.",
+      "primaryCta": "Donate",
+      "secondaryCta": "See our work",
+      "pillar1": "Protect · Feed",
+      "pillar2": "Care · Empower",
+      "cardTitle": "Help a family",
+      "cardBody": "A gift of 10,000 F covers a week of meals for one household.",
+      "scroll": "Discover",
+      "foodbankCta": "Food bank"
+    },
+    "about": {
+      "eyebrow": "Who we are",
+      "title": "From generosity,|concrete action",
+      "body": "Our goal is to bring about lasting improvement in the living conditions of vulnerable people, through social and humanitarian programmes with real impact.",
+      "projectsLabel": "projects run since we began",
+      "featureTitle": "Access to care",
+      "featureBody": "Consultations, medical referral and community prevention",
+      "peopleLabel": "Meals shared",
+      "peopleBody": "Distributed to families, orphanages and people living alone.",
+      "cta": "The association"
+    },
+    "programs": {
+      "eyebrow": "Our programmes",
+      "title": "Our areas of work",
+      "lead": "Structured programmes that meet immediate needs and prepare people and communities for self-reliance."
+    },
+    "whatWeDo": {
+      "eyebrow": "What we do",
+      "title": "Build hope,|make it last",
+      "items": {
+        "empowerment": {
+          "title": "Economic empowerment",
+          "body": "Training, financial literacy and support for income-generating activities, to move from assistance to self-reliance."
+        },
+        "emergency": {
+          "title": "Emergency relief",
+          "body": "Food distributions, medical referral and rapid response to critical situations reported by neighbourhood contacts."
+        },
+        "longTerm": {
+          "title": "Long-term support",
+          "body": "One caseworker per family followed, regular visits and indicators tracked over several years - not a one-off gesture."
+        }
+      }
+    },
+    "causes": {
+      "eyebrow": "Causes to support",
+      "title": "Three urgent needs, now",
+      "support": "Support this cause"
+    },
+    "why": {
+      "eyebrow": "Why us",
+      "title": "Act together,|stay the course",
+      "lead": "Solidarity, dignity and long-term support: three pillars that shape every one of our interventions, from emergency to self-reliance.",
+      "statPrograms": "action programmes",
+      "statProjects": "projects run",
+      "statCommunities": "municipalities covered"
+    },
+    "donateBand": {
+      "eyebrow": "Donate",
+      "title": "Your gift goes to|a named programme",
+      "body": "One-off or monthly, by Mobile Money, card or bank transfer.",
+      "quickTitle": "Quick donation",
+      "customAmount": "Other amount",
+      "email": "Email address",
+      "continue": "Continue"
+    },
+    "method": {
+      "eyebrow": "Our method",
+      "title": "How an intervention unfolds",
+      "step": "Step",
+      "steps": {
+        "identify": {
+          "title": "Identify",
+          "body": "Needs are spotted with community contacts and verified in the field."
+        },
+        "mobilise": {
+          "title": "Mobilise",
+          "body": "Fundraising, partnerships and volunteer commitment around a stated target."
+        },
+        "act": {
+          "title": "Act",
+          "body": "Delivery in the field, with one lead per project and a published schedule."
+        },
+        "report": {
+          "title": "Report back",
+          "body": "Indicators tracked and reported to donors and partners, every quarter."
+        }
+      }
+    },
+    "testimonials": {
+      "eyebrow": "Testimonials",
+      "title": "What they say",
+      "types": {
+        "BENEFICIARY": "Beneficiary",
+        "VOLUNTEER": "Volunteer",
+        "PARTNER": "Partner"
+      }
+    },
+    "join": {
+      "eyebrow": "Join the community",
+      "title": "Four ways|to act with us",
+      "lead": "Join as a member, give your time, commit your organisation or give financially: every path counts, and each one starts here.",
+      "paths": {
+        "member": {
+          "title": "Member",
+          "body": "Join the association, take part in its democratic life and support its running through a membership fee.",
+          "cta": "Join"
+        },
+        "volunteer": {
+          "title": "Volunteer",
+          "body": "Give time in the field or your skills remotely, according to your availability.",
+          "cta": "Apply"
+        },
+        "partner": {
+          "title": "Partner",
+          "body": "Companies, institutions and foundations: let us build a financial, in-kind or skills partnership.",
+          "cta": "Write to us"
+        },
+        "donor": {
+          "title": "Donate",
+          "body": "One-off or monthly, allocated to a named programme.",
+          "cta": "Give"
+        }
+      }
+    },
+    "gallery": {
+      "eyebrow": "Media Library",
+      "title": "Our gallery",
+      "open": "Enlarge image",
+      "closeViewer": "Close",
+      "previous": "Previous image",
+      "next": "Next image"
+    },
+    "news": {
+      "eyebrow": "News",
+      "title": "Stories of impact"
+    },
+    "marquee": "From assistance to self-reliance",
+    "media": {
+      "accompaniment": "Children supported by the association, in class",
+      "distribution": "Food distribution to the families we follow",
+      "training": "Vocational training workshop",
+      "team": "The association's staff and volunteers at work.",
+      "hero": "Association volunteers with a group of children."
+    }
+  },
+  "about": {
+    "eyebrow": "Who we are",
+    "title": "An association born|of a simple gesture",
+    "lead": "1001 SADAQA is a humanitarian and social association based in Cotonou, Benin, working for vulnerable people. The association turns acts of generosity into concrete action to help those who need it most.",
+    "missionTitle": "Our mission",
+    "missionBody": "The primary goal of 1001 SADAQA is to bring about lasting improvement in the living conditions of vulnerable people, through social and humanitarian programmes with real impact.",
+    "commitmentTitle": "Our commitment",
+    "commitmentBody": "1001 SADAQA acts in the conviction that generosity and solidarity are universal values, able to change the lives of the most vulnerable for good.",
+    "approachTitle": "Our approach",
+    "approachLead": "Three essential pillars",
+    "pillars": {
+      "solidarity": {
+        "title": "Solidarity",
+        "body": "Acting together for the most vulnerable"
+      },
+      "dignity": {
+        "title": "Dignity",
+        "body": "Respecting every person, whoever they are."
+      },
+      "support": {
+        "title": "Long-term support",
+        "body": "Following through over time"
+      }
+    },
+    "ambitionBefore": "Our strategic ambition: to shift our work step by step, from emergency assistance towards",
+    "ambitionAccent": "the empowerment",
+    "ambitionAfter": "of people and communities",
+    "teamTitle": "Team & governance",
+    "teamLead": "The bodies of the association and the people who carry it day to day.",
+    "fsm": {
+      "eyebrow": "World Social Forum · Cotonou 2026",
+      "title": "From 4 to 8 August 2026,|we will be there",
+      "body": "The World Social Forum brings together civil society organisations, social movements, associations and networks committed to building alternatives to inequality and social exclusion.",
+      "objectivesTitle": "What we aim to achieve there",
+      "objectives": {
+        "one": "Present our work in solidarity and social development.",
+        "two": "Share our field experience",
+        "three": "Strengthen our institutional capacity",
+        "four": "Develop partnerships with national and international organisations."
+      }
+    },
+    "history": {
+      "title": "Our story",
+      "body": "1001 SADAQA is a non-governmental organisation founded in Cotonou in 2026, following several solidarity initiatives run since 2024. It was born of a realisation in the field: one-off acts of solidarity, however precious, are not enough to change lives for good. Handing out a meal or providing care relieves immediate distress, but it does not answer what people most deeply want - to regain their dignity, to get an education, to build economic independence. That is why we designed an integrated model that supports each person along a structured path: from emergency aid to empowerment, and on to a lasting way out of hardship.",
+      "nameTitle": "What our name means",
+      "nameBody": "The word sadaqa carries an idea of voluntary giving, of generosity, of action carried out for the benefit of others. Our organisation draws on that inspiration while giving it a resolutely universal reach: it is open to all and acts for all, without distinction of origin, culture or social condition. The number 1001 expresses the many ways there are to act - offering a meal, giving time, sharing a skill, supporting a child, easing access to care, helping a woman towards independence, providing access to water, mobilising a company, or simply reaching out a hand.",
+      "trajectory": "Sadaqa → Solidarity → Impact"
+    },
+    "visionTitle": "Our vision",
+    "visionBody": "To build a world where solidarity becomes a true engine of social change, dignity and self-reliance.",
+    "values": {
+      "eyebrow": "Our values",
+      "title": "What guides|everything we do",
+      "lead": "Five values, and one philosophy of action that sums them up.",
+      "items": {
+        "dignity": {
+          "title": "Human dignity",
+          "body": "Every beneficiary is supported with respect, attention and care."
+        },
+        "universality": {
+          "title": "Universality",
+          "body": "Our work is open to all, without distinction of origin, culture or social condition."
+        },
+        "transparency": {
+          "title": "Transparency",
+          "body": "We manage resources rigorously and keep our interventions traceable."
+        },
+        "equity": {
+          "title": "Equity",
+          "body": "We give priority attention to the most vulnerable people."
+        },
+        "innovation": {
+          "title": "Social innovation",
+          "body": "We develop solutions suited to local realities and aimed at lasting impact."
+        }
+      },
+      "philosophyTitle": "Philosophy of action",
+      "philosophyQuote": "From assistance to self-reliance",
+      "philosophyBody": "Our approach rests on one conviction: aid must not only meet immediate needs, it must create the conditions for lasting independence. Our model follows a step-by-step path - protect, feed, care, empower."
+    },
+    "governance": {
+      "eyebrow": "Governance",
+      "title": "A structured organisation,|transparent and accountable",
+      "lead": "The governance of 1001 SADAQA rests on a clear structure ensuring effective decision-making, transparent management of resources and rigorous delivery of programmes. It relies on four complementary levels.",
+      "bodies": {
+        "assembly": {
+          "title": "General assembly",
+          "body": "The organisation's sovereign body: it sets strategic direction, approves activity and financial reports, and elects the members of the board."
+        },
+        "board": {
+          "title": "Board of directors",
+          "body": "The strategic steering body: it oversees management, approves programmes and budgets, and ensures the mission and values are upheld."
+        },
+        "executive": {
+          "title": "Executive office",
+          "body": "Responsible for operational delivery: a president, a vice-president, a general secretary and a treasurer. It coordinates activities, handles day-to-day management and follows up partnerships."
+        },
+        "committees": {
+          "title": "Technical committees",
+          "body": "Specialist committees safeguard the quality of our work: community health, nutrition and food security, social protection, education and empowerment, emergency response."
+        }
+      },
+      "accountabilityTitle": "Transparency and accountability",
+      "accountability": {
+        "traceability": {
+          "title": "Traceability",
+          "body": "Every gift, financial or in kind, is recorded and used solely for the organisation's purposes."
+        },
+        "control": {
+          "title": "Oversight",
+          "body": "Management is monitored by the board and verified by external audits."
+        },
+        "reporting": {
+          "title": "Reporting",
+          "body": "Annual reports detail activities, results and the use of funds, and are shared with funders and partners."
+        }
+      }
+    },
+    "strategy": {
+      "eyebrow": "Strategic vision 2026 - 2030",
+      "title": "The course|for the next five years",
+      "lead": "Through its 2026 - 2030 strategic vision, 1001 SADAQA aims to build a form of solidarity that does not stop at meeting today's needs, but gives communities the means to build their own future.",
+      "axesTitle": "Our three priorities",
+      "axes": {
+        "programs": {
+          "title": "Extend and structure the programmes",
+          "body": "Grow the food bank, extend the water, hygiene and sanitation programmes, and give structure to social protection."
+        },
+        "organisation": {
+          "title": "Consolidate a professional organisation",
+          "body": "Strengthen governance, ensure accountability through digital monitoring tools, and diversify funding."
+        },
+        "autonomy": {
+          "title": "Develop lasting empowerment",
+          "body": "Roll out the economic empowerment programmes, strengthen impact measurement, and promote an African model of lasting solidarity."
+        }
+      },
+      "roadmapTitle": "Roadmap",
+      "roadmap": {
+        "structure": {
+          "period": "2026",
+          "title": "Structure",
+          "body": "Consolidate internal organisation, formalise the programmes, launch the priority pilot projects, strengthen monitoring tools and bring in the first structuring partners."
+        },
+        "deploy": {
+          "period": "2027 - 2028",
+          "title": "Deploy",
+          "body": "Extend operations to several areas of Benin, grow the food bank, strengthen the social, food, health and WASH programmes, roll out the Empowerment programme."
+        },
+        "transform": {
+          "period": "2029 - 2030",
+          "title": "Transform",
+          "body": "Consolidate the programmes that have proved their worth, document and evaluate impact, develop a replicable model and prepare for expansion across West Africa."
+        }
+      }
+    },
+    "figures": {
+      "eyebrow": "Key figures",
+      "title": "1001 SADAQA|in numbers",
+      "programs": "structuring programmes",
+      "projects": "projects run",
+      "people": "people helped",
+      "communities": "municipalities covered",
+      "partnersTitle": "They work with us"
+    },
+    "cta": {
+      "title": "Join 1001 SADAQA",
+      "body": "Become a member of the association, or commit your organisation alongside us.",
+      "primary": "Become a member",
+      "secondary": "Become a partner"
+    }
+  },
+  "programs": {
+    "eyebrow": "Our programmes",
+    "title": "Four areas,|eight programmes",
+    "lead": "From emergency response to lasting self-reliance: what we do, for whom, and with what results.",
+    "detail": {
+      "backLink": "All programmes",
+      "aboutTitle": "What this programme covers",
+      "projectsTitle": "Related projects",
+      "noProjects": "Projects for this programme will be published shortly.",
+      "ctaTitle": "Support this programme",
+      "ctaBody": "Your gift can be allocated directly to this programme, once or every month"
+    }
+  },
+  "projects": {
+    "eyebrow": "Our projects & results",
+    "title": "Proof|before promise",
+    "all": "All",
+    "empty": "No project matches this filter for now.",
+    "testimonialEyebrow": "Testimonial",
+    "detail": {
+      "backLink": "All projects",
+      "impactTitle": "Impact data",
+      "verified": "Verified",
+      "unverified": "Being verified",
+      "programLabel": "Programme",
+      "periodLabel": "Period",
+      "locationLabel": "Location",
+      "budgetLabel": "Budget",
+      "galleryTitle": "In pictures",
+      "problemTitle": "The problem",
+      "objectivesTitle": "Our objectives",
+      "audienceTitle": "The beneficiaries",
+      "progressLabel": "Progress",
+      "progressAt": "Updated on",
+      "ctaTitle": "Support this kind of work",
+      "ctaBody": "A gift allocated to this programme directly funds comparable projects"
+    },
+    "status": {
+      "REALISE": "Completed",
+      "EN_COURS": "Ongoing",
+      "A_FINANCER": "Seeking funding",
+      "EN_PREPARATION": "In preparation"
+    },
+    "cardCta": "Support this project",
+    "statusCta": {
+      "REALISE": "Support a similar project",
+      "EN_COURS": "Make an allocated gift",
+      "A_FINANCER": "Fund this project",
+      "EN_PREPARATION": "Be told when it starts"
+    },
+    "impact": {
+      "completed": "Projects completed",
+      "ongoing": "Projects ongoing",
+      "people": "People helped",
+      "communities": "Municipalities covered"
+    },
+    "summary": {
+      "title": "All our projects at a glance",
+      "lead": "Every project in one view, with its parent programme, where it operates and how far along it is.",
+      "project": "Project",
+      "program": "Programme",
+      "place": "Location",
+      "period": "Period",
+      "state": "Status"
+    },
+    "sdg": {
+      "title": "The global goals we serve",
+      "lead": "Our areas of work contribute to the United Nations Sustainable Development Goals. This mapping is the common reference of our institutional funders.",
+      "projectTitle": "This project contributes to the SDGs"
+    },
+    "completedTitle": "What we have already achieved",
+    "preparationTitle": "What is in preparation",
+    "ongoingTitle": "What is under way",
+    "fundingTitle": "What is awaiting funding",
+    "lead": "What has already been done, what is under way, and what is awaiting funding. Every project ends with a way to act."
+  },
+  "news": {
+    "eyebrow": "News & media",
+    "title": "The field, as it happens",
+    "lead": "Field reports, press releases and partnership announcements: our work month by month.",
+    "featured": "Featured",
+    "empty": "The first news items will be published shortly",
+    "searchLabel": "Search the news",
+    "searchPlaceholder": "Search for a word in titles and texts…",
+    "searchAction": "Search",
+    "categoryFilter": "Category",
+    "yearFilter": "Year",
+    "allCategories": "All categories",
+    "allYears": "All years",
+    "resultsSingular": "article matches",
+    "resultsPlural": "articles match",
+    "resultsFor": "the search",
+    "pagination": "News pages",
+    "categories": {
+      "COMMUNIQUE": "Press release",
+      "TERRAIN": "Field",
+      "PARTENARIAT": "Partnership",
+      "INSTITUTION": "Institutional"
+    },
+    "detail": {
+      "backLink": "All news",
+      "home": "Home",
+      "breadcrumb": "Breadcrumb",
+      "publishedOn": "Published on",
+      "by": "by",
+      "readingTime": "min read",
+      "share": "Share:",
+      "shareOn": "opens in a new tab",
+      "moreTitle": "Also worth reading",
+      "cta": {
+        "donate": {
+          "title": "Support this kind of work",
+          "body": "Your gift is allocated to a named programme.",
+          "action": "Donate"
+        },
+        "volunteer": {
+          "title": "Give your time",
+          "body": "In the field or remotely, according to your availability and your skills.",
+          "action": "Become a volunteer"
+        },
+        "partner": {
+          "title": "Commit your organisation",
+          "body": "Companies, institutions and foundations: let us build a partnership that means something.",
+          "action": "Become a partner"
+        }
+      }
+    },
+    "programFilter": "Programme",
+    "allPrograms": "All programmes",
+    "newsletter": {
+      "title": "Subscribe to the newsletter",
+      "lead": "One email a month: what the association has done, what it is preparing, and what it needs right now. Nothing more."
+    },
+    "comingSoonTitle": "First news coming soon",
+    "comingSoonBody": "The association is preparing its first field reports. Come back in a few days, or follow us on social media to be notified."
+  },
+  "partners": {
+    "eyebrow": "Partner area",
+    "title": "Build the impact,|not just fund it",
+    "lead": "Companies, institutions and funders: here is how we work, what we measure and what we report back to you.",
+    "offers": {
+      "skills": {
+        "title": "Skills-based patronage",
+        "body": "UX/UI, development, hosting, project management: let us build robust tools together."
+      },
+      "funding": {
+        "title": "Programme funding",
+        "body": "Support a named piece of work, with monitoring indicators and regular reporting."
+      },
+      "inKind": {
+        "title": "In-kind gifts & logistics",
+        "body": "Food, medical equipment, school supplies, transport and storage."
+      }
+    },
+    "documentsTitle": "Documents to download",
+    "documentsEmpty": "Documents will be published shortly.",
+    "form": {
+      "title": "Get in touch",
+      "body": "Tell us about your organisation and the kind of partnership you have in mind.",
+      "organisation": "Organisation",
+      "contactName": "Contact",
+      "email": "Work email",
+      "phone": "Phone (optional)",
+      "intent": "Kind of partnership considered",
+      "submit": "Send the request",
+      "success": "Your request has been recorded."
+    },
+    "partnersTitle": "They work with us",
+    "partnersLead": "Companies and institutions supporting our programmes."
+  },
+  "takeAction": {
+    "eyebrow": "Act with us",
+    "title": "Three ways|to get involved",
+    "lead": "A gift, some time or a skill: every form of commitment turns into identified action in the field.",
+    "donate": {
+      "title": "Donate",
+      "body": "One-off or monthly, allocated to the programme of your choice, with a quarterly report.",
+      "cta": "Donate"
+    },
+    "volunteer": {
+      "title": "Become a volunteer",
+      "body": "Field assignments and remote assignments, sized to the time you can give.",
+      "cta": "See the assignments"
+    },
+    "partner": {
+      "title": "Become a partner",
+      "body": "Skills-based patronage, programme funding or in-kind giving, with a clear monitoring framework.",
+      "cta": "Write to us"
+    }
+  },
+  "donate": {
+    "eyebrow": "Donate",
+    "title": "Your gift, allocated|to a programme",
+    "steps": {
+      "frequency": "1 - Frequency",
+      "amount": "2 - Amount",
+      "allocation": "3 - Allocation",
+      "details": "4 - Your details"
+    },
+    "frequency": {
+      "oneTime": "One-off gift",
+      "monthly": "Monthly gift"
+    },
+    "amounts": {
+      "a5000": "A food basket",
+      "a10000": "A medical consultation",
+      "a25000": "A complete school kit",
+      "a50000": "A month of support",
+      "custom": "Other amount",
+      "customLabel": "Amount in CFA francs",
+      "minimum": "The minimum amount is 500 F."
+    },
+    "allocation": {
+      "urgent": "Where the need is most urgent"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email address",
+      "phone": "Phone (Mobile Money)",
+      "country": "Country",
+      "countryPlaceholder": "Choose your country",
+      "city": "City",
+      "cityPlaceholder": "Type the first few letters",
+      "cityWaiting": "Choose a country first",
+      "anonymous": "Make my gift anonymous",
+      "anonymousHelp": "Your name will not appear on any public display. The association keeps it for your receipt and its accounts."
+    },
+    "methods": {
+      "label": "Payment method",
+      "MOBILE_MONEY": "Mobile Money",
+      "BANK_TRANSFER": "Bank transfer",
+      "CARD": "Card"
+    },
+    "summary": {
+      "title": "Summary",
+      "allocation": "Allocation",
+      "frequency": "Frequency",
+      "methods": "Methods",
+      "perMonth": "per month",
+      "submit": "Confirm my gift",
+      "note": "A receipt is sent to you by email."
+    },
+    "success": {
+      "title": "Thank you - your gift is recorded",
+      "titleNamed": "Thank you {prenom} - your gift is recorded",
+      "reference": "Reference",
+      "manualIntro": "One step remains to complete the payment:.",
+      "backHome": "Back to the home page",
+      "newDonation": "Make another gift",
+      "accountTitle": "Find this gift again later",
+      "accountBody": "Create your account with this same address: this gift and your future commitments will be attached to it automatically.",
+      "accountCta": "Create my account"
+    }
+  },
+  "volunteer": {
+    "eyebrow": "Become a volunteer",
+    "title": "Give what you|know how to do",
+    "lead": "Time in the field or a skill from a distance: both count, as long as you can keep it up.",
+    "missionsTitle": "Open assignments",
+    "missionsEmpty": "No assignment is open at the moment. Write to us - we keep applications on file.",
+    "kinds": {
+      "FIELD": "Field",
+      "SKILLS": "Skills"
+    },
+    "form": {
+      "title": "Apply",
+      "body": "Fill in this form: a member of the team will call you back for a first conversation.",
+      "name": "First and last name",
+      "phone": "Phone",
+      "email": "Email address",
+      "mission": "Preferred assignment",
+      "missionAny": "Whatever you need most",
+      "availability": "Availability and skills",
+      "submit": "Send my application",
+      "success": "Your application has been recorded. A member of the team will call you back shortly."
+    }
+  },
+  "contact": {
+    "eyebrow": "Contact us",
+    "title": "Write to us,|come and see us",
+    "form": {
+      "name": "First and last name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Your message",
+      "submit": "Send",
+      "success": "Your message is on its way. We will reply as soon as we can."
+    },
+    "addressLabel": "Address",
+    "reachLabel": "Phone & email",
+    "whatsappLabel": "WhatsApp Business",
+    "whatsappCta": "Chat now",
+    "mapLabel": "Fidjrossè, Cotonou",
+    "mapTitle": "Location of 1001 SADAQA in Cotonou",
+    "openInMaps": "Open in a map",
+    "socialTitle": "Follow us",
+    "socialLead": "Field work, announcements and calls for solidarity, post by post.",
+    "openInNewTab": "opens a new tab"
+  },
+  "credits": {
+    "eyebrow": "Credits",
+    "title": "Image credits",
+    "lead": "The photographs currently online come from Wikimedia Commons and are freely licensed. They illustrate the layout while we wait for the SADAQA Media Engine visuals.",
+    "warningTitle": "These photos do not show beneficiaries of the association",
+    "warningBody": "The people shown have no connection with 1001 SADAQA and have not consented to illustrate its programmes. These images are temporary and will be replaced by the association's own media, whose consents are tracked in the Media Library.",
+    "tableSlot": "Placement",
+    "tableTitle": "File",
+    "tableAuthor": "Author",
+    "tableLicense": "Licence",
+    "tableSource": "Source",
+    "sourceLink": "View on Commons",
+    "brandTitle": "Other visuals",
+    "brandBody": "The logo and the team portraits are provided by the association and do not fall under these licences."
+  },
+  "notFound": {
+    "code": "404",
+    "title": "This page does not exist",
+    "body": "The link may be wrong, or the page may have been moved.",
+    "cta": "Back to the home page"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "The content could not be loaded. Try again in a moment.",
+    "retry": "Try again",
+    "home": "Back to the home page"
+  }
+}

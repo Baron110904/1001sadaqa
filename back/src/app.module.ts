@@ -20,6 +20,7 @@ import { MembersModule } from './modules/members/members.module';
 import { ProgramsModule } from './modules/programs/programs.module';
 import { SeasonalModule } from './modules/seasonal/seasonal.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { VideosModule } from './modules/videos/videos.module';
 import { NewsModule } from './modules/news/news.module';
 import { TestimonialsModule } from './modules/testimonials/testimonials.module';
 import { PartnersModule } from './modules/partners/partners.module';
@@ -65,6 +66,7 @@ import { SiteModule } from './modules/site/site.module';
     ProgramsModule,
     SeasonalModule,
     ProjectsModule,
+    VideosModule,
     NewsModule,
     TestimonialsModule,
     PartnersModule,

@@ -12,14 +12,25 @@ import type { Project } from '@/lib/types';
  */
 export async function ProjectCard({ project }: { project: Project }) {
   const t = text('common');
+  const tProjects = text('projects');
   const primary = project.impacts.find((impact) => impact.isPrimary) ?? project.impacts[0];
   const done = project.status === 'REALISE';
 
+  /**
+   * Un projet encore ouvert porte son appel au don ; un projet terminé non.
+   *
+   * L'appel est posé **hors** du lien de la carte : deux liens imbriqués ne
+   * sont pas du HTML valide, et le navigateur en dissout un — le bouton
+   * aurait mené à la fiche du projet, pas au don.
+   */
+  const soutenable = project.status === 'EN_COURS' || project.status === 'A_FINANCER';
+  const versLeDon = project.program
+    ? `/communaute/donateur?programme=${project.program.slug}`
+    : '/communaute/donateur';
+
   return (
-    <Link
-      href={`/projets/${project.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-card border border-ink/10 bg-paper transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-lift"
-    >
+    <div className="group flex h-full flex-col overflow-hidden rounded-card border border-ink/10 bg-paper transition-all duration-500 ease-out hover:-translate-y-1.5 hover:border-gold/45 hover:shadow-lift">
+    <Link href={`/projets/${project.slug}`} className="flex flex-1 flex-col">
       <MediaFrame
         src={project.image}
         alt={project.title}
@@ -57,5 +68,17 @@ export async function ProjectCard({ project }: { project: Project }) {
         )}
       </div>
     </Link>
+
+      {soutenable && (
+        <div className="px-5 pb-5">
+          <Link
+            href={versLeDon}
+            className="block rounded-full bg-ink px-4 py-2.5 text-center font-display text-[0.8125rem] font-semibold text-paper transition-colors hover:bg-ink/88"
+          >
+            {tProjects('cardCta')}
+          </Link>
+        </div>
+      )}
+    </div>
   );
 }

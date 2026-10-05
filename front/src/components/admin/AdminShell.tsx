@@ -73,7 +73,6 @@ const PLAN = [
           'actualites',
           'temoignages',
           'equipe',
-          'campagnes-saisonnieres',
         ],
       },
       {

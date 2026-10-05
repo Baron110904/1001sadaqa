@@ -19,6 +19,7 @@ import type {
   VolunteerMission,
   SeasonalCampaign,
   SiteEvent,
+  Video,
 } from './types';
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4100/api/v1';
@@ -44,6 +45,7 @@ class ApiError extends Error {
 export const TAGS = {
   programs: 'programs',
   projects: 'projects',
+  videos: 'videos',
   news: 'news',
   campaigns: 'campaigns',
   testimonials: 'testimonials',
@@ -184,6 +186,7 @@ export const getNewsYears = () => get<number[]>('/news/years', [TAGS.news]);
 export const getArticle = (slug: string) => get<NewsArticle>(`/news/${slug}`, [TAGS.news]);
 
 export const getCampaigns = () => get<Campaign[]>('/campaigns', [TAGS.campaigns]);
+export const getVideos = () => get<Video[]>('/videos', [TAGS.videos]);
 export const getTestimonials = () => get<Testimonial[]>('/testimonials', [TAGS.testimonials]);
 export const getTeam = () => get<TeamMember[]>('/team', [TAGS.team]);
 export const getMissions = () => get<VolunteerMission[]>('/volunteers/missions', [TAGS.missions]);
@@ -206,24 +209,26 @@ export const getEvents = (params: { program?: string; limit?: number } = {}) => 
 export const getEvent = (slug: string) => get<SiteEvent>(`/events/${slug}`, [TAGS.events]);
 
 /**
- * Campagne en cours, ou `null`.
+ * Habillage de fête — **désactivé**.
  *
- * Lue sans cache : l'état d'une campagne dépend de l'horloge - elle s'ouvre et
- * se ferme toute seule aux dates prévues, sans qu'aucune écriture ne vienne
- * invalider un cache. Mise en cache, elle restait affichée après sa fin.
+ * L'association a retiré cette fonction : plus de héros de Ramadan ou de
+ * Tabaski, plus de pastille dans l'en-tête, plus de bandeau défilant, plus de
+ * bande basse, plus d'offres saisonnières dans le formulaire de don.
  *
- * Mémorisée le temps d'une requête en revanche : le gabarit du site et le
- * bandeau des pages intérieures la demandent tous les deux, et sans cela la
- * même page interrogeait l'API deux fois pour la même réponse.
+ * Le dispositif n'est pas supprimé mais figé ici, en un seul point : tous les
+ * affichages passent par cette lecture, et `null` les éteint tous à la fois.
+ * Les composants, les routes de l'API et la table restent en place — le jour
+ * où la fonction resservirait, il suffira de rétablir l'appel ci-dessous.
  *
- * Le repli à `null` est volontaire : une panne de cette lecture ne doit pas
- * empêcher le site de s'afficher, seulement le laisser dans son aspect
- * ordinaire.
+ * La rubrique correspondante a été retirée du back-office : plus rien n'y
+ * mène, et rien ne peut donc rallumer une campagne par mégarde.
  */
-export const getSeasonalCampaign = cache(() =>
-  getWithFallback<SeasonalCampaign | null>('/seasonal-campaigns/current', null, [TAGS.seasonal], {
-    fresh: true,
-  }),
+export const getSeasonalCampaign = cache(
+  async (): Promise<SeasonalCampaign | null> => null,
+  // Appel d'origine, conservé pour mémoire :
+  //   getWithFallback<SeasonalCampaign | null>(
+  //     '/seasonal-campaigns/current', null, [TAGS.seasonal], { fresh: true },
+  //   )
 );
 
 export const getStats = () => get<SiteStats>('/stats', [TAGS.stats]);
@@ -250,7 +255,7 @@ const SETTINGS_FALLBACK: SiteSettings = {
   'site.name': '1001 SADAQA',
   'contact.phone': '+229 01 91 43 45 91',
   'contact.email': 'contact@1001sadaqa.com',
-  'contact.address': 'Fidjrossè, Houta M/ASSANI Lot 3561, Cotonou, Bénin',
+  'contact.address': 'Fidjrossè, Houta',
   'contact.whatsapp': '2290191434591',
   'social.facebook': 'https://www.facebook.com/profile.php?id=61587609625367',
   payment: {

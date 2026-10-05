@@ -1,6 +1,7 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { ContributionStatus, MemberStatus, Prisma, RecordedBy } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { NewsletterService } from '../newsletter/newsletter.service';
 import {
   COTISATION_MINIMUM,
   CreateContributionDto,
@@ -11,7 +12,12 @@ import {
 
 @Injectable()
 export class MembersService {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly journal = new Logger(MembersService.name);
+
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly newsletter: NewsletterService,
+  ) {}
 
   /**
    * Demande d'adhésion déposée depuis le site.
@@ -38,6 +44,19 @@ export class MembersService {
         consentNewsAt: dto.consentNews ? now : null,
       },
     });
+
+    // Cocher « informations d'impact et actualités » inscrit réellement à la
+    // lettre : sans cela, l'accord restait un drapeau sur la fiche du membre,
+    // sans adresse dans la liste d'envoi ni moyen de se désinscrire.
+    if (dto.consentNews) {
+      await this.newsletter
+        .subscribe({ email: dto.email, name: dto.name, source: 'adhesion', consent: true })
+        // Une inscription ratée ne doit pas faire échouer l'adhésion : la
+        // demande est déjà enregistrée, et la renvoyer créerait un doublon.
+        .catch((cause) =>
+          this.journal.warn(`Lettre d'information non inscrite (${dto.email}) : ${String(cause)}`),
+        );
+    }
 
     return { id: member.id, status: member.status };
   }

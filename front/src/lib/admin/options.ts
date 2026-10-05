@@ -37,6 +37,11 @@ export async function loadDynamicOptions(
     options.domains = domains.map((domain) => ({ value: domain.id, label: domain.name }));
   }
 
+  if (sources.has('projects')) {
+    const projects = await adminFetch<{ id: string; title: string }[]>('/projects/admin');
+    options.projects = projects.map((project) => ({ value: project.id, label: project.title }));
+  }
+
   if (sources.has('foodCategories')) {
     const categories = await adminFetch<{ id: string; name: string; unit: string }[]>(
       '/foodbank/admin/categories',

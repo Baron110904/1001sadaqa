@@ -87,7 +87,9 @@ test('la navigation est groupée, se déplie, et mène à chaque rubrique', asyn
   const contenus = barre.locator('button[aria-expanded]', { hasText: 'Contenus' });
   if ((await contenus.getAttribute('aria-expanded')) === 'false') await contenus.click();
 
-  for (const libelle of ['Programmes', 'Projets', 'Actualités', 'Campagnes saisonnières']) {
+  // Plus de « Campagnes saisonnières » : l'habillage de fête a été retiré du
+  // back-office, et rien ne doit plus y mener.
+  for (const libelle of ['Programmes', 'Projets', 'Actualités', 'Partenaires']) {
     await expect(barre.locator('a', { hasText: libelle }).first(), libelle).toBeVisible();
   }
 });

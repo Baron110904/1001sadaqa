@@ -190,11 +190,52 @@ model Project {
   isPublished Boolean       @default(false)
   order       Int           @default(0)
   impacts     Impact[]
+  /// Films de terrain rattachés à ce projet.
+  ///
+  /// Distinct de `videos` ci-dessus, qui n'est qu'une liste d'adresses sur la
+  /// fiche du projet. Ceux-ci portent un titre, une durée et un format
+  /// d'affichage, parce qu'ils sont présentés un par un dans la galerie
+  /// « Le terrain, filmé par nos équipes ».
+  clips       Video[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
   @@index([programId])
   @@map("projects")
+}
+
+/// Une vidéo tournée par les équipes, présentée dans la galerie de terrain.
+///
+/// Le fichier vit dans la médiathèque, comme les photos : c'est `url` qui
+/// porte son adresse. L'orientation n'est pas un détail d'habillage mais la
+/// donnée qui décide du cadre — un film vertical dans un cadre large
+/// s'afficherait cerné de bandes noires, et l'inverse le rognerait.
+model Video {
+  id          String           @id @default(cuid())
+  title       String
+  description String?
+  /// Adresse du fichier téléversé dans la médiathèque.
+  url         String
+  /// Image d'attente, affichée avant que la lecture ne commence.
+  poster      String?
+  orientation VideoOrientation @default(PORTRAIT)
+  /// Durée en secondes. Affichée « 0:48 » sur les vignettes ; laissée vide,
+  /// la vignette n'annonce simplement pas de durée.
+  duration    Int?
+  /// Projet dont la vidéo rend compte. Facultatif : toutes les scènes de
+  /// terrain ne se rattachent pas à un projet identifié.
+  projectId   String?
+  project     Project?         @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  /// Lieu et date de la prise de vue, affichés sous le titre.
+  place       String?
+  recordedAt  DateTime?
+  order       Int              @default(0)
+  isPublished Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([projectId])
+  @@map("videos")
 }
 
 model Impact {
@@ -231,6 +272,12 @@ model News {
   programId   String?
   program     Program?     @relation(fields: [programId], references: [id])
   publishedAt DateTime?
+  /// Date au-delà de laquelle l'article quitte le site.
+  ///
+  /// Une actualité n'est pas éternelle : passée cette date, elle disparaît des
+  /// listes et de la mise à la une, sans que personne n'ait à y penser. Nulle
+  /// = sans péremption, pour les articles de fond.
+  expiresAt   DateTime?
   isPublished Boolean      @default(false)
   isFeatured  Boolean      @default(false)
   createdAt   DateTime     @default(now())
@@ -315,6 +362,8 @@ model Campaign {
   isUrgent  Boolean  @default(false)
   order     Int      @default(0)
   isActive  Boolean  @default(true)
+  /// Dons rattachés à cette cause.
+  donations Donation[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -415,6 +464,13 @@ model Donation {
   // Affectation : null = « là où le besoin est le plus urgent »
   programId   String?
   program     Program?          @relation(fields: [programId], references: [id])
+  /// Cause soutenue, quand le don vient d'une carte « Soutenir cette cause ».
+  ///
+  /// C'est ce lien qui permet de tenir à jour le montant collecté : sans lui,
+  /// la jauge d'une cause restait au chiffre saisi à la main et ne bougeait
+  /// jamais, quels que soient les dons reçus.
+  campaignId  String?
+  campaignRef Campaign?         @relation(fields: [campaignId], references: [id], onDelete: SetNull)
   status      DonationStatus    @default(PENDING)
   // Référence renvoyée par la passerelle de paiement, quand elle est activée
   providerRef String?
@@ -980,6 +1036,15 @@ enum ProjectStatus {
   EN_COURS
   A_FINANCER
   EN_PREPARATION
+}
+
+/// Sens dans lequel la vidéo a été tournée, donc cadre dans lequel la montrer.
+///
+/// Les films pris au téléphone sur le terrain sont verticaux : c'est le cas
+/// courant, et donc la valeur par défaut.
+enum VideoOrientation {
+  PORTRAIT
+  LANDSCAPE
 }
 
 /// État d'avancement d'un programme, distinct de `isActive`.

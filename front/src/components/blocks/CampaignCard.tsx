@@ -56,8 +56,8 @@ export async function CampaignCard({ campaign }: { campaign: Campaign }) {
         <ActionLink
           href={
             campaign.program
-              ? `/communaute/donateur?programme=${campaign.program.slug}`
-              : '/communaute/donateur'
+              ? `/communaute/donateur?cause=${campaign.slug}&programme=${campaign.program.slug}`
+              : `/communaute/donateur?cause=${campaign.slug}`
           }
           size="sm"
           withArrow={false}

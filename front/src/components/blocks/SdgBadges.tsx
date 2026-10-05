@@ -31,14 +31,55 @@ const ODD: Record<number, { titre: string; couleur: string }> = {
   17: { titre: 'Partenariats pour la réalisation des objectifs', couleur: '#19486A' },
 };
 
-export function SdgBadges({ sdgs, className = '' }: { sdgs: number[]; className?: string }) {
+export function SdgBadges({
+  sdgs,
+  className = '',
+  taille = 'pastille',
+  libelle = 'Contribue aux ODD',
+}: {
+  sdgs: number[];
+  className?: string;
+  /** Intitulé qui précède les pastilles ; abrégé là où la place manque. */
+  libelle?: string;
+  /**
+   * `tuile` affiche le numéro **et** l'intitulé dans un carré coloré.
+   *
+   * Réservé à la page Projets, où les objectifs forment une section à eux
+   * seuls et s'adressent aux bailleurs : une pastille de huit pixels portant
+   * un numéro nu ne leur dit rien. Ailleurs — fiche projet, domaines — les
+   * objectifs restent une mention de bas de carte, et gardent la pastille.
+   */
+  taille?: 'pastille' | 'tuile';
+}) {
   const connus = sdgs.filter((numero) => ODD[numero]);
   if (connus.length === 0) return null;
+
+  if (taille === 'tuile') {
+    return (
+      <ul className={`grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 ${className}`}>
+        {connus.map((numero) => (
+          <li key={numero}>
+            <span
+              className="flex h-full flex-col justify-between gap-3 rounded-card p-4 text-paper"
+              style={{ backgroundColor: ODD[numero].couleur }}
+            >
+              <span className="font-display text-[1.75rem] leading-none font-bold tabular">
+                {numero}
+              </span>
+              <span className="font-display text-[0.8125rem] leading-snug font-semibold">
+                {ODD[numero].titre}
+              </span>
+            </span>
+          </li>
+        ))}
+      </ul>
+    );
+  }
 
   return (
     <ul className={`flex flex-wrap items-center gap-2 ${className}`}>
       <li className="text-[0.75rem] font-semibold tracking-wide text-muted uppercase">
-        Contribue aux ODD
+        {libelle}
       </li>
       {connus.map((numero) => (
         <li key={numero}>

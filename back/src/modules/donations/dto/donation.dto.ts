@@ -62,6 +62,15 @@ export class CreateDonationDto {
   programId?: string;
 
   /**
+   * Cause soutenue, quand le don part d'une carte « Soutenir cette cause ».
+   *
+   * C'est ce lien qui fait monter la jauge de la cause à l'encaissement.
+   */
+  @IsOptional()
+  @IsString()
+  campaignId?: string;
+
+  /**
    * Anonymat **public** du don.
    *
    * Le donateur reste connu de l'association : son nom et son adresse sont

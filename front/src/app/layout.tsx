@@ -79,6 +79,30 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 [data-progress]{width:var(--noscript-width,100%)!important}`}</style>
         </noscript>
 
+        {/*
+          Repère du serveur de développement.
+
+          `next dev` compile chaque page à la première visite : mesuré sur ce
+          projet, 63 secondes pour `/banque-alimentaire/stock`, contre 0,44
+          seconde sur la construction de production. Rien ne distinguait les
+          deux serveurs à l'écran, et l'on a plusieurs fois conclu que le site
+          était lent alors qu'on regardait le mauvais port.
+
+          Ce bandeau ne paraît qu'en développement : `NODE_ENV` vaut
+          « production » dès que le site est construit, ici comme sur Vercel.
+        */}
+        {process.env.NODE_ENV === 'development' && (
+          <div
+            aria-hidden
+            className="pointer-events-none fixed bottom-3 left-3 z-[9999] rounded-full bg-red-600 px-3.5 py-2 font-mono text-[0.6875rem] leading-tight font-bold tracking-tight text-white shadow-lg"
+          >
+            MODE DÉVELOPPEMENT · port 3101
+            <span className="block font-sans font-normal opacity-90">
+              Lent à dessein. Le site rapide est sur le port 3100.
+            </span>
+          </div>
+        )}
+
         {children}
       </body>
     </html>

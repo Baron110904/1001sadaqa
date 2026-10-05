@@ -55,6 +55,7 @@ interface Donation {
   frequency: string;
   status: string;
   createdAt: string;
+  isAnonymous: boolean;
   program: { title: string } | null;
 }
 
@@ -571,6 +572,15 @@ async function Donations() {
                 <tr key={donation.id} className="border-b border-ink/8 last:border-0">
                   <td className="px-4 py-3">
                     <span className="block text-ink">{donation.donorName}</span>
+                    {/* Le nom reste visible ici — il faut bien établir le reçu
+                        et tenir la comptabilité — mais l'anonymat demandé doit
+                        se voir, sinon il se perd au premier remerciement
+                        nominatif ou au premier rapport annuel. */}
+                    {donation.isAnonymous && (
+                      <span className="mt-0.5 block text-[0.75rem] font-semibold text-gold-deep">
+                        Anonyme publiquement
+                      </span>
+                    )}
                     <a href={`mailto:${donation.donorEmail}`} className="link-sweep text-muted">
                       {donation.donorEmail}
                     </a>

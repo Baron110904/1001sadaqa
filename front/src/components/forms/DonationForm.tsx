@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useActionState, useEffect, useState } from 'react';
-import { text } from '@/lib/text';
+import { useText } from '@/lib/langue-client';
 import { mesurer, tranche } from '@/lib/mesure';
 import { CircleCheck, Info } from 'lucide-react';
 import { sendDonation, type DonationState } from '@/app/actions';
@@ -20,6 +20,8 @@ const PRESETS = [5000, 10000, 25000, 50000] as const;
 interface DonationFormProps {
   programs: ProgramRef[];
   payment: PaymentSettings;
+  /** Cause soutenue, quand le don part d'une carte « Soutenir cette cause ». */
+  causeId?: string;
   /** Offres de la fête en cours, à proposer parmi les montants. */
   seasonal: { label: string; offers: Offre[] } | null;
   /** Valeurs transportées par l'URL depuis l'encart « don rapide » ou une cause. */
@@ -34,9 +36,9 @@ interface DonationFormProps {
  * l'affecte. Les moyens de paiement proposés viennent de la configuration du
  * back-office, pas d'une liste figée dans le code.
  */
-export function DonationForm({ programs, payment, seasonal, initial }: DonationFormProps) {
-  const t = text('donate');
-  const tCommon = text('common');
+export function DonationForm({ programs, payment, seasonal, causeId, initial }: DonationFormProps) {
+  const t = useText('donate');
+  const tCommon = useText('common');
 
   const [state, action, pending] = useActionState<DonationState | null, FormData>(
     sendDonation,
@@ -93,7 +95,11 @@ export function DonationForm({ programs, payment, seasonal, initial }: DonationF
         </span>
 
         <h2 className="mt-6 font-display text-heading font-bold tracking-tight text-ink">
-          {t('success.title')}
+          {/* Le merci nomme le donateur, sauf s'il a demandé l'anonymat :
+              l'action ne renvoie alors aucun prénom. */}
+          {state.donorFirstName
+            ? t('success.titleNamed').replace('{prenom}', state.donorFirstName)
+            : t('success.title')}
         </h2>
 
         <p className="mt-3 text-[0.9375rem] text-muted">
@@ -157,6 +163,9 @@ export function DonationForm({ programs, payment, seasonal, initial }: DonationF
       <input type="hidden" name="amount" value={finalAmount || ''} />
       <input type="hidden" name="frequency" value={frequency} />
       <input type="hidden" name="programId" value={programId} />
+      {/* Rattache le don à sa cause : c'est ce lien qui fait monter la jauge
+          de la cause une fois le paiement encaissé. */}
+      {causeId && <input type="hidden" name="campaignId" value={causeId} />}
       <input type="hidden" name="method" value={method} />
 
       <div className="space-y-9">

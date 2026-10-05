@@ -20,7 +20,9 @@ const ROUTES: { chemin: string; attendu: string[] }[] = [
   { chemin: '/projets', attendu: ['Paniers'] },
   { chemin: '/projets/paniers-solidaires', attendu: ['Paniers'] },
   { chemin: '/actualites', attendu: [] },
-  { chemin: '/communaute/partenaire', attendu: ['Documents à télécharger'] },
+  // Les fiches téléchargeables ont été retirées à la demande de
+  // l'association : on vérifie désormais le mur de logos, qui reste.
+  { chemin: '/communaute/partenaire', attendu: ['Ils nous accompagnent'] },
   { chemin: '/contact', attendu: ['Fidjrossè'] },
   { chemin: '/communaute', attendu: [] },
   { chemin: '/communaute/donateur', attendu: [] },
@@ -80,11 +82,15 @@ for (const route of ROUTES) {
   });
 }
 
-test('les programmes restent atteignables sans déplier un domaine', async ({ page, request }) => {
-  // Les cartes de domaine sont fermées au chargement, mais la liste de leurs
-  // programmes est seulement masquée, pas absente : c'est ce qui permet au
-  // robot d'indexation de suivre les liens, et à un visiteur sans JavaScript
-  // d'y accéder. Un rendu à la demande au dépliage casserait les deux.
+test('les programmes sont tous atteignables depuis la page des domaines', async ({ request }) => {
+  // Les huit fiches doivent être liées dans le HTML servi par le serveur :
+  // c'est ce qui permet au robot d'indexation de suivre les liens, et à un
+  // visiteur sans JavaScript d'y accéder.
+  //
+  // Le test vérifiait aussi le dépliage des cartes de domaine. Cette liste
+  // repliable a été remplacée par une grille où tout est visible d'emblée :
+  // il n'y a plus rien à déplier, et c'était l'objet du changement. Ce qui
+  // comptait — qu'aucune fiche ne devienne inatteignable — est conservé ici.
   const html = await (await request.get('/programmes')).text();
 
   const attendus = await (await request.get(`${API}/domains`)).json();
@@ -96,14 +102,6 @@ test('les programmes restent atteignables sans déplier un domaine', async ({ pa
   for (const slug of slugs) {
     expect(html, `lien vers /programmes/${slug}`).toContain(`/programmes/${slug}`);
   }
-
-  // Et le dépliage fonctionne à la souris.
-  await page.goto('/programmes');
-  await attendrePage(page);
-  const premier = page.locator('main article button[aria-expanded]').first();
-  await expect(premier).toHaveAttribute('aria-expanded', 'false');
-  await premier.click();
-  await expect(premier).toHaveAttribute('aria-expanded', 'true');
 });
 
 test('le mur de logos affiche des images chargées et décrites', async ({ page }) => {

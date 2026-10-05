@@ -35,6 +35,21 @@ export interface DonationReceipt {
     | { mode: 'manual'; instructions: string };
 }
 
+/**
+ * Ce que la page de retour reçoit pour afficher l'état d'un règlement.
+ *
+ * La référence est renvoyée par l'API, jamais reprise de l'adresse de retour :
+ * afficher le paramètre d'URL revenait à présenter comme « référence » une
+ * chaîne quelconque, y compris celle d'un don qui n'existe pas.
+ */
+export interface DonationConfirmation {
+  status: DonationStatus;
+  amount: number;
+  reference: string;
+  /** Prénom pour nommer le remerciement ; `null` si le don est anonyme. */
+  donorFirstName: string | null;
+}
+
 @Injectable()
 export class DonationsService {
   private readonly journal = new Logger(DonationsService.name);
@@ -113,13 +128,23 @@ export class DonationsService {
    * L'état est demandé à FedaPay, jamais lu dans l'adresse de retour : un
    * paramètre d'URL se falsifie, et marquerait n'importe quel don encaissé.
    */
-  async confirmer(id: string): Promise<{ status: DonationStatus; amount: number }> {
+  async confirmer(id: string): Promise<DonationConfirmation> {
     const donation = await this.prisma.donation.findUnique({ where: { id } });
     if (!donation) throw new NotFoundException('Don introuvable.');
 
+    // Le prénom sert à nommer le remerciement. Un don anonyme n'en renvoie
+    // aucun : la route est publique, et l'anonymat se tient là où le nom
+    // sortirait, pas seulement à l'affichage.
+    const identite = {
+      reference: donation.id,
+      donorFirstName: donation.isAnonymous
+        ? null
+        : (donation.donorName.trim().split(/\s+/)[0] || null),
+    };
+
     // Déjà tranché : on ne réinterroge pas, et on ne revient pas en arrière.
     if (donation.status !== DonationStatus.PENDING || !donation.providerRef) {
-      return { status: donation.status, amount: donation.amount };
+      return { ...identite, status: donation.status, amount: donation.amount };
     }
 
     const payment = await this.settings.getPaymentConfig();
@@ -137,9 +162,35 @@ export class DonationsService {
 
     if (statut !== donation.status) {
       await this.prisma.donation.update({ where: { id }, data: { status: statut } });
+      await this.reporterSurLaCause(donation.campaignId, donation.amount, statut);
     }
 
-    return { status: statut, amount: donation.amount };
+    return { ...identite, status: statut, amount: donation.amount };
+  }
+
+  /**
+   * Reporte un don encaissé sur le montant collecté de sa cause.
+   *
+   * L'incrément se fait en base (`increment`) et non en lisant puis écrivant :
+   * deux dons confirmés au même instant se seraient écrasés l'un l'autre, et
+   * la cause aurait perdu un montant sans que rien ne le signale.
+   *
+   * Appelé seulement quand le statut change, et uniquement vers `COMPLETED` :
+   * une confirmation rejouée — le donateur recharge sa page de retour, le
+   * webhook arrive après lui — ne compte donc pas deux fois.
+   */
+  private async reporterSurLaCause(
+    campaignId: string | null,
+    montant: number,
+    statut: DonationStatus,
+  ): Promise<void> {
+    if (!campaignId || statut !== DonationStatus.COMPLETED) return;
+
+    await this.prisma.campaign
+      .update({ where: { id: campaignId }, data: { raised: { increment: montant } } })
+      // Une cause supprimée entre-temps ne doit pas faire échouer la
+      // confirmation du don : l'argent est encaissé, c'est ce qui compte.
+      .catch((cause) => this.journal.warn(`Cause ${campaignId} non mise à jour : ${String(cause)}`));
   }
 
   /**
@@ -231,8 +282,23 @@ export class DonationsService {
     };
   }
 
-  update(id: string, dto: UpdateDonationDto) {
-    return this.prisma.donation.update({ where: { id }, data: dto });
+  /**
+   * Changement de statut depuis le back-office.
+   *
+   * Un don encaissé à la main — virement reçu, espèces remises — doit compter
+   * dans sa cause au même titre qu'un paiement en ligne. On compare donc à
+   * l'état antérieur avant d'écrire : sans cela, rouvrir la fiche et
+   * réenregistrer le même statut gonflerait le montant à chaque passage.
+   */
+  async update(id: string, dto: UpdateDonationDto) {
+    const avant = await this.prisma.donation.findUniqueOrThrow({ where: { id } });
+    const apres = await this.prisma.donation.update({ where: { id }, data: dto });
+
+    if (apres.status !== avant.status) {
+      await this.reporterSurLaCause(apres.campaignId, apres.amount, apres.status);
+    }
+
+    return apres;
   }
 
   private instructionsFor(

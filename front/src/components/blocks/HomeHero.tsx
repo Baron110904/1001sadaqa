@@ -50,6 +50,12 @@ export async function HomeHero() {
               <ActionLink href="/communaute/donateur" size="lg">
                 {t('primaryCta')}
               </ActionLink>
+              {/* La banque alimentaire est un service à part entière, avec sa
+                  propre coquille : elle mérite une entrée depuis l'accueil,
+                  et non d'être cherchée dans le menu. */}
+              <ActionLink href="/banque-alimentaire" variant="light" size="lg">
+                {t('foodbankCta')}
+              </ActionLink>
               <ActionLink href="/projets" variant="outline" size="lg">
                 {t('secondaryCta')}
               </ActionLink>

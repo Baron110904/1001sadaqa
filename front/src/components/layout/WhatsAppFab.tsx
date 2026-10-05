@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { useState } from 'react';
-import { text } from '@/lib/text';
+import { useText } from '@/lib/langue-client';
 import { EASE_EXPO } from '@/components/motion/motion-config';
 import { whatsappLink } from '@/lib/format';
 
@@ -15,8 +15,8 @@ import { whatsappLink } from '@/lib/format';
  * pour rester une simple pastille sur mobile.
  */
 export function WhatsAppFab({ phone }: { phone: string }) {
-  const t = text('contact');
-  const tCommon = text('common');
+  const t = useText('contact');
+  const tCommon = useText('common');
   const [visible, setVisible] = useState(false);
   const { scrollY } = useScroll();
 

@@ -13,10 +13,28 @@ const ALLOWED_MIME = [
   'image/avif',
   'image/svg+xml',
   'video/mp4',
+  // Le format natif des vidéos filmées sur iPhone, et celui que produisent
+  // plusieurs outils de montage. Sans lui, l'association devait convertir
+  // ses films avant de pouvoir les déposer.
+  'video/quicktime',
+  'video/webm',
   'application/pdf',
 ];
 
+/**
+ * Plafond de taille, par nature de fichier.
+ *
+ * Les 25 Mo valaient pour des photos et des PDF. Appliqués à une vidéo, ils
+ * refusaient à peu près tout : une minute filmée au téléphone pèse couramment
+ * entre 60 et 150 Mo. Les films ont donc leur propre plafond, assez haut pour
+ * les séquences courtes de terrain et assez bas pour qu'un fichier déposé par
+ * erreur ne remplisse pas le stockage.
+ */
 const MAX_BYTES = 25 * 1024 * 1024;
+const MAX_BYTES_VIDEO = 200 * 1024 * 1024;
+
+const plafondPour = (mimeType: string) =>
+  mimeType.startsWith('video/') ? MAX_BYTES_VIDEO : MAX_BYTES;
 
 export interface UploadedFile {
   originalname: string;
@@ -74,8 +92,11 @@ export class MediaService {
     if (!ALLOWED_MIME.includes(file.mimetype)) {
       throw new BadRequestException(`Type de fichier non accepté : ${file.mimetype}.`);
     }
-    if (file.size > MAX_BYTES) {
-      throw new BadRequestException('Fichier trop volumineux (25 Mo maximum).');
+    const plafond = plafondPour(file.mimetype);
+    if (file.size > plafond) {
+      throw new BadRequestException(
+        `Fichier trop volumineux (${Math.round(plafond / 1024 / 1024)} Mo maximum).`,
+      );
     }
 
     const objectKey = this.buildObjectKey(file.originalname);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { text } from '@/lib/text';
+import { useText } from '@/lib/langue-client';
 import { sendContact } from '@/app/actions';
 import { TextAreaField, TextField } from '@/components/ui/Field';
 import { ActionButton } from '@/components/ui/Button';
@@ -9,8 +9,8 @@ import { FormStatus } from '@/components/ui/FormStatus';
 import type { SubmitResult } from '@/lib/api';
 
 export function ContactForm() {
-  const t = text('contact.form');
-  const tCommon = text('common');
+  const t = useText('contact.form');
+  const tCommon = useText('common');
   const [state, action, pending] = useActionState<SubmitResult | null, FormData>(
     sendContact,
     null,

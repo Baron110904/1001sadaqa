@@ -48,11 +48,6 @@ premier.
 | `/images/news/fsm-cotonou.jpg` | Cotonou-Benin (2013).jpg | jbdodane | CC BY 2.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ACotonou-Benin_%282013%29.jpg) |
 | `/images/news/gouvernance.jpg` | Apprentissage d'utilisation de wiki.jpg | Gbehlon | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3AApprentissage_d%27utilisation_de_wiki.jpg) |
 | `/images/news/wash-fidjrosse.jpg` | Promoting handwashing (8203372328).jpg | USAID in Africa | Public domain | [Commons](https://commons.wikimedia.org/wiki/File%3APromoting_handwashing_%288203372328%29.jpg) |
-| `/images/programs/eau-hygiene.jpg` | LRPI HandPump Installation.jpg | Gizvula27 | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ALRPI_HandPump_Installation.jpg) |
-| `/images/programs/education-autonomisation.jpg` | Coiffeuses.jpg | Megnon | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ACoiffeuses.jpg) |
-| `/images/programs/enfance-aines.jpg` | Tilinanu Orphanage.jpg | Yankho Kawalewale | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ATilinanu_Orphanage.jpg) |
-| `/images/programs/sante-prevention.jpg` | Centre de santé de Zogbodomey au Bénin 01.jpg | Adoscam | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ACentre_de_sant%C3%A9_de_Zogbodomey_au_B%C3%A9nin_01.jpg) |
-| `/images/programs/securite-alimentaire.jpg` | WFP food distribution in Bamako, Mali (8511062128).jpg | DFID - UK Department for International Development | CC BY 2.0 | [Commons](https://commons.wikimedia.org/wiki/File%3AWFP_food_distribution_in_Bamako%2C_Mali_%288511062128%29.jpg) |
 | `/images/projects/accompagnement-orphelins.jpg` | Partie de Bao. Village de Chuma, Tanzanie.jpg | Cécile Furet | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3APartie_de_Bao._Village_de_Chuma%2C_Tanzanie.jpg) |
 | `/images/projects/consultations-foraines.jpg` | Dispensaire à Lalo au Bénin.jpg | Roger soro | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3ADispensaire_%C3%A0_Lalo_au_B%C3%A9nin.jpg) |
 | `/images/projects/paniers-solidaires.jpg` | Woman Selling Gari.jpg | Amuzujoe | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File%3AWoman_Selling_Gari.jpg) |
@@ -74,9 +69,6 @@ d'attribution, mais elle reste de bon usage.
 |---|---|
 | `/brand/logo.png`, `/brand/logo-light.png` | Brand Kit 1001 SADAQA |
 | `/team/*.png` | Portraits fournis par l'association |
-| `/images/programs/banque-alimentaire.jpg` | Banque de céréales de Ouazellé.jpg | Le Soleil dans la Main | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File:Banque_de_c%C3%A9r%C3%A9ales_de_Ouazell%C3%A9.jpg) |
-| `/images/programs/mother-baby-care.jpg` | Mother and child waiting in clinic.jpg | Mike Blyth | CC BY 3.0 | [Commons](https://commons.wikimedia.org/wiki/File:Mother_and_child_waiting_in_clinic.jpg) |
-| `/images/programs/seniors-care.jpg` | An elderly man weaving a basket.jpg | Shahadusadik | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File:An_elderly_man_weaving_a_basket.jpg) |
 | `/images/events/nuit-des-benevoles.jpg` | Charity work in Ghana 3.jpg | Fquasie | CC BY-SA 4.0 | [Commons](https://commons.wikimedia.org/wiki/File:Charity_work_in_Ghana_3.jpg) |
 | `/images/events/nuit-des-entreprises.jpg` | Le Dôme - Centre international de conférences de Cotonou - vue de nuit 01.jpg | Fawaz.tairou | CC BY 4.0 | [Commons](https://commons.wikimedia.org/wiki/File:Le_D%C3%B4me_-_Centre_international_de_conf%C3%A9rences_de_Cotonou_-_vue_de_nuit_01.jpg) |
 | `/images/events/tabaski-solidaire.jpg` | Des moutons pour la Tabaski sur la plage de Ngor à Dakar.jpg | Tbo47 | CC0 | [Commons](https://commons.wikimedia.org/wiki/File:Des_moutons_pour_la_Tabaski_sur_la_plage_de_Ngor_%C3%A0_Dakar.jpg) |
@@ -89,3 +81,10 @@ chefs-lieux), sous licence **CC BY 4.0** — <https://www.geonames.org/>.
 Les noms de pays sont traduits en français par ICU, via `Intl.DisplayNames`.
 
 Pour régénérer : voir `front/src/lib/pays.ts` et `front/public/donnees/villes/`.
+
+## Fiches de programme
+
+Les huit visuels de `/images/programs/` sont les **fiches de présentation**
+produites par l’ONG 1001 SADAQA. Elles lui appartiennent : ni licence externe,
+ni attribution à un tiers. Elles sont au format portrait, comme les affiches
+dont elles sont issues.

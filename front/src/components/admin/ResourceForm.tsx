@@ -233,7 +233,7 @@ function Field({
     );
   }
 
-  if (field.type === 'image' || field.type === 'file') {
+  if (field.type === 'image' || field.type === 'file' || field.type === 'video') {
     return (
       <div className={span}>
         <FileField
@@ -242,7 +242,10 @@ function Field({
           label={field.label}
           value={value}
           bucket={bucket}
-          variant={field.type === 'file' ? 'document' : 'image'}
+          variant={
+            field.type === 'file' ? 'document' : field.type === 'video' ? 'video' : 'image'
+          }
+          fillsDuration={field.fillsDuration}
           required={field.required}
           disabled={locked}
         />
@@ -270,7 +273,16 @@ function Field({
         disabled={locked}
         placeholder={field.placeholder}
         min={field.min}
-        step={field.type === 'money' ? 500 : undefined}
+        // `step` n'est pas un confort, c'est une contrainte de validation : le
+        // navigateur n'accepte alors que `min + n × step`. Avec un pas de 500
+        // et un minimum de 1, saisir 250 000 était refusé — seuls 249 501 et
+        // 250 001 passaient — et l'enregistrement restait bloqué sur un
+        // message incompréhensible. Les quantités de la banque alimentaire
+        // subissaient le même sort pour toute valeur décimale.
+        //
+        // `any` lève la contrainte sans rien changer d'autre : le minimum
+        // continue de refuser les montants négatifs.
+        step="any"
         className={field.type === 'money' || field.type === 'number' ? 'max-w-xs' : undefined}
       />
       {field.help && <p className="mt-1.5 text-[0.8125rem] text-muted">{field.help}</p>}
