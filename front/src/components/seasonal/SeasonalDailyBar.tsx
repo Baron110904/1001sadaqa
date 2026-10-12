@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import type { SeasonalCampaign } from '@/lib/types';

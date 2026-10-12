@@ -10,8 +10,14 @@ import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { SplitHeading } from '@/components/motion/SplitHeading';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('about');
   return { title: t('eyebrow'), description: t('lead') };
 }
@@ -24,7 +30,12 @@ export function generateMetadata(): Metadata {
  * (gouvernance, équipe), puis le cap (vision stratégique) et la preuve
  * (chiffres, partenaires). Les deux appels à l'action ferment la page.
  */
-export default async function AboutPage() {
+export default async function AboutPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('about');
 
   const [team, stats, partners] = await Promise.all([getTeam(), getStats(), getPartners()]);

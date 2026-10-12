@@ -5,17 +5,26 @@ import { PageHero } from '@/components/blocks/PageHero';
 import { DonationForm } from '@/components/forms/DonationForm';
 import { offres } from '@/lib/seasonal';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('donate');
   return { title: t('eyebrow') };
 }
 
 export default async function DonatePage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ montant?: string; email?: string; programme?: string; cause?: string }>;
 }) {
+  await poserLaLangueDe(params);
   const query = await searchParams;
 
   const t = text('donate');

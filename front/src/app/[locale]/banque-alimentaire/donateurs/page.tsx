@@ -1,15 +1,21 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft } from 'lucide-react';
 import { getFoodbankDonors } from '@/lib/api';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { formatNumber, formatXof } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Nos donateurs',
-  description:
-    'Celles et ceux qui approvisionnent la banque alimentaire de 1001 SADAQA, en denrées comme en dons financiers.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.donors');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
 /**
  * Le classement des donateurs.
@@ -23,17 +29,22 @@ export const metadata: Metadata = {
  * Les dons anonymes ne figurent pas ici, et ne sortent même pas du serveur.
  */
 export default async function DonateursPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ produit?: string; type?: string }>;
 }) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.donors');
+  const tBanque = text('foodbank');
   const filtres = await searchParams;
   const { articles, critere, donateurs } = await getFoodbankDonors(filtres);
 
   const LEGENDE = {
-    dons: 'Classé par nombre de dons. Choisissez un article pour classer par quantité.',
-    quantite: 'Classé par quantité apportée de cet article.',
-    montant: 'Classé par montant total donné.',
+    dons: t('sortedByCount'),
+    quantite: t('sortedByQuantity'),
+    montant: t('sortedByAmount'),
   }[critere];
 
   return (
@@ -43,13 +54,12 @@ export default async function DonateursPage({
         className="link-sweep link-tap inline-flex items-center gap-2 font-display text-[0.875rem] font-semibold text-ink"
       >
         <ArrowLeft className="size-4" strokeWidth={2.5} aria-hidden />
-        Banque alimentaire
+        {tBanque('backLink')}
       </Link>
 
-      <h1 className="text-title mt-6 font-display font-bold text-ink">Nos donateurs</h1>
+      <h1 className="text-title mt-6 font-display font-bold text-ink">{t('title')}</h1>
       <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-muted">
-        Celles et ceux qui remplissent la réserve, en denrées comme en argent. Les personnes ayant
-        demandé l’anonymat n’y figurent pas : leur geste compte autant, il reste discret.
+        {t('lead')}
       </p>
 
       <div className="mt-8">
@@ -58,18 +68,18 @@ export default async function DonateursPage({
           filtres={[
             {
               nom: 'type',
-              label: 'Nature du don',
-              tous: 'Tous les dons',
+              label: t('filterKind'),
+              tous: t('filterKindAll'),
               valeur: filtres.type ?? '',
               options: [
-                { value: 'nature', label: 'En denrées' },
-                { value: 'financier', label: 'En argent' },
+                { value: 'nature', label: t('filterKindGoods') },
+                { value: 'financier', label: t('filterKindMoney') },
               ],
             },
             {
               nom: 'produit',
-              label: 'Article',
-              tous: 'Tous les articles',
+              label: t('filterItem'),
+              tous: t('filterItemAll'),
               valeur: filtres.produit ?? '',
               options: articles.map((article) => ({ value: article.slug, label: article.name })),
             },
@@ -81,14 +91,14 @@ export default async function DonateursPage({
 
       {donateurs.length === 0 ? (
         <p className="mt-10 rounded-panel border border-ink/10 bg-mist px-6 py-10 text-center text-[0.9375rem] text-muted">
-          Aucun donateur ne correspond à ce filtre pour le moment.
+          {t('empty')}
         </p>
       ) : (
         <div className="mt-6 overflow-x-auto rounded-panel border border-ink/10">
           <table className="w-full min-w-[40rem] border-collapse text-left text-[0.9375rem]">
             <thead>
               <tr className="border-b border-ink/10 bg-mist">
-                {['', 'Donateur', 'Dons', 'Denrées', 'En argent'].map((titre, rang) => (
+                {['', t('colDonor'), t('colGifts'), t('colGoods'), t('colMoney')].map((titre, rang) => (
                   <th
                     key={titre || rang}
                     scope="col"
@@ -148,16 +158,16 @@ export default async function DonateursPage({
       {/* `link-tap` donne à ces liens en ligne les 24 px de hauteur exigés au
           doigt : sans lui, ils ne faisaient que 18 px. */}
       <p className="mt-8 text-[0.875rem] text-muted">
-        Vous aussi&nbsp;?{' '}
+        {t('youToo')}{' '}
         <Link
           href="/banque-alimentaire/apporter"
           className="link-sweep link-tap font-semibold text-ink"
         >
-          Apporter une denrée
+          {t('bringCta')}
         </Link>{' '}
-        ou{' '}
+        {t('orWord')}{' '}
         <Link href="/communaute/donateur" className="link-sweep link-tap font-semibold text-ink">
-          faire un don financier
+          {t('giveCta')}
         </Link>
         .
       </p>

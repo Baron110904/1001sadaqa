@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { useActionState, useEffect, useState } from 'react';
 import { useText } from '@/lib/langue-client';
 import { mesurer, tranche } from '@/lib/mesure';

@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useReducedMotion, useSpring } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import type { ComponentProps, PointerEvent, ReactNode } from 'react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { transition } from '@/components/motion/motion-config';
 
 export type ButtonVariant = 'primary' | 'dark' | 'light' | 'outline' | 'ghost' | 'whatsapp';

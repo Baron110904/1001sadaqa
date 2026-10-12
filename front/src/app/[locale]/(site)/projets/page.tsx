@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { text } from '@/lib/text';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import {
   getDomains,
   getPrograms,
@@ -18,8 +18,14 @@ import { FilterBar } from '@/components/ui/FilterBar';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { headingLines } from '@/lib/heading';
 import { formatDate } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('projects');
   return { title: t('eyebrow'), description: t('lead') };
 }
@@ -54,10 +60,13 @@ function periode(project: Project): string {
 }
 
 export default async function ProjectsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ programme?: string; etat?: string }>;
 }) {
+  await poserLaLangueDe(params);
   const { programme, etat } = await searchParams;
 
   const t = text('projects');

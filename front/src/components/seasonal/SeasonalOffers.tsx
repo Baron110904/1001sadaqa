@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { Moon, Sparkle, Star } from 'lucide-react';
 import type { SeasonalCampaign } from '@/lib/types';
 import { offres } from '@/lib/seasonal';

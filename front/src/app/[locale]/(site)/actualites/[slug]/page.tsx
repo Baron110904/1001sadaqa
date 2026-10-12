@@ -3,7 +3,7 @@ import { SITE_URL } from '@/lib/site';
 import { text } from '@/lib/text';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ChevronRight, Clock, Facebook, Linkedin, MessageCircle } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { getArticle, getNews, getOrNull } from '@/lib/api';
 import type { NewsCategory } from '@/lib/types';
 import { NewsCard } from '@/components/blocks/NewsCard';
@@ -11,6 +11,7 @@ import { ActionLink } from '@/components/ui/Button';
 import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { formatDate, toParagraphs } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
 
 export async function generateStaticParams() {
   try {
@@ -24,8 +25,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   try {
@@ -71,8 +73,9 @@ function tempsDeLecture(contenu: string): number {
 export default async function ArticlePage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   const t = text('news.detail');

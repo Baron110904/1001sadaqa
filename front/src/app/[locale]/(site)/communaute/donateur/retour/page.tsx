@@ -1,11 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { CircleAlert, CircleCheck, Clock } from 'lucide-react';
 import { PageHero } from '@/components/blocks/PageHero';
 import { ActionLink } from '@/components/ui/Button';
 import { formatXof } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = { title: 'Retour de paiement', robots: { index: false } };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  return { title: text('paymentReturn')('metaTitle'), robots: { index: false } };
+}
 
 /** Jamais de cache : l'état d'un règlement change d'une seconde à l'autre. */
 export const dynamic = 'force-dynamic';
@@ -24,10 +33,13 @@ const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4100/api/v1';
  * nulle part, et nous n'en dépendons pas.
  */
 export default async function RetourPaiementPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ don?: string }>;
 }) {
+  await poserLaLangueDe(params);
   const { don } = await searchParams;
 
   const etat = don ? await confirmer(don) : null;
@@ -43,44 +55,42 @@ export default async function RetourPaiementPage({
   // Le remerciement nomme le donateur. Un don anonyme n'a pas de prénom à
   // renvoyer : le merci reste alors impersonnel, comme le reste de ses traces.
   const prenom = etat?.donorFirstName?.trim();
+  const t = text('paymentReturn');
 
   const CONTENU = {
     paye: {
       Icon: CircleCheck,
       teinte: 'text-leaf',
       fond: 'bg-leaf/12',
-      titre: prenom ? `Merci ${prenom} - votre don est encaissé` : 'Merci - votre don est encaissé',
-      corps: 'Le règlement est confirmé. Un reçu vous est adressé par e-mail.',
+      titre: prenom ? t('paid.titleNamed').replace('{prenom}', prenom) : t('paid.title'),
+      corps: t('paid.body'),
     },
     attente: {
       Icon: Clock,
       teinte: 'text-gold-deep',
       fond: 'bg-gold/15',
-      titre: 'Votre don est enregistré, le règlement est en cours',
-      corps:
-        'FedaPay ne nous a pas encore confirmé le paiement. Si vous venez de le valider, il peut arriver dans les minutes qui suivent - vous n’avez rien à refaire. L’association vérifie de son côté.',
+      titre: t('pending.title'),
+      corps: t('pending.body'),
     },
     echoue: {
       Icon: CircleAlert,
       teinte: 'text-red-700',
       fond: 'bg-red-50',
-      titre: 'Le règlement n’a pas abouti',
-      corps:
-        'Aucun montant n’a été prélevé. Vous pouvez réessayer ; si le problème persiste, écrivez-nous et nous trouverons une autre voie.',
+      titre: t('failed.title'),
+      corps: t('failed.body'),
     },
     inconnu: {
       Icon: CircleAlert,
       teinte: 'text-muted',
       fond: 'bg-fog',
-      titre: 'Nous ne retrouvons pas ce don',
-      corps:
-        'Le lien de retour est incomplet. Si vous avez été débité, écrivez-nous avec la date et le montant : nous rapprocherons le paiement.',
+      titre: t('unknown.title'),
+      corps: t('unknown.body'),
     },
   }[cas];
 
   return (
     <>
-      <PageHero eyebrow="Faire un don" lines={['Retour de paiement']} />
+      <PageHero eyebrow={t('eyebrow')} lines={[t('title')]} />
 
       <section className="container-page py-16 md:py-24">
         <div className="mx-auto max-w-2xl rounded-panel border border-ink/10 bg-mist p-7 md:p-9">
@@ -112,14 +122,14 @@ export default async function RetourPaiementPage({
 
           <div className="mt-7 flex flex-wrap gap-3">
             <ActionLink href="/" variant="dark">
-              Revenir à l’accueil
+              {t('backHome')}
             </ActionLink>
             {cas === 'echoue' && (
               <Link
                 href="/communaute/donateur"
                 className="link-sweep link-tap self-center font-display text-[0.875rem] font-semibold text-ink"
               >
-                Refaire un don
+                {t('retry')}
               </Link>
             )}
           </div>

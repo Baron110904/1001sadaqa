@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { useActionState } from 'react';
 import { creerCompte, ouvrirSession, type EtatCompte } from '@/lib/compte/actions';
 import { TextField } from '@/components/ui/Field';

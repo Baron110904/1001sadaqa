@@ -1,10 +1,12 @@
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowDown, ArrowRight, ArrowUp } from 'lucide-react';
 import { getFoodbank, getFoodbankComments } from '@/lib/api';
 import type { FoodCategoryState, StockLevel, StockMovementRow } from '@/lib/types';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { FoodbankCommentForm } from '@/components/forms/FoodbankCommentForm';
 import { formatNumber } from '@/lib/format';
+import { poserLaLangueDe, langueCourante } from '@/lib/langue';
+import { text } from '@/lib/text';
 
 /**
  * Banque alimentaire : ce que l'entrepôt contient, et ce qui lui manque.
@@ -15,21 +17,21 @@ import { formatNumber } from '@/lib/format';
  * une fois renflouées, et la page ne peut pas réclamer ce qu'elle a déjà.
  */
 
-const NIVEAUX: Record<StockLevel, { label: string; puce: string; barre: string; carte: string }> = {
+const NIVEAUX: Record<StockLevel, { cle: string; puce: string; barre: string; carte: string }> = {
   CRITIQUE: {
-    label: 'Critique',
+    cle: 'levelCritical',
     puce: 'bg-red-600 text-white',
     barre: 'bg-red-600',
     carte: 'border-red-200 bg-red-50/70',
   },
   BAS: {
-    label: 'Bas',
+    cle: 'levelLow',
     puce: 'bg-gold/25 text-gold-deep',
     barre: 'bg-gold',
     carte: 'border-gold/35 bg-gold/8',
   },
   OK: {
-    label: 'Suffisant',
+    cle: 'levelOk',
     puce: 'bg-leaf/12 text-leaf',
     barre: 'bg-leaf',
     carte: 'border-ink/10 bg-paper',
@@ -42,19 +44,31 @@ function part(categorie: FoodCategoryState): number {
   return Math.max(2, Math.min(100, Math.round((categorie.quantity / categorie.target) * 100)));
 }
 
+/**
+ * « il y a 3 heures », « 3 hours ago ».
+ *
+ * La forme entière vient du catalogue, singulier et pluriel séparés : en
+ * anglais le complément se place après le nombre, en français avant. Composer
+ * la phrase à partir d'un fragment traduit aurait figé l'ordre français.
+ */
 function quandDit(iso: string): string {
-  const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
-  if (minutes < 60) return `il y a ${Math.max(1, minutes)} minute${minutes > 1 ? 's' : ''}`;
+  const t = text('foodbank.home');
+  const dire = (cle: string, n: number) => t(cle).replace('{n}', String(n));
+
+  const minutes = Math.max(1, Math.round((Date.now() - new Date(iso).getTime()) / 60_000));
+  if (minutes < 60) return dire(minutes > 1 ? 'agoMinutes' : 'agoMinute', minutes);
   const heures = Math.round(minutes / 60);
-  if (heures < 24) return `il y a ${heures} heure${heures > 1 ? 's' : ''}`;
+  if (heures < 24) return dire(heures > 1 ? 'agoHours' : 'agoHour', heures);
   const jours = Math.round(heures / 24);
-  return `il y a ${jours} jour${jours > 1 ? 's' : ''}`;
+  return dire(jours > 1 ? 'agoDays' : 'agoDay', jours);
 }
 
 /** Date courte d'un mouvement : « aujourd'hui 14:50 », « hier 09:40 ». */
 function quandPrecis(iso: string): string {
   const date = new Date(iso);
-  const heure = date.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+  const t = text('foodbank.home');
+  const locale = langueCourante() === 'fr' ? 'fr-FR' : 'en-GB';
+  const heure = date.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' });
 
   const jour = new Date(date);
   jour.setHours(0, 0, 0, 0);
@@ -62,9 +76,9 @@ function quandPrecis(iso: string): string {
   aujourdhui.setHours(0, 0, 0, 0);
 
   const ecart = Math.round((aujourdhui.getTime() - jour.getTime()) / 86_400_000);
-  if (ecart === 0) return `aujourd’hui ${heure}`;
-  if (ecart === 1) return `hier ${heure}`;
-  return `${date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })} ${heure}`;
+  if (ecart === 0) return `${t('today')} ${heure}`;
+  if (ecart === 1) return `${t('yesterday')} ${heure}`;
+  return `${date.toLocaleDateString(locale, { day: 'numeric', month: 'short' })} ${heure}`;
 }
 
 function CarteBesoin({ categorie, vedette }: { categorie: FoodCategoryState; vedette: boolean }) {
@@ -87,7 +101,7 @@ function CarteBesoin({ categorie, vedette }: { categorie: FoodCategoryState; ved
         <span
           className={`shrink-0 rounded-full px-2.5 py-1 font-display text-[0.6875rem] font-bold tracking-wide uppercase ${niveau.puce}`}
         >
-          {niveau.label}
+          {text('foodbank.home')(niveau.cle)}
         </span>
       </div>
 
@@ -129,7 +143,7 @@ function CarteBesoin({ categorie, vedette }: { categorie: FoodCategoryState; ved
             : 'border border-ink/20 text-ink hover:border-ink/45 hover:bg-mist'
         }`}
       >
-        Apporter cet article
+        {text('foodbank.home')('bringThis')}
       </Link>
     </article>
   );
@@ -165,7 +179,13 @@ function Mouvement({ mouvement }: { mouvement: StockMovementRow }) {
   );
 }
 
-export default async function FoodbankPage() {
+export default async function FoodbankPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.home');
   const [banque, mots] = await Promise.all([getFoodbank(), getFoodbankComments()]);
 
   const maximum = Math.max(1, ...banque.flow.monthly.flatMap((m) => [m.in, m.out]));
@@ -181,7 +201,7 @@ export default async function FoodbankPage() {
               <Reveal from="none">
                 <p className="flex items-center gap-2.5 font-display text-[0.75rem] font-bold tracking-[0.16em] text-red-600 uppercase">
                   <span className="size-2 rounded-full bg-red-600" aria-hidden />
-                  Mis à jour {quandDit(banque.updatedAt)}
+                  {t('updated')} {quandDit(banque.updatedAt)}
                 </p>
               </Reveal>
             )}
@@ -189,8 +209,8 @@ export default async function FoodbankPage() {
             <Reveal delay={0.08}>
               <h1 className="text-title mt-4 font-display font-bold text-ink">
                 {banque.needs.length > 0
-                  ? 'Voici ce dont l’entrepôt manque aujourd’hui.'
-                  : 'L’entrepôt est au complet aujourd’hui.'}
+                  ? t('titleNeeds')
+                  : t('titleFull')}
               </h1>
             </Reveal>
           </div>
@@ -339,7 +359,7 @@ export default async function FoodbankPage() {
             href="/banque-alimentaire/registre"
             className="link-sweep link-tap font-display text-[0.875rem] font-semibold text-ink"
           >
-            Registre complet
+            {t('fullRegister')}
           </Link>
         </div>
 
@@ -367,7 +387,7 @@ export default async function FoodbankPage() {
         <div className="container-page grid gap-6 md:grid-cols-2">
           <article className="flex flex-col rounded-panel border border-ink/10 bg-paper p-7">
             <h2 className="font-display text-heading font-bold tracking-tight text-ink">
-              Apporter une denrée
+              {t('bringCta')}
             </h2>
             <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted">
               Indiquez ce que vous souhaitez déposer et en quelle quantité. Nous convenons d’un
@@ -383,7 +403,7 @@ export default async function FoodbankPage() {
 
           <article className="flex flex-col rounded-panel border border-ink/10 bg-paper p-7">
             <h2 className="font-display text-heading font-bold tracking-tight text-ink">
-              Demander une denrée
+              {t('askCta')}
             </h2>
             <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-muted">
               Choisissez un article disponible et la quantité dont vous avez besoin. Votre demande
@@ -393,7 +413,7 @@ export default async function FoodbankPage() {
               href="/banque-alimentaire/demander"
               className="mt-6 inline-flex w-fit items-center rounded-full border border-ink/20 px-6 py-3.5 font-display text-[0.9375rem] font-semibold text-ink transition-colors hover:border-ink/45 hover:bg-mist"
             >
-              Faire une demande
+              {t('askAction')}
             </Link>
           </article>
         </div>

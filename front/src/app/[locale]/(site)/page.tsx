@@ -1,6 +1,6 @@
 import { text } from '@/lib/text';
 import { ArrowRight, HandCoins, HandHeart, Handshake, Stethoscope, UserPlus } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import {
   getCampaigns,
   getFoodbank,
@@ -28,8 +28,14 @@ import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { Counter } from '@/components/motion/Counter';
 import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export default async function HomePage() {
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('home');
   const tCommon = text('common');
   const tProjects = text('projects');

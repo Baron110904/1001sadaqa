@@ -7,13 +7,24 @@ import { PartnerLogos } from '@/components/blocks/PartnerLogos';
 import { PartnershipForm } from '@/components/forms/PartnershipForm';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('partners');
   return { title: t('eyebrow'), description: t('lead') };
 }
 
-export default async function PartnersPage() {
+export default async function PartnersPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('partners');
   const tCommon = text('common');
   const partners = await getPartners();

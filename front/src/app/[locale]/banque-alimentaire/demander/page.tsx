@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft } from 'lucide-react';
 import { getFoodbank } from '@/lib/api';
 import { FoodbankRequestForm } from '@/components/forms/FoodbankRequestForm';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Demander une denrée',
-  description:
-    'Adressez une demande à la banque alimentaire de 1001 SADAQA : choisissez un article disponible et la quantité dont vous avez besoin.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.ask');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
 /**
  * Demander une denrée.
@@ -17,7 +23,14 @@ export const metadata: Metadata = {
  * réellement : proposer un article absent de la réserve reviendrait à faire
  * espérer pour rien.
  */
-export default async function DemanderPage() {
+export default async function DemanderPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.ask');
+  const tBanque = text('foodbank');
   const banque = await getFoodbank();
 
   // On ne propose que ce qu'il y a en réserve : une demande sur un article
@@ -31,23 +44,22 @@ export default async function DemanderPage() {
         className="link-sweep link-tap inline-flex items-center gap-2 font-display text-[0.875rem] font-semibold text-ink"
       >
         <ArrowLeft className="size-4" strokeWidth={2.5} aria-hidden />
-        Banque alimentaire
+        {tBanque('backLink')}
       </Link>
 
-      <h1 className="text-title mt-6 font-display font-bold text-ink">Demander une denrée</h1>
+      <h1 className="text-title mt-6 font-display font-bold text-ink">{t('title')}</h1>
       <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-muted">
-        Indiquez l’article dont vous avez besoin et la quantité. Votre demande est examinée par
-        l’association, qui vous recontacte.
+        {t('lead')}
       </p>
 
       <div className="mt-10 max-w-2xl">
         {disponibles.length === 0 ? (
           <p className="rounded-panel border border-ink/10 bg-mist px-6 py-10 text-center text-[0.9375rem] leading-relaxed text-muted">
-            La réserve est vide pour le moment. Revenez d’ici quelques jours, ou{' '}
+            {t('emptyBefore')}{' '}
             <Link href="/contact" className="link-sweep font-semibold text-ink">
-              écrivez-nous
+              {t('emptyLink')}
             </Link>{' '}
-            si votre situation est urgente.
+            {t('emptyAfter')}
           </p>
         ) : (
           <FoodbankRequestForm kind="RETRAIT" categories={disponibles} />

@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { LANGUE_PAR_DEFAUT, type Langue } from './langues';
+import { LANGUE_PAR_DEFAUT, estUneLangue, type Langue } from './langues';
 
 export * from './langues';
 
@@ -26,4 +26,25 @@ export function poserLaLangue(langue: Langue): void {
 
 export function langueCourante(): Langue {
   return emplacement().langue;
+}
+
+/**
+ * Pose la langue depuis les paramètres de route d'une page.
+ *
+ * À appeler en première ligne de **chaque** page et de chaque
+ * `generateMetadata`, et non seulement dans le gabarit de langue : l'App
+ * Router rend le gabarit et la page indépendamment, et rien ne garantit que
+ * le premier ait déposé la langue avant que la seconde ne la lise. Le symptôme
+ * était net — le menu passait en anglais, les titres restaient en français.
+ *
+ * Une langue inconnue laisse le français en place : c'est le gabarit qui
+ * répond 404, pas chaque page.
+ */
+export async function poserLaLangueDe(
+  params: Promise<{ locale?: string }>,
+): Promise<Langue> {
+  const { locale } = await params;
+  const langue = locale && estUneLangue(locale) ? locale : LANGUE_PAR_DEFAUT;
+  poserLaLangue(langue);
+  return langue;
 }

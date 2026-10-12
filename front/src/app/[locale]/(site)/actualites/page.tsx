@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { text } from '@/lib/text';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { getFeaturedNews, getNews, getNewsYears, getPrograms } from '@/lib/api';
 import type { NewsCategory } from '@/lib/types';
 import { NewsletterForm } from '@/components/forms/NewsletterForm';
@@ -11,8 +11,14 @@ import { MediaFrame } from '@/components/ui/MediaFrame';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { formatDate } from '@/lib/format';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('news');
   return { title: t('eyebrow'), description: t('lead') };
 }
@@ -23,8 +29,10 @@ const CATEGORIES: NewsCategory[] = ['TERRAIN', 'COMMUNIQUE', 'PARTENARIAT'];
 const PAR_PAGE = 12;
 
 export default async function NewsPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     categorie?: string;
     annee?: string;
@@ -33,19 +41,20 @@ export default async function NewsPage({
     programme?: string;
   }>;
 }) {
-  const params = await searchParams;
+  await poserLaLangueDe(params);
+  const requete = await searchParams;
 
   const t = text('news');
   const tCategories = text('news.categories');
 
-  const categorie = CATEGORIES.includes(params.categorie as NewsCategory)
-    ? (params.categorie as NewsCategory)
+  const categorie = CATEGORIES.includes(requete.categorie as NewsCategory)
+    ? (requete.categorie as NewsCategory)
     : undefined;
-  const annee = Number(params.annee) || undefined;
-  const recherche = params.q?.trim() || undefined;
-  const page = Math.max(1, Number(params.page) || 1);
+  const annee = Number(requete.annee) || undefined;
+  const recherche = requete.q?.trim() || undefined;
+  const page = Math.max(1, Number(requete.page) || 1);
 
-  const programme = params.programme?.trim() || undefined;
+  const programme = requete.programme?.trim() || undefined;
 
   const filtre = Boolean(categorie || annee || recherche || programme);
 
@@ -210,9 +219,6 @@ export default async function NewsPage({
             <div className="mt-10 rounded-panel border border-dashed border-ink/20 bg-mist px-6 py-14 text-center">
               <p className="font-display text-[1.25rem] font-bold tracking-tight text-ink">
                 {t('comingSoonTitle')}
-              </p>
-              <p className="mx-auto mt-3 max-w-xl text-[0.9375rem] leading-relaxed text-muted">
-                {t('comingSoonBody')}
               </p>
             </div>
           )

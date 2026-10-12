@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { text } from '@/lib/text';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { getDomain, getDomains, getOrNull, getProgram, getPrograms } from '@/lib/api';
 import { PageHero } from '@/components/blocks/PageHero';
 import { ProjectCard } from '@/components/blocks/ProjectCard';
@@ -12,6 +12,7 @@ import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { ActionLink } from '@/components/ui/Button';
 import { toParagraphs } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
 
 // Les pages de programme sont pré-rendues : leur nombre est faible et stable.
 export async function generateStaticParams() {
@@ -28,8 +29,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   try {
@@ -47,8 +49,9 @@ export async function generateMetadata({
 export default async function ProgramPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   const t = text('programs.detail');

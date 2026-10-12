@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import type { Domain } from '@/lib/types';
 

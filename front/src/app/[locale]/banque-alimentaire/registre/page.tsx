@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowDown, ArrowLeft, ArrowUp } from 'lucide-react';
 import { getFoodbankMovements } from '@/lib/api';
 import { formatNumber } from '@/lib/format';
+import { poserLaLangueDe, langueCourante } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Registre des mouvements',
-  description:
-    'Toutes les entrées et sorties de la banque alimentaire de 1001 SADAQA, du plus récent au plus ancien.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.register');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
 /**
  * Registre complet.
@@ -17,7 +23,16 @@ export const metadata: Metadata = {
  * détaille. Publier le registre est ce qui rend le don vérifiable — un
  * donateur peut retrouver son apport et voir ce qu'il est devenu.
  */
-export default async function RegistrePage() {
+export default async function RegistrePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.register');
+  const tBanque = text('foodbank');
+  // La date suit la langue de la page : « 5 octobre 2026 » ou « 5 October 2026 ».
+  const locale = langueCourante() === 'fr' ? 'fr-FR' : 'en-GB';
   const mouvements = await getFoodbankMovements(200);
 
   return (
@@ -27,36 +42,36 @@ export default async function RegistrePage() {
         className="link-sweep link-tap inline-flex items-center gap-2 font-display text-[0.875rem] font-semibold text-ink"
       >
         <ArrowLeft className="size-4" strokeWidth={2.5} aria-hidden />
-        Banque alimentaire
+        {tBanque('backLink')}
       </Link>
 
-      <h1 className="text-title mt-6 font-display font-bold text-ink">Registre des mouvements</h1>
+      <h1 className="text-title mt-6 font-display font-bold text-ink">{t('title')}</h1>
       <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-muted">
-        Chaque entrée et chaque sortie de l’entrepôt, du plus récent au plus ancien.
-        {mouvements.length > 0 && ` ${mouvements.length} mouvements affichés.`}
+        {t('lead')}
+        {mouvements.length > 0 && ` ${mouvements.length} ${t('countSuffix')}`}
       </p>
 
       {mouvements.length === 0 ? (
-        <p className="mt-10 text-[0.9375rem] text-muted">Le registre est vide pour le moment.</p>
+        <p className="mt-10 text-[0.9375rem] text-muted">{t('empty')}</p>
       ) : (
         <div className="mt-8 overflow-x-auto rounded-panel border border-ink/10 bg-paper">
           <table className="w-full min-w-176 border-collapse text-left text-[0.875rem]">
             <thead>
               <tr className="border-b border-ink/10 bg-mist">
                 <th scope="col" className="px-4 py-3 font-display text-[0.8125rem] font-bold text-ink">
-                  Sens
+                  {t('colDirection')}
                 </th>
                 <th scope="col" className="px-4 py-3 font-display text-[0.8125rem] font-bold text-ink">
-                  Catégorie
+                  {t('colCategory')}
                 </th>
                 <th scope="col" className="px-4 py-3 font-display text-[0.8125rem] font-bold text-ink">
-                  Quantité
+                  {t('colQuantity')}
                 </th>
                 <th scope="col" className="px-4 py-3 font-display text-[0.8125rem] font-bold text-ink">
-                  Donateur ou bénéficiaire
+                  {t('colCounterpart')}
                 </th>
                 <th scope="col" className="px-4 py-3 font-display text-[0.8125rem] font-bold text-ink">
-                  Date
+                  {t('colDate')}
                 </th>
               </tr>
             </thead>
@@ -74,7 +89,7 @@ export default async function RegistrePage() {
                         }`}
                       >
                         <Icone className="size-3" strokeWidth={3} aria-hidden />
-                        {entree ? 'Entrée' : 'Sortie'}
+                        {entree ? t('in') : t('out')}
                       </span>
                     </td>
                     <td className="px-4 py-3 text-ink">{mouvement.category.name}</td>
@@ -87,13 +102,13 @@ export default async function RegistrePage() {
                         <span className="mt-0.5 block text-[0.8125rem] text-muted">
                           {mouvement.detail}
                           {mouvement.peopleServed
-                            ? ` · ${formatNumber(mouvement.peopleServed)} personnes servies`
+                            ? ` · ${formatNumber(mouvement.peopleServed)} ${t('peopleServed')}`
                             : ''}
                         </span>
                       )}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap text-muted">
-                      {new Date(mouvement.occurredAt).toLocaleDateString('fr-FR', {
+                      {new Date(mouvement.occurredAt).toLocaleDateString(locale, {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',

@@ -4,6 +4,7 @@ import { CircleAlert, ExternalLink } from 'lucide-react';
 import { PageHero } from '@/components/blocks/PageHero';
 import { Reveal } from '@/components/motion/Reveal';
 import creditsData from '../../../../../public/images/credits.json';
+import { poserLaLangueDe } from '@/lib/langue';
 
 interface CreditEntry {
   slot: string;
@@ -17,7 +18,12 @@ interface CreditEntry {
 
 const credits = creditsData as CreditEntry[];
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('credits');
   // Cette page n'a pas d'intérêt dans les résultats de recherche.
   return { title: t('title'), robots: { index: false, follow: true } };
@@ -31,7 +37,12 @@ export function generateMetadata(): Metadata {
  * bénéficiaires de l'association. À conserver aussi longtemps que les visuels
  * d'attente sont en ligne.
  */
-export default function CreditsPage() {
+export default async function CreditsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('credits');
 
   return (

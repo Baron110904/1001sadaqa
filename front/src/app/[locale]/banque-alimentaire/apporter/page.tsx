@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft } from 'lucide-react';
 import { getFoodbank } from '@/lib/api';
 import { FoodbankRequestForm } from '@/components/forms/FoodbankRequestForm';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Apporter une denrée',
-  description:
-    'Annoncez ce que vous souhaitez apporter à la banque alimentaire de 1001 SADAQA : article, quantité, coordonnées.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.give');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
 /**
  * Annoncer un apport.
@@ -18,7 +24,14 @@ export const metadata: Metadata = {
  * utile que celui qui apporte de l'huile. Les besoins viennent du stock, pas
  * d'une liste tenue à la main.
  */
-export default async function ApporterPage() {
+export default async function ApporterPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.give');
+  const tBanque = text('foodbank');
   const banque = await getFoodbank();
   const manquants = banque.needs.slice(0, 3);
 
@@ -29,18 +42,17 @@ export default async function ApporterPage() {
         className="link-sweep link-tap inline-flex items-center gap-2 font-display text-[0.875rem] font-semibold text-ink"
       >
         <ArrowLeft className="size-4" strokeWidth={2.5} aria-hidden />
-        Banque alimentaire
+        {tBanque('backLink')}
       </Link>
 
-      <h1 className="text-title mt-6 font-display font-bold text-ink">Apporter une denrée</h1>
+      <h1 className="text-title mt-6 font-display font-bold text-ink">{t('title')}</h1>
       <p className="mt-3 max-w-2xl text-[0.9375rem] leading-relaxed text-muted">
-        Dites-nous ce que vous souhaitez déposer et en quelle quantité. L’association vous
-        recontacte pour convenir du moment.
+        {t('lead')}
       </p>
 
       {manquants.length > 0 && (
         <p className="mt-5 max-w-2xl rounded-card border border-gold/40 bg-gold/10 px-5 py-4 text-[0.9375rem] leading-relaxed text-ink">
-          <strong className="font-display font-bold">Le plus utile en ce moment :</strong>{' '}
+          <strong className="font-display font-bold">{t('mostNeeded')}</strong>{' '}
           {manquants.map((article) => article.name).join(', ')}.
         </p>
       )}

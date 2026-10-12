@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import type { Domain } from '@/lib/types';
 import { PageHero } from '@/components/blocks/PageHero';

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { useMemo, useState } from 'react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import type { Domain, Program } from '@/lib/types';

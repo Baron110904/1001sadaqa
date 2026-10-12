@@ -515,8 +515,7 @@
       "title": "Recevoir la lettre d’information",
       "lead": "Un courriel par mois: ce que l’association a fait, ce qu’elle prépare, et les besoins du moment. Pas davantage."
     },
-    "comingSoonTitle": "Bientôt les premières actualités",
-    "comingSoonBody": "L’association prépare ses premiers comptes rendus de terrain. Revenez dans quelques jours, ou suivez-nous sur nos réseaux pour être prévenu."
+    "comingSoonTitle": "Bientôt les premières actualités"
   },
   "partners": {
     "eyebrow": "Espace partenaires",
@@ -697,6 +696,289 @@
     "sourceLink": "Voir sur Commons",
     "brandTitle": "Autres visuels",
     "brandBody": "Le logo et les portraits de l'équipe sont fournis par l'association et ne relèvent pas de ces licences."
+  },
+  "paymentReturn": {
+    "metaTitle": "Retour de paiement",
+    "eyebrow": "Faire un don",
+    "title": "Retour de paiement",
+    "backHome": "Revenir à l’accueil",
+    "retry": "Refaire un don",
+    "paid": {
+      "title": "Merci - votre don est encaissé",
+      "titleNamed": "Merci {prenom} - votre don est encaissé",
+      "body": "Le règlement est confirmé. Un reçu vous est adressé par e-mail."
+    },
+    "pending": {
+      "title": "Votre don est enregistré, le règlement est en cours",
+      "body": "FedaPay ne nous a pas encore confirmé le paiement. Si vous venez de le valider, il peut arriver dans les minutes qui suivent - vous n’avez rien à refaire. L’association vérifie de son côté."
+    },
+    "failed": {
+      "title": "Le règlement n’a pas abouti",
+      "body": "Aucun montant n’a été prélevé. Vous pouvez réessayer ; si le problème persiste, écrivez-nous et nous trouverons une autre voie."
+    },
+    "unknown": {
+      "title": "Nous ne retrouvons pas ce don",
+      "body": "Le lien de retour est incomplet. Si vous avez été débité, écrivez-nous avec la date et le montant : nous rapprocherons le paiement."
+    }
+  },
+  "community": {
+    "metaTitle": "Communauté",
+    "metaDescription": "Quatre façons de s’engager auprès de 1001 SADAQA : devenir membre, devenir bénévole, devenir partenaire, faire un don.",
+    "eyebrow": "Communauté",
+    "title": "Quatre façons|de s’engager",
+    "lead": "Chacune demande autre chose et apporte autre chose. Choisissez celle qui vous ressemble.",
+    "individual": "Particulier",
+    "organisation": "Entreprise, fondation, institution",
+    "paths": {
+      "member": {
+        "title": "Devenir membre",
+        "body": "Participer à la vie de l’association, contribuer au développement des programmes et à la réflexion sur les orientations."
+      },
+      "volunteer": {
+        "title": "Devenir bénévole",
+        "body": "Intervenir sur le terrain ou en appui, ponctuellement ou régulièrement, selon vos disponibilités."
+      },
+      "donor": {
+        "title": "Faire un don",
+        "body": "Financer une action précise ou laisser l’association affecter votre don là où le besoin est le plus grand."
+      },
+      "partner": {
+        "title": "Devenir partenaire",
+        "body": "Construire une collaboration conventionnée, avec reporting, indicateurs et attestation de contribution."
+      }
+    },
+    "compareTitle": "Quelle voie vous correspond",
+    "compare": {
+      "headMember": "Membre",
+      "headVolunteer": "Bénévole",
+      "headDonor": "Donateur",
+      "headPartner": "Partenaire",
+      "who": {
+        "label": "Qui",
+        "member": "Particulier",
+        "volunteer": "Particulier",
+        "donor": "Particulier",
+        "partner": "Entreprise, fondation, institution"
+      },
+      "gives": {
+        "label": "Apporte",
+        "member": "Engagement durable et cotisation",
+        "volunteer": "Temps et compétences",
+        "donor": "Ressources financières ou en nature",
+        "partner": "Financement, compétences, logistique, visibilité"
+      },
+      "commitment": {
+        "label": "Engagement",
+        "member": "Durable, vie associative",
+        "volunteer": "Ponctuel ou régulier",
+        "donor": "Ponctuel ou régulier",
+        "partner": "Conventionné"
+      },
+      "inReturn": {
+        "label": "Contrepartie",
+        "member": "Participation à la vie de l’ONG",
+        "volunteer": "Encadrement et valorisation",
+        "donor": "Information sur l’impact",
+        "partner": "Reporting, visibilité, attestation"
+      },
+      "validation": {
+        "label": "Validation",
+        "member": "Examen puis validation interne",
+        "volunteer": "Qualification du profil",
+        "donor": "Immédiate",
+        "partner": "Échange puis convention"
+      }
+    }
+  },
+  "member": {
+    "metaTitle": "Devenir membre",
+    "metaDescription": "Rejoindre une organisation engagée dans la solidarité durable : protection sociale, sécurité alimentaire, santé communautaire et autonomisation.",
+    "eyebrow": "Devenir membre",
+    "title": "Rejoindre une organisation|engagée durablement",
+    "lead": "Les membres contribuent à la vie de l’organisation et participent, selon les modalités prévues par les statuts, à son développement et à la mise en œuvre de ses programmes.",
+    "whyTitle": "Pourquoi devenir membre",
+    "reasons": {
+      "one": "Participer à une dynamique de solidarité structurée",
+      "two": "Contribuer au développement des programmes de l’ONG",
+      "three": "Soutenir la mobilisation de partenaires et de ressources",
+      "four": "Participer aux activités et initiatives de l’organisation",
+      "five": "Contribuer à la réflexion sur les projets et orientations",
+      "six": "Rejoindre une communauté engagée autour de valeurs de dignité, de solidarité et d’impact durable"
+    },
+    "whoTitle": "Qui peut devenir membre",
+    "whoBody": "L’association est ouverte aux personnes qui adhèrent à sa mission, à ses valeurs et à ses principes de fonctionnement. Les conditions d’adhésion, les catégories de membres, les droits et obligations ainsi que les cotisations sont définis conformément aux statuts et au règlement intérieur.",
+    "howTitle": "Comment se passe l’adhésion",
+    "steps": {
+      "join": {
+        "title": "Adhésion",
+        "body": "Votre demande est enregistrée et vous en recevez l’accusé de réception."
+      },
+      "review": {
+        "title": "Validation",
+        "body": "L’équipe examine la demande et vous répond, quelle que soit la décision."
+      },
+      "welcome": {
+        "title": "Bienvenue",
+        "body": "Vous recevez vos identifiants et le premier lien de paiement de cotisation."
+      },
+      "takePart": {
+        "title": "Participation",
+        "body": "Vous accédez à votre espace : cotisations, documents, convocations."
+      },
+      "stay": {
+        "title": "Fidélisation",
+        "body": "Rappels d’échéance, information sur l’impact, invitations aux événements."
+      }
+    },
+    "formTitle": "Votre demande d’adhésion"
+  },
+  "account": {
+    "space": {
+      "metaTitle": "Votre espace",
+      "eyebrow": "Votre espace",
+      "greeting": "Bonjour",
+      "emptyTitle": "Votre espace est encore vide",
+      "emptyBody": "Dès que vous ferez un don, demanderez votre adhésion ou proposerez votre aide, tout apparaîtra ici. Si vous avez déjà écrit à l’association sous une autre adresse, elle ne peut pas être rattachée automatiquement - signalez-le nous.",
+      "donateCta": "Faire un don",
+      "memberCta": "Devenir membre",
+      "giftsTitle": "Vos dons",
+      "noGift": "Aucun don enregistré.",
+      "notMember": "Vous n’êtes pas encore membre de l’association.",
+      "askMembership": "Demander mon adhésion",
+      "commitmentsTitle": "Vos engagements",
+      "volunteerApplication": "Candidature de bénévolat",
+      "partnerRep": "Vous êtes habilité à représenter cette organisation.",
+      "signOut": "Me déconnecter",
+      "states": {
+        "PENDING": "En attente",
+        "EN_ATTENTE": "En attente de validation",
+        "COMPLETED": "Confirmé",
+        "CONFIRME": "Confirmé",
+        "ACTIF": "À jour",
+        "ACCEPTED": "Retenue",
+        "REJECTED": "Non retenue",
+        "REFUSE": "Refusée",
+        "FAILED": "Échoué"
+      }
+    },
+    "signIn": {
+      "metaTitle": "Connexion à votre espace",
+      "metaDescription": "Accédez à votre espace 1001 SADAQA : dons, adhésion et engagements.",
+      "title": "Se connecter",
+      "lead": "Entrez vos identifiants pour accéder à votre espace."
+    },
+    "signUp": {
+      "metaTitle": "Créer votre espace",
+      "metaDescription": "Créez votre compte 1001 SADAQA pour suivre vos dons et vos engagements.",
+      "title": "Créer votre compte",
+      "lead": "Si vous avez déjà écrit à l’association avec cette adresse, vos envois y seront rattachés automatiquement."
+    }
+  },
+  "foodbank": {
+    "backLink": "Banque alimentaire",
+    "give": {
+      "metaTitle": "Apporter une denrée",
+      "metaDescription": "Annoncez ce que vous souhaitez apporter à la banque alimentaire de 1001 SADAQA : article, quantité, coordonnées.",
+      "title": "Apporter une denrée",
+      "lead": "Dites-nous ce que vous souhaitez déposer et en quelle quantité. L’association vous recontacte pour convenir du moment.",
+      "mostNeeded": "Le plus utile en ce moment :"
+    },
+    "ask": {
+      "metaTitle": "Demander une denrée",
+      "metaDescription": "Adressez une demande à la banque alimentaire de 1001 SADAQA : choisissez un article disponible et la quantité dont vous avez besoin.",
+      "title": "Demander une denrée",
+      "lead": "Indiquez l’article dont vous avez besoin et la quantité. Votre demande est examinée par l’association, qui vous recontacte.",
+      "emptyBefore": "La réserve est vide pour le moment. Revenez d’ici quelques jours, ou",
+      "emptyLink": "écrivez-nous",
+      "emptyAfter": "si votre situation est urgente."
+    },
+    "home": {
+      "updated": "Mis à jour",
+      "titleNeeds": "Voici ce dont l’entrepôt manque aujourd’hui.",
+      "titleFull": "L’entrepôt est au complet aujourd’hui.",
+      "bringThis": "Apporter cet article",
+      "fullRegister": "Registre complet",
+      "bringCta": "Apporter une denrée",
+      "askCta": "Demander une denrée",
+      "askAction": "Faire une demande",
+      "levelCritical": "Critique",
+      "levelLow": "Bas",
+      "levelOk": "Suffisant",
+      "agoMinute": "il y a {n} minute",
+      "agoMinutes": "il y a {n} minutes",
+      "agoHour": "il y a {n} heure",
+      "agoHours": "il y a {n} heures",
+      "agoDay": "il y a {n} jour",
+      "agoDays": "il y a {n} jours",
+      "today": "aujourd’hui",
+      "yesterday": "hier"
+    },
+    "donors": {
+      "metaTitle": "Nos donateurs",
+      "metaDescription": "Celles et ceux qui approvisionnent la banque alimentaire de 1001 SADAQA, en denrées comme en dons financiers.",
+      "title": "Nos donateurs",
+      "lead": "Celles et ceux qui remplissent la réserve, en denrées comme en argent. Les personnes ayant demandé l’anonymat n’y figurent pas : leur geste compte autant, il reste discret.",
+      "filterKind": "Nature du don",
+      "filterKindAll": "Tous les dons",
+      "filterKindGoods": "En denrées",
+      "filterKindMoney": "En argent",
+      "filterItem": "Article",
+      "filterItemAll": "Tous les articles",
+      "sortedByCount": "Classé par nombre de dons. Choisissez un article pour classer par quantité.",
+      "sortedByQuantity": "Classé par quantité apportée de cet article.",
+      "sortedByAmount": "Classé par montant total donné.",
+      "empty": "Aucun donateur ne correspond à ce filtre pour le moment.",
+      "colDonor": "Donateur",
+      "colGifts": "Dons",
+      "colGoods": "Denrées",
+      "colMoney": "En argent",
+      "youToo": "Vous aussi ?",
+      "bringCta": "Apporter une denrée",
+      "orWord": "ou",
+      "giveCta": "faire un don financier"
+    },
+    "register": {
+      "metaTitle": "Registre des mouvements",
+      "metaDescription": "Toutes les entrées et sorties de la banque alimentaire de 1001 SADAQA, du plus récent au plus ancien.",
+      "title": "Registre des mouvements",
+      "lead": "Chaque entrée et chaque sortie de l’entrepôt, du plus récent au plus ancien.",
+      "countSuffix": "mouvements affichés.",
+      "empty": "Le registre est vide pour le moment.",
+      "colDirection": "Sens",
+      "colCategory": "Catégorie",
+      "colQuantity": "Quantité",
+      "colCounterpart": "Donateur ou bénéficiaire",
+      "colDate": "Date",
+      "in": "Entrée",
+      "out": "Sortie",
+      "peopleServed": "personnes servies"
+    },
+    "stock": {
+      "metaTitle": "État du stock",
+      "metaDescription": "Inventaire complet de la banque alimentaire 1001 SADAQA : quantités en réserve, niveaux visés et articles à reconstituer.",
+      "title": "État du stock",
+      "lead": "Consultez les quantités disponibles pour chaque article, calculées automatiquement à partir des entrées et sorties enregistrées dans le registre.",
+      "giveCta": "Apporter une denrée",
+      "registerCta": "Voir le registre des mouvements"
+    }
+  },
+  "events": {
+    "metaTitle": "Nos événements",
+    "metaDescription": "Distributions, campagnes de santé, journées de sensibilisation et actions de Ramadan ou de Tabaski menées par 1001 SADAQA.",
+    "eyebrow": "Événements",
+    "title": "Ce que nous avons|réalisé sur le terrain",
+    "lead": "Chaque action menée, avec sa date, son lieu et ce qu’elle a produit.",
+    "back": "Retour aux programmes",
+    "empty": "Les comptes rendus d’événements seront publiés ici."
+  },
+  "toFund": {
+    "metaTitle": "Projets à financer",
+    "metaDescription": "Les projets prêts à démarrer qui attendent un financement : banque alimentaire, protection de l’enfance, autonomisation, eau et santé communautaire.",
+    "eyebrow": "Projets à financer",
+    "title": "Des projets prêts,|qui attendent un financement",
+    "lead": "Chacun a été conçu, chiffré et rattaché à un programme. Il ne manque que les moyens de le mener.",
+    "back": "Tous nos projets",
+    "empty": "Aucun projet n’attend de financement pour le moment. Vous pouvez soutenir un programme en cours depuis la page Communauté."
   },
   "notFound": {
     "code": "404",

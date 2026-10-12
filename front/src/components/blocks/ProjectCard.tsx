@@ -1,5 +1,5 @@
 import { text } from '@/lib/text';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import type { Project } from '@/lib/types';
 

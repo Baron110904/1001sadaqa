@@ -1,6 +1,7 @@
+import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
-import { LANGUES, estUneLangue, poserLaLangue } from '@/lib/langue';
+import { LANGUES, LANGUE_PAR_DEFAUT, estUneLangue, poserLaLangue } from '@/lib/langue';
 import { FournisseurDeLangue } from '@/lib/langue-client';
 
 /**
@@ -18,6 +19,27 @@ import { FournisseurDeLangue } from '@/lib/langue-client';
  */
 export function generateStaticParams() {
   return LANGUES.map((locale) => ({ locale }));
+}
+
+/**
+ * Langue déclarée aux réseaux sociaux.
+ *
+ * Les renvois `hreflang` entre versions ne sont **pas** posés ici : un gabarit
+ * ignore le chemin de la page qu'il enveloppe, et les alternatives produites
+ * désignaient donc l'accueil depuis toutes les pages — une indication fausse,
+ * pire que pas d'indication du tout. Ces renvois sont portés par le plan du
+ * site, où chaque adresse connaît la sienne ; c'est une forme que Google
+ * accepte au même titre que les balises.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const langue = estUneLangue(locale) ? locale : LANGUE_PAR_DEFAUT;
+
+  return { openGraph: { locale: langue === 'fr' ? 'fr_FR' : 'en_GB' } };
 }
 
 export default async function LocaleLayout({

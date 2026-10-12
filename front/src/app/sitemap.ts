@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getNews, getPrograms, getProjects } from '@/lib/api';
 import { SITE_URL as SITE } from '@/lib/site';
+import { LANGUES, cheminPour } from '@/lib/langues';
 
 const STATIC_PATHS = [
   '',
@@ -30,9 +31,27 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...news.items.map((article) => `/actualites/${article.slug}`),
   ];
 
-  return [...STATIC_PATHS, ...dynamicPaths].map((path) => ({
-    url: `${SITE}${path}` || `${SITE}/`,
-    changeFrequency: path === '' ? 'weekly' : 'monthly',
-    priority: path === '' ? 1 : path.startsWith('/communaute') ? 0.9 : 0.7,
-  }));
+  // Chaque adresse paraît dans les deux langues, et chacune déclare l'autre :
+  // sans ces renvois, Google considère les deux versions comme des pages
+  // concurrentes plutôt que comme deux traductions d'une même page.
+  // Chaque adresse paraît dans les deux langues, et chacune déclare l'autre :
+  // sans ces renvois, Google considère les deux versions comme des pages
+  // concurrentes plutôt que comme deux traductions d'une même page.
+  //
+  // L'accueil est écrit `''` dans la liste ci-dessus ; `cheminPour` ne
+  // préfixe que ce qui commence par une barre, et laissait donc l'anglais à
+  // la racine — les deux langues partageaient alors la même adresse.
+  const adresse = (path: string, langue: (typeof LANGUES)[number]) =>
+    `${SITE}${cheminPour(path || '/', langue)}`;
+
+  return [...STATIC_PATHS, ...dynamicPaths].flatMap((path) =>
+    LANGUES.map((langue) => ({
+      url: adresse(path, langue),
+      changeFrequency: (path === '' ? 'weekly' : 'monthly') as 'weekly' | 'monthly',
+      priority: path === '' ? 1 : path.startsWith('/communaute') ? 0.9 : 0.7,
+      alternates: {
+        languages: Object.fromEntries(LANGUES.map((autre) => [autre, adresse(path, autre)])),
+      },
+    })),
+  );
 }

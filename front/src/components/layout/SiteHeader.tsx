@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/
 import { ChevronRight, Menu, Moon, Phone, Sparkle, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useText } from '@/lib/langue-client';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { usePathname } from 'next/navigation';
 import { ActionLink } from '@/components/ui/Button';
 import { EASE_EXPO } from '@/components/motion/motion-config';

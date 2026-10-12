@@ -1,14 +1,20 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowLeft, PackagePlus } from 'lucide-react';
 import { getFoodbank } from '@/lib/api';
 import { FeuilleDeStock } from '@/components/foodbank/FeuilleDeStock';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'État du stock',
-  description:
-    'Inventaire complet de la banque alimentaire 1001 SADAQA : quantités en réserve, niveaux visés et articles à reconstituer.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.stock');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
 /**
  * L'inventaire, sur sa propre page.
@@ -18,7 +24,14 @@ export const metadata: Metadata = {
  * Ces gestes appellent un tableau et une adresse à soi, pas une section au
  * milieu d'une page de présentation.
  */
-export default async function StockPage() {
+export default async function StockPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('foodbank.stock');
+  const tBanque = text('foodbank');
   const banque = await getFoodbank();
 
   return (
@@ -30,16 +43,15 @@ export default async function StockPage() {
             className="link-tap inline-flex items-center gap-2 text-[0.875rem] font-semibold text-muted transition-colors hover:text-ink"
           >
             <ArrowLeft className="size-4" aria-hidden />
-            La banque alimentaire
+            {tBanque('backLink')}
           </Link>
 
           <h1 className="mt-5 font-display text-heading font-bold tracking-tight text-ink">
-            État du stock
+            {t('title')}
           </h1>
 
           <p className="mt-4 max-w-2xl text-[1rem] leading-relaxed text-muted">
-            Consultez les quantités disponibles pour chaque article, calculées automatiquement à
-            partir des entrées et sorties enregistrées dans le registre.
+            {t('lead')}
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
@@ -48,13 +60,13 @@ export default async function StockPage() {
               className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-3 font-display text-[0.875rem] font-semibold text-paper transition-colors hover:bg-ink/90"
             >
               <PackagePlus className="size-4" aria-hidden />
-              Apporter une denrée
+              {t('giveCta')}
             </Link>
             <Link
               href="/banque-alimentaire/registre"
               className="inline-flex items-center rounded-full border border-ink/20 px-5 py-3 font-display text-[0.875rem] font-semibold text-ink transition-colors hover:border-ink/45 hover:bg-paper"
             >
-              Voir le registre des mouvements
+              {t('registerCta')}
             </Link>
           </div>
         </div>

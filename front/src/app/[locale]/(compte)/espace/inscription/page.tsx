@@ -2,23 +2,35 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { CompteForm } from '@/components/forms/CompteForm';
 import { compteCourant } from '@/lib/compte/session';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Créer votre espace',
-  description: 'Créez votre compte 1001 SADAQA pour suivre vos dons et vos engagements.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('account.signUp');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
-export default async function InscriptionPage() {
+export default async function InscriptionPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('account.signUp');
   if (await compteCourant()) redirect('/espace');
 
   return (
     <>
       <h1 className="font-display text-[1.75rem] font-bold tracking-tight text-ink">
-        Créer votre compte
+        {t('title')}
       </h1>
       <p className="mt-2 text-[0.9375rem] leading-relaxed text-muted">
-        Si vous avez déjà écrit à l’association avec cette adresse, vos envois y seront
-        rattachés automatiquement.
+        {t('lead')}
       </p>
 
       <div className="mt-8">

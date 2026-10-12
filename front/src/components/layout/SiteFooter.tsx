@@ -1,6 +1,6 @@
 import { text } from '@/lib/text';
 import { Mail, MapPin, Phone } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import type { SiteSettings } from '@/lib/types';
 import { whatsappLink } from '@/lib/format';
 

@@ -40,7 +40,7 @@
     "whatsapp": "WhatsApp Business",
     "credits": "Image credits",
     "rights": "© 2026 1001 SADAQA · Humanitarian and social association, Cotonou, Benin.",
-    "translate": "Also available in French and Arabic."
+    "translate": "This site is published in French — your browser can translate it."
   },
   "common": {
     "learnMore": "Learn more",
@@ -515,8 +515,7 @@
       "title": "Subscribe to the newsletter",
       "lead": "One email a month: what the association has done, what it is preparing, and what it needs right now. Nothing more."
     },
-    "comingSoonTitle": "First news coming soon",
-    "comingSoonBody": "The association is preparing its first field reports. Come back in a few days, or follow us on social media to be notified."
+    "comingSoonTitle": "First news coming soon"
   },
   "partners": {
     "eyebrow": "Partner area",
@@ -697,6 +696,289 @@
     "sourceLink": "View on Commons",
     "brandTitle": "Other visuals",
     "brandBody": "The logo and the team portraits are provided by the association and do not fall under these licences."
+  },
+  "paymentReturn": {
+    "metaTitle": "Payment result",
+    "eyebrow": "Make a gift",
+    "title": "Payment result",
+    "backHome": "Back to the home page",
+    "retry": "Try the gift again",
+    "paid": {
+      "title": "Thank you - your gift has gone through",
+      "titleNamed": "Thank you {prenom} - your gift has gone through",
+      "body": "The payment is confirmed. A receipt is on its way to you by email."
+    },
+    "pending": {
+      "title": "Your gift is recorded, the payment is still going through",
+      "body": "FedaPay has not confirmed the payment to us yet. If you have just approved it, confirmation may arrive within minutes - there is nothing for you to do again. The association is checking on its side."
+    },
+    "failed": {
+      "title": "The payment did not go through",
+      "body": "No amount has been taken. You can try again; if the problem persists, write to us and we will find another way."
+    },
+    "unknown": {
+      "title": "We cannot find this gift",
+      "body": "The return link is incomplete. If you have been charged, write to us with the date and the amount: we will match the payment."
+    }
+  },
+  "community": {
+    "metaTitle": "Community",
+    "metaDescription": "Four ways to get involved with 1001 SADAQA: become a member, become a volunteer, become a partner, make a gift.",
+    "eyebrow": "Community",
+    "title": "Four ways|to get involved",
+    "lead": "Each one asks something different and brings something different. Choose the one that suits you.",
+    "individual": "Individual",
+    "organisation": "Company, foundation, institution",
+    "paths": {
+      "member": {
+        "title": "Become a member",
+        "body": "Take part in the life of the association, contribute to the development of its programmes and to thinking on its direction."
+      },
+      "volunteer": {
+        "title": "Become a volunteer",
+        "body": "Work in the field or in support, occasionally or regularly, according to your availability."
+      },
+      "donor": {
+        "title": "Make a gift",
+        "body": "Fund a specific action, or let the association allocate your gift where the need is greatest."
+      },
+      "partner": {
+        "title": "Become a partner",
+        "body": "Build a formal collaboration, with reporting, indicators and a contribution certificate."
+      }
+    },
+    "compareTitle": "Which path suits you",
+    "compare": {
+      "headMember": "Member",
+      "headVolunteer": "Volunteer",
+      "headDonor": "Donor",
+      "headPartner": "Partner",
+      "who": {
+        "label": "Who",
+        "member": "Individual",
+        "volunteer": "Individual",
+        "donor": "Individual",
+        "partner": "Company, foundation, institution"
+      },
+      "gives": {
+        "label": "Brings",
+        "member": "Long-term commitment and a membership fee",
+        "volunteer": "Time and skills",
+        "donor": "Financial or in-kind resources",
+        "partner": "Funding, skills, logistics, visibility"
+      },
+      "commitment": {
+        "label": "Commitment",
+        "member": "Long-term, in the life of the association",
+        "volunteer": "Occasional or regular",
+        "donor": "Occasional or regular",
+        "partner": "Under agreement"
+      },
+      "inReturn": {
+        "label": "In return",
+        "member": "A say in the life of the NGO",
+        "volunteer": "Supervision and recognition",
+        "donor": "News on impact",
+        "partner": "Reporting, visibility, certificate"
+      },
+      "validation": {
+        "label": "Approval",
+        "member": "Review then internal approval",
+        "volunteer": "Profile assessment",
+        "donor": "Immediate",
+        "partner": "Discussion then agreement"
+      }
+    }
+  },
+  "member": {
+    "metaTitle": "Become a member",
+    "metaDescription": "Join an organisation committed to lasting solidarity: social protection, food security, community health and empowerment.",
+    "eyebrow": "Become a member",
+    "title": "Join an organisation|committed for the long term",
+    "lead": "Members contribute to the life of the organisation and take part, on the terms set out in its statutes, in its development and in the delivery of its programmes.",
+    "whyTitle": "Why become a member",
+    "reasons": {
+      "one": "Take part in a structured movement of solidarity",
+      "two": "Contribute to the development of the NGO's programmes",
+      "three": "Support the mobilisation of partners and resources",
+      "four": "Take part in the organisation's activities and initiatives",
+      "five": "Contribute to thinking on projects and direction",
+      "six": "Join a community committed to dignity, solidarity and lasting impact"
+    },
+    "whoTitle": "Who can become a member",
+    "whoBody": "The association is open to anyone who shares its mission, its values and its principles. Membership conditions, categories of member, rights and obligations and membership fees are set out in the statutes and internal rules.",
+    "howTitle": "How membership works",
+    "steps": {
+      "join": {
+        "title": "Application",
+        "body": "Your application is recorded and you receive an acknowledgement."
+      },
+      "review": {
+        "title": "Review",
+        "body": "The team considers the application and replies, whatever the decision."
+      },
+      "welcome": {
+        "title": "Welcome",
+        "body": "You receive your login details and the first membership payment link."
+      },
+      "takePart": {
+        "title": "Taking part",
+        "body": "You reach your account: fees, documents, meeting notices."
+      },
+      "stay": {
+        "title": "Staying involved",
+        "body": "Renewal reminders, news on impact, invitations to events."
+      }
+    },
+    "formTitle": "Your membership application"
+  },
+  "account": {
+    "space": {
+      "metaTitle": "Your account",
+      "eyebrow": "Your account",
+      "greeting": "Hello",
+      "emptyTitle": "Your account is still empty",
+      "emptyBody": "As soon as you make a gift, apply for membership or offer your help, it will all appear here. If you have already written to the association from another address, it cannot be attached automatically - let us know.",
+      "donateCta": "Make a gift",
+      "memberCta": "Become a member",
+      "giftsTitle": "Your gifts",
+      "noGift": "No gift recorded.",
+      "notMember": "You are not a member of the association yet.",
+      "askMembership": "Apply for membership",
+      "commitmentsTitle": "Your commitments",
+      "volunteerApplication": "Volunteer application",
+      "partnerRep": "You are authorised to represent this organisation.",
+      "signOut": "Sign out",
+      "states": {
+        "PENDING": "Pending",
+        "EN_ATTENTE": "Awaiting approval",
+        "COMPLETED": "Confirmed",
+        "CONFIRME": "Confirmed",
+        "ACTIF": "Up to date",
+        "ACCEPTED": "Accepted",
+        "REJECTED": "Not retained",
+        "REFUSE": "Declined",
+        "FAILED": "Failed"
+      }
+    },
+    "signIn": {
+      "metaTitle": "Sign in to your account",
+      "metaDescription": "Access your 1001 SADAQA account: gifts, membership and commitments.",
+      "title": "Sign in",
+      "lead": "Enter your details to reach your account."
+    },
+    "signUp": {
+      "metaTitle": "Create your account",
+      "metaDescription": "Create your 1001 SADAQA account to follow your gifts and commitments.",
+      "title": "Create your account",
+      "lead": "If you have already written to the association with this address, what you sent will be attached to it automatically."
+    }
+  },
+  "foodbank": {
+    "backLink": "Food bank",
+    "give": {
+      "metaTitle": "Bring food in",
+      "metaDescription": "Tell us what you would like to bring to the 1001 SADAQA food bank: item, quantity, contact details.",
+      "title": "Bring food in",
+      "lead": "Tell us what you would like to drop off and how much. The association will get back to you to arrange a time.",
+      "mostNeeded": "Most useful right now:"
+    },
+    "ask": {
+      "metaTitle": "Request food",
+      "metaDescription": "Send a request to the 1001 SADAQA food bank: choose an available item and the quantity you need.",
+      "title": "Request food",
+      "lead": "Tell us which item you need and how much. Your request is reviewed by the association, who will get back to you.",
+      "emptyBefore": "The store is empty at the moment. Come back in a few days, or",
+      "emptyLink": "write to us",
+      "emptyAfter": "if your situation is urgent."
+    },
+    "home": {
+      "updated": "Updated",
+      "titleNeeds": "Here is what the store is short of today.",
+      "titleFull": "The store is fully stocked today.",
+      "bringThis": "Bring this item",
+      "fullRegister": "Full register",
+      "bringCta": "Bring food in",
+      "askCta": "Request food",
+      "askAction": "Make a request",
+      "levelCritical": "Critical",
+      "levelLow": "Low",
+      "levelOk": "Sufficient",
+      "agoMinute": "{n} minute ago",
+      "agoMinutes": "{n} minutes ago",
+      "agoHour": "{n} hour ago",
+      "agoHours": "{n} hours ago",
+      "agoDay": "{n} day ago",
+      "agoDays": "{n} days ago",
+      "today": "today",
+      "yesterday": "yesterday"
+    },
+    "donors": {
+      "metaTitle": "Our donors",
+      "metaDescription": "Those who supply the 1001 SADAQA food bank, in food as well as in money.",
+      "title": "Our donors",
+      "lead": "Those who fill the store, in food as well as in money. People who asked to remain anonymous do not appear here: their gesture counts just as much, it simply stays discreet.",
+      "filterKind": "Kind of gift",
+      "filterKindAll": "All gifts",
+      "filterKindGoods": "In food",
+      "filterKindMoney": "In money",
+      "filterItem": "Item",
+      "filterItemAll": "All items",
+      "sortedByCount": "Ranked by number of gifts. Choose an item to rank by quantity.",
+      "sortedByQuantity": "Ranked by quantity of this item brought in.",
+      "sortedByAmount": "Ranked by total amount given.",
+      "empty": "No donor matches this filter for now.",
+      "colDonor": "Donor",
+      "colGifts": "Gifts",
+      "colGoods": "Food",
+      "colMoney": "Money",
+      "youToo": "You too?",
+      "bringCta": "Bring food in",
+      "orWord": "or",
+      "giveCta": "make a financial gift"
+    },
+    "register": {
+      "metaTitle": "Movement register",
+      "metaDescription": "Every item in and out of the 1001 SADAQA food bank, most recent first.",
+      "title": "Movement register",
+      "lead": "Every item in and out of the store, most recent first.",
+      "countSuffix": "movements shown.",
+      "empty": "The register is empty for now.",
+      "colDirection": "Direction",
+      "colCategory": "Category",
+      "colQuantity": "Quantity",
+      "colCounterpart": "Donor or recipient",
+      "colDate": "Date",
+      "in": "In",
+      "out": "Out",
+      "peopleServed": "people served"
+    },
+    "stock": {
+      "metaTitle": "Stock levels",
+      "metaDescription": "Full inventory of the 1001 SADAQA food bank: quantities in store, target levels and items to restock.",
+      "title": "Stock levels",
+      "lead": "See the quantity available for each item, calculated automatically from the movements recorded in the register.",
+      "giveCta": "Bring food in",
+      "registerCta": "See the movement register"
+    }
+  },
+  "events": {
+    "metaTitle": "Our events",
+    "metaDescription": "Distributions, health campaigns, awareness days and Ramadan or Tabaski action run by 1001 SADAQA.",
+    "eyebrow": "Events",
+    "title": "What we have|achieved in the field",
+    "lead": "Every action we ran, with its date, its place and what it produced.",
+    "back": "Back to the programmes",
+    "empty": "Reports on our events will be published here."
+  },
+  "toFund": {
+    "metaTitle": "Projects seeking funding",
+    "metaDescription": "Projects ready to start that are awaiting funding: food bank, child protection, empowerment, water and community health.",
+    "eyebrow": "Projects seeking funding",
+    "title": "Projects ready to go,|awaiting funding",
+    "lead": "Each one has been designed, costed and attached to a programme. All that is missing is the means to run it.",
+    "back": "All our projects",
+    "empty": "No project is awaiting funding at the moment. You can support an ongoing programme from the Community page."
   },
   "notFound": {
     "code": "404",

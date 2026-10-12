@@ -5,13 +5,24 @@ import { PageHero } from '@/components/blocks/PageHero';
 import { VolunteerForm } from '@/components/forms/VolunteerForm';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { headingLines } from '@/lib/heading';
+import { poserLaLangueDe } from '@/lib/langue';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('volunteer');
   return { title: t('eyebrow'), description: t('lead') };
 }
 
-export default async function VolunteerPage() {
+export default async function VolunteerPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('volunteer');
   const missions = await getMissions();
 

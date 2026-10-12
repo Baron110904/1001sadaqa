@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { text } from '@/lib/text';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, BadgeCheck, Clock, Download, FileText } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { getOrNull, getProject, getProjects } from '@/lib/api';
 import { PageHero } from '@/components/blocks/PageHero';
 import { SdgBadges } from '@/components/blocks/SdgBadges';
@@ -11,6 +11,7 @@ import { ActionLink } from '@/components/ui/Button';
 import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { formatDate, formatXof, toParagraphs } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
 
 export async function generateStaticParams() {
   try {
@@ -24,8 +25,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   try {
@@ -43,8 +45,9 @@ export async function generateMetadata({
 export default async function ProjectPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }) {
+  await poserLaLangueDe(params);
   const { slug } = await params;
 
   const t = text('projects.detail');

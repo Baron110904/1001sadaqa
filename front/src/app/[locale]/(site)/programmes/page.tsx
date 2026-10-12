@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowRight, CalendarDays } from 'lucide-react';
 import { text } from '@/lib/text';
+import { poserLaLangueDe } from '@/lib/langue';
 import { getDomains } from '@/lib/api';
 import { PageHero } from '@/components/blocks/PageHero';
 import { GrilleDomaines } from '@/components/blocks/GrilleDomaines';
@@ -9,7 +10,12 @@ import { CarrouselDomaines } from '@/components/blocks/CarrouselDomaines';
 import { Reveal } from '@/components/motion/Reveal';
 import { headingLines } from '@/lib/heading';
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
   const t = text('programs');
   return { title: t('eyebrow'), description: t('lead') };
 }
@@ -20,7 +26,12 @@ export function generateMetadata(): Metadata {
  * La hiérarchie à trois niveaux se parcourt sans changer de page (§4.2), tout
  * en conservant une adresse propre par programme pour la fiche complète.
  */
-export default async function ProgramsPage() {
+export default async function ProgramsPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
   const t = text('programs');
   const domains = await getDomains();
 

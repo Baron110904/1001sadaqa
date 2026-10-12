@@ -2,13 +2,26 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { CompteForm } from '@/components/forms/CompteForm';
 import { compteCourant } from '@/lib/compte/session';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Connexion à votre espace',
-  description: 'Accédez à votre espace 1001 SADAQA: dons, adhésion et engagements.',
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  const t = text('account.signIn');
+  return { title: t('metaTitle'), description: t('metaDescription') };
+}
 
-export default async function ConnexionPage() {
+export default async function ConnexionPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('account.signIn');
   // Déjà connecté: on ne présente pas un formulaire de connexion à quelqu'un
   // qui vient de s'authentifier.
   if (await compteCourant()) redirect('/espace');
@@ -16,10 +29,10 @@ export default async function ConnexionPage() {
   return (
     <>
       <h1 className="font-display text-[1.75rem] font-bold tracking-tight text-ink">
-        Se connecter
+        {t('title')}
       </h1>
       <p className="mt-2 text-[0.9375rem] text-muted">
-        Entrez vos identifiants pour accéder à votre espace.
+        {t('lead')}
       </p>
 
       <div className="mt-8">

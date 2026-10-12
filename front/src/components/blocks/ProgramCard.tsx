@@ -1,6 +1,6 @@
 import { text } from '@/lib/text';
 import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { MediaFrame } from '@/components/ui/MediaFrame';
 import type { Program } from '@/lib/types';
 

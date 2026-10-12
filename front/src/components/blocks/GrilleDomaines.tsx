@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import type { Domain } from '@/lib/types';
 import { SdgBadges } from '@/components/blocks/SdgBadges';
 

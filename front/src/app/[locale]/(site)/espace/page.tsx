@@ -1,16 +1,22 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Lien as Link } from '@/components/ui/Lien';
 import { redirect } from 'next/navigation';
 import { HandCoins, HeartHandshake, UserCheck } from 'lucide-react';
 import { PageHero } from '@/components/blocks/PageHero';
 import { compteFetch, SessionCompteFinie } from '@/lib/compte/session';
 import { fermerSession } from '@/lib/compte/actions';
 import { formatXof } from '@/lib/format';
+import { poserLaLangueDe } from '@/lib/langue';
+import { text } from '@/lib/text';
 
-export const metadata: Metadata = {
-  title: 'Votre espace',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  await poserLaLangueDe(params);
+  return { title: text('account.space')('metaTitle'), robots: { index: false, follow: false } };
+}
 
 /** Ce que renvoie `/accounts/me/overview`. */
 interface Espace {
@@ -40,25 +46,29 @@ interface Espace {
   partners: { id: string; name: string; logo: string }[];
 }
 
-const ETATS: Record<string, { texte: string; ton: string }> = {
-  PENDING: { texte: 'En attente', ton: 'bg-gold/20 text-gold-deep' },
-  EN_ATTENTE: { texte: 'En attente de validation', ton: 'bg-gold/20 text-gold-deep' },
-  COMPLETED: { texte: 'Confirmé', ton: 'bg-leaf/12 text-leaf' },
-  CONFIRME: { texte: 'Confirmé', ton: 'bg-leaf/12 text-leaf' },
-  ACTIF: { texte: 'À jour', ton: 'bg-leaf/12 text-leaf' },
-  ACCEPTED: { texte: 'Retenue', ton: 'bg-leaf/12 text-leaf' },
-  REJECTED: { texte: 'Non retenue', ton: 'bg-ink/8 text-muted' },
-  REFUSE: { texte: 'Refusée', ton: 'bg-ink/8 text-muted' },
-  FAILED: { texte: 'Échoué', ton: 'bg-ink/8 text-muted' },
+const ETATS: Record<string, string> = {
+  PENDING: 'bg-gold/20 text-gold-deep',
+  EN_ATTENTE: 'bg-gold/20 text-gold-deep',
+  COMPLETED: 'bg-leaf/12 text-leaf',
+  CONFIRME: 'bg-leaf/12 text-leaf',
+  ACTIF: 'bg-leaf/12 text-leaf',
+  ACCEPTED: 'bg-leaf/12 text-leaf',
+  REJECTED: 'bg-ink/8 text-muted',
+  REFUSE: 'bg-ink/8 text-muted',
+  FAILED: 'bg-ink/8 text-muted',
 };
 
 function Etat({ valeur }: { valeur: string }) {
-  const etat = ETATS[valeur] ?? { texte: valeur, ton: 'bg-ink/8 text-muted' };
+  const ton = ETATS[valeur] ?? 'bg-ink/8 text-muted';
+  // Un état inconnu s'affiche tel quel plutôt que de laisser un vide : mieux
+  // vaut un code brut qu'aucune indication sur l'état d'une demande.
+  const libelle = text('account.space.states')(valeur);
+
   return (
     <span
-      className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-display text-[0.6875rem] font-bold tracking-wide uppercase ${etat.ton}`}
+      className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 font-display text-[0.6875rem] font-bold tracking-wide uppercase ${ton}`}
     >
-      {etat.texte}
+      {libelle === valeur ? valeur : libelle}
     </span>
   );
 }
@@ -74,7 +84,13 @@ const enDate = (iso: string) =>
  * navigateur. La page n'est pas indexable : elle n'a rien à faire dans un
  * moteur de recherche.
  */
-export default async function EspacePage() {
+export default async function EspacePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  await poserLaLangueDe(params);
+  const t = text('account.space');
   let espace: Espace;
   try {
     espace = await compteFetch<Espace>('/accounts/me/overview');
@@ -98,32 +114,32 @@ export default async function EspacePage() {
       {/* Pas d'adresse e-mail sous le bonjour : elle n'apprend rien à qui est
           déjà connecté, et s'affiche en grand sur un écran qu'on peut montrer
           à quelqu'un. Elle reste consultable dans les réglages du compte. */}
-      <PageHero eyebrow="Votre espace" lines={[`Bonjour ${espace.account.name.split(' ')[0]}`]} />
+      <PageHero
+        eyebrow={t('eyebrow')}
+        lines={[`${t('greeting')} ${espace.account.name.split(' ')[0]}`]}
+      />
 
       <section className="container-page py-14 md:py-20">
         {vide ? (
           <div className="rounded-panel border border-dashed border-ink/20 bg-mist px-6 py-12 text-center">
             <p className="font-display text-[1.0625rem] font-bold text-ink">
-              Votre espace est encore vide
+              {t('emptyTitle')}
             </p>
             <p className="mx-auto mt-2 max-w-lg text-[0.9375rem] leading-relaxed text-muted">
-              Dès que vous ferez un don, demanderez votre adhésion ou proposerez
-              votre aide, tout apparaîtra ici. Si vous avez déjà écrit à
-              l’association sous une autre adresse, elle ne peut pas être
-              rattachée automatiquement - signalez-le nous.
+              {t('emptyBody')}
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <Link
                 href="/communaute/donateur"
                 className="inline-flex items-center rounded-full bg-ink px-5 py-3 font-display text-[0.875rem] font-semibold text-paper"
               >
-                Faire un don
+                {t('donateCta')}
               </Link>
               <Link
                 href="/communaute/membre"
                 className="inline-flex items-center rounded-full border border-ink/20 px-5 py-3 font-display text-[0.875rem] font-semibold text-ink"
               >
-                Devenir membre
+                {t('memberCta')}
               </Link>
             </div>
           </div>
@@ -134,7 +150,7 @@ export default async function EspacePage() {
               <header className="flex flex-wrap items-baseline justify-between gap-3">
                 <h2 className="flex items-center gap-2.5 font-display text-[1.0625rem] font-bold tracking-tight text-ink">
                   <HandCoins className="size-5 text-leaf" aria-hidden />
-                  Vos dons
+                  {t('giftsTitle')}
                 </h2>
                 {total > 0 && (
                   <p className="text-[0.875rem] text-muted">
@@ -144,7 +160,7 @@ export default async function EspacePage() {
               </header>
 
               {espace.donations.length === 0 ? (
-                <p className="mt-4 text-[0.9375rem] text-muted">Aucun don enregistré.</p>
+                <p className="mt-4 text-[0.9375rem] text-muted">{t('noGift')}</p>
               ) : (
                 <ul className="mt-5 divide-y divide-ink/8">
                   {espace.donations.map((don) => (
@@ -211,13 +227,13 @@ export default async function EspacePage() {
               ) : (
                 <>
                   <p className="mt-4 text-[0.9375rem] leading-relaxed text-muted">
-                    Vous n’êtes pas encore membre de l’association.
+                    {t('notMember')}
                   </p>
                   <Link
                     href="/communaute/membre"
                     className="link-sweep link-tap mt-4 inline-block font-display text-[0.875rem] font-semibold text-ink"
                   >
-                    Demander mon adhésion
+                    {t('askMembership')}
                   </Link>
                 </>
               )}
@@ -228,7 +244,7 @@ export default async function EspacePage() {
               <article className="rounded-panel border border-ink/10 bg-paper p-6 lg:col-span-3">
                 <h2 className="flex items-center gap-2.5 font-display text-[1.0625rem] font-bold tracking-tight text-ink">
                   <HeartHandshake className="size-5 text-leaf" aria-hidden />
-                  Vos engagements
+                  {t('commitmentsTitle')}
                 </h2>
 
                 <ul className="mt-5 divide-y divide-ink/8">
@@ -239,7 +255,7 @@ export default async function EspacePage() {
                     >
                       <span>
                         <span className="block font-display text-[0.9375rem] font-semibold text-ink">
-                          Candidature de bénévolat
+                          {t('volunteerApplication')}
                           {candidature.mission ? ` · ${candidature.mission}` : ''}
                         </span>
                         <span className="mt-0.5 block text-[0.8125rem] text-muted">
@@ -256,7 +272,7 @@ export default async function EspacePage() {
                         {partenaire.name}
                       </span>
                       <span className="mt-0.5 block text-[0.8125rem] text-muted">
-                        Vous êtes habilité à représenter cette organisation.
+                        {t('partnerRep')}
                       </span>
                     </li>
                   ))}
@@ -271,7 +287,7 @@ export default async function EspacePage() {
             type="submit"
             className="link-sweep link-tap font-display text-[0.875rem] font-semibold text-muted transition-colors hover:text-ink"
           >
-            Me déconnecter
+            {t('signOut')}
           </button>
         </form>
       </section>
