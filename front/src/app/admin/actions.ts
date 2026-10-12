@@ -581,3 +581,77 @@ export async function uploadFile(form: FormData): Promise<UploadResult> {
     return { ok: false, message: friendly(error, "L'envoi du fichier a échoué.") };
   }
 }
+
+/**
+ * Métadonnées de droits posées d'office selon le rangement.
+ *
+ * Un logo de partenaire ou un document ne montre personne : son consentement
+ * est accordé d'emblée. Pour le reste, l'équipe le renseigne depuis la
+ * médiathèque.
+ */
+function droitsImplicites(bucket: string): Record<string, string> {
+  return ['PARTNERS', 'DOCUMENTS'].includes(bucket)
+    ? { consentStatus: 'GRANTED', consentKind: 'NOT_REQUIRED', consentScopes: 'WEB' }
+    : {};
+}
+
+/**
+ * Première moitié de l'envoi direct : obtenir l'adresse signée.
+ *
+ * Le jeton d'administration vit dans un cookie `httpOnly` : le navigateur ne
+ * peut pas appeler l'API lui-même. Cette action sert donc de relais — elle ne
+ * transporte que le nom et la taille du fichier, quelques octets, loin du
+ * plafond de 4,5 Mo de Vercel. Le fichier, lui, partira directement du
+ * navigateur vers le stockage.
+ */
+export async function presignerEnvoi(
+  bucket: string,
+  fileName: string,
+  mimeType: string,
+  sizeBytes: number,
+): Promise<
+  { ok: true; adresseDEnvoi: string; objectKey: string; url: string } | { ok: false; message: string }
+> {
+  try {
+    const presign = await adminFetch<{
+      adresseDEnvoi: string;
+      objectKey: string;
+      url: string;
+    }>('/media/presign', {
+      method: 'POST',
+      body: JSON.stringify({ bucket, fileName, mimeType, sizeBytes }),
+      headers: { 'content-type': 'application/json' },
+    });
+
+    return { ok: true, ...presign };
+  } catch (error) {
+    return { ok: false, message: friendly(error, "La préparation de l'envoi a échoué.") };
+  }
+}
+
+/**
+ * Seconde moitié : enregistrer le fichier une fois déposé.
+ *
+ * L'API relit elle-même la taille et le type auprès du stockage : ce que le
+ * navigateur annonce ici n'est pas cru.
+ */
+export async function confirmerEnvoi(
+  bucket: string,
+  objectKey: string,
+  url: string,
+  altText: string,
+): Promise<UploadResult> {
+  try {
+    const asset = await adminFetch<{ url: string }>('/media/confirm', {
+      method: 'POST',
+      body: JSON.stringify({ bucket, objectKey, url, altText, ...droitsImplicites(bucket) }),
+      headers: { 'content-type': 'application/json' },
+    });
+
+    revalidateTag(TAGS.media);
+    revalidateTag('admin-medias');
+    return { ok: true, url: asset.url };
+  } catch (error) {
+    return { ok: false, message: friendly(error, "L'enregistrement du fichier a échoué.") };
+  }
+}

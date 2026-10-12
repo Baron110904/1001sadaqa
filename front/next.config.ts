@@ -1,6 +1,19 @@
 import type { NextConfig } from 'next';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 
+/**
+ * Hôte public du stockage des médias, réduit à son nom d'hôte.
+ *
+ * `remotePatterns` attend un nom d'hôte nu : « https://pub-x.r2.dev/ » n'y
+ * correspond à rien et les images refuseraient de s'afficher, sans que le
+ * message d'erreur ne désigne la variable fautive. On retire donc le
+ * protocole, la barre finale et un éventuel chemin.
+ */
+const hoteDesMedias = (process.env.NEXT_PUBLIC_MEDIA_HOST ?? '')
+  .trim()
+  .replace(/^https?:\/\//, '')
+  .replace(/\/.*$/, '');
+
 const config: NextConfig = {
   poweredByHeader: false,
   compress: true,
@@ -28,9 +41,13 @@ const config: NextConfig = {
     remotePatterns: [
       // Médias téléversés depuis le back-office (MinIO / service compatible S3).
       { protocol: 'http', hostname: 'localhost', port: '9000' },
-      ...(process.env.NEXT_PUBLIC_MEDIA_HOST
-        ? [{ protocol: 'https' as const, hostname: process.env.NEXT_PUBLIC_MEDIA_HOST }]
-        : []),
+      // En ligne : l'hôte public du stockage — par exemple `pub-xxx.r2.dev`
+      // sur Cloudflare R2, ou le domaine personnalisé qu'on y attache.
+      //
+      // Le réglage attend un nom d'hôte, mais on accepte qu'une adresse
+      // complète soit collée : c'est l'erreur naturelle, et elle produirait
+      // sinon un refus d'affichage des images sans message explicite.
+      ...(hoteDesMedias ? [{ protocol: 'https' as const, hostname: hoteDesMedias }] : []),
     ],
   },
   async headers() {

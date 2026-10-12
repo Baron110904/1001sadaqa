@@ -119,6 +119,48 @@ export class UploadMediaDto {
 
 export class UpdateMediaDto extends PartialType(UploadMediaDto) {}
 
+/**
+ * Demande d'une adresse d'envoi direct.
+ *
+ * Le navigateur annonce le nom, le type et la taille du fichier qu'il veut
+ * déposer. Rien de tout cela n'est cru sur parole : le nom ne sert qu'à
+ * choisir l'extension, et le type comme la taille sont relus auprès du
+ * stockage une fois le dépôt terminé.
+ */
+export class PresignMediaDto {
+  @IsEnum(MediaBucket)
+  bucket!: MediaBucket;
+
+  @IsString()
+  @MaxLength(260)
+  fileName!: string;
+
+  @IsString()
+  @MaxLength(120)
+  mimeType!: string;
+
+  @Type(() => Number)
+  @IsInt()
+  sizeBytes!: number;
+}
+
+/**
+ * Enregistrement d'un fichier déjà déposé dans le stockage.
+ *
+ * `objectKey` et `url` sont ceux que l'API a elle-même produits à l'étape
+ * précédente — le navigateur les rend tels quels. Les métadonnées de droits
+ * sont reprises de `UploadMediaDto`, l'écran de la médiathèque étant le même.
+ */
+export class ConfirmMediaDto extends UploadMediaDto {
+  @IsString()
+  @MaxLength(400)
+  objectKey!: string;
+
+  @IsString()
+  @MaxLength(600)
+  url!: string;
+}
+
 export class MediaQueryDto {
   @IsOptional()
   @IsEnum(MediaBucket)

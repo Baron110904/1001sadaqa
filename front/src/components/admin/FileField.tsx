@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useRef, useState, useTransition } from 'react';
 import { FileText, ImageOff, Trash2, Upload } from 'lucide-react';
-import { uploadFile } from '@/app/admin/actions';
+import { confirmerEnvoi, presignerEnvoi, uploadFile } from '@/app/admin/actions';
 
 interface FileFieldProps {
   id: string;
@@ -111,12 +111,9 @@ export function FileField({
 
     releverLaDuree(file);
 
-    const form = new FormData();
-    form.append('file', file);
-    form.append('bucket', bucket);
-
     start(async () => {
-      const result = await uploadFile(form);
+      const result = variant === 'video' ? await envoyerEnDirect(file) : await envoyerParLeSite(file);
+
       if (result.ok && result.url) {
         setUrl(result.url);
         setBroken(false);
@@ -124,6 +121,47 @@ export function FileField({
         setError(result.message ?? "L'envoi a échoué.");
       }
     });
+  };
+
+  /** Envoi ordinaire : le fichier traverse le site, qui le relaie à l'API. */
+  const envoyerParLeSite = async (file: File) => {
+    const form = new FormData();
+    form.append('file', file);
+    form.append('bucket', bucket);
+    return uploadFile(form);
+  };
+
+  /**
+   * Envoi direct du navigateur vers le stockage, en trois temps.
+   *
+   * Indispensable pour les vidéos : l'hébergement du site refuse toute requête
+   * dont le corps dépasse 4,5 Mo, et une minute filmée en pèse dix fois plus.
+   * Ici le fichier ne traverse ni le site ni l'API — seules les métadonnées le
+   * font, quelques octets à l'aller comme au retour.
+   */
+  const envoyerEnDirect = async (file: File) => {
+    const prepare = await presignerEnvoi(bucket, file.name, file.type, file.size);
+    if (!prepare.ok) return prepare;
+
+    const depot = await fetch(prepare.adresseDEnvoi, {
+      method: 'PUT',
+      headers: { 'content-type': file.type },
+      body: file,
+    }).catch(() => null);
+
+    if (!depot?.ok) {
+      // Cause la plus fréquente en ligne : le stockage n'autorise pas encore
+      // les envois depuis l'adresse du site. On le dit, plutôt que de laisser
+      // un « échec » sans piste.
+      return {
+        ok: false as const,
+        message:
+          'Le dépôt vers le stockage a échoué. Vérifiez que les envois depuis ' +
+          'l’adresse du site sont autorisés sur le stockage (réglage CORS).',
+      };
+    }
+
+    return confirmerEnvoi(bucket, prepare.objectKey, prepare.url, file.name);
   };
 
   const isImage = variant === 'image';

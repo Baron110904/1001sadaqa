@@ -4,7 +4,13 @@ import { randomUUID } from 'node:crypto';
 import { PrismaService } from '../../prisma/prisma.service';
 import { toSlug } from '../../common/slug';
 import { StorageService } from './storage.service';
-import { MediaQueryDto, UpdateMediaDto, UploadMediaDto } from './dto/media.dto';
+import {
+  ConfirmMediaDto,
+  MediaQueryDto,
+  PresignMediaDto,
+  UpdateMediaDto,
+  UploadMediaDto,
+} from './dto/media.dto';
 
 const ALLOWED_MIME = [
   'image/jpeg',
@@ -116,6 +122,89 @@ export class MediaService {
 
     // Si le média a été demandé en galerie sans consentement valide, on le
     // retire de la galerie plutôt que d'échouer après écriture.
+    if (asset.showInGallery && !this.isPublishable(asset)) {
+      return this.prisma.mediaAsset.update({
+        where: { id: asset.id },
+        data: { showInGallery: false },
+      });
+    }
+
+    return asset;
+  }
+
+  /**
+   * Prépare un envoi direct du navigateur vers le stockage.
+   *
+   * Renvoie une adresse signée : le fichier ne traverse ni le site ni l'API.
+   * C'est le seul chemin praticable pour une vidéo, Vercel refusant toute
+   * requête dont le corps dépasse 4,5 Mo — et le fichier ne lui parvient
+   * jamais.
+   *
+   * La clé est fabriquée **ici**, avec son suffixe aléatoire : le navigateur
+   * ne choisit pas où il écrit.
+   */
+  async presigner(dto: PresignMediaDto): Promise<{
+    adresseDEnvoi: string;
+    objectKey: string;
+    url: string;
+  }> {
+    if (!ALLOWED_MIME.includes(dto.mimeType)) {
+      throw new BadRequestException(`Type de fichier non accepté : ${dto.mimeType}.`);
+    }
+
+    // Contrôle de courtoisie : la taille annoncée est celle que le navigateur
+    // déclare. La vérité est relue au stockage dans `enregistrer`.
+    const plafond = plafondPour(dto.mimeType);
+    if (dto.sizeBytes > plafond) {
+      throw new BadRequestException(
+        `Fichier trop volumineux (${Math.round(plafond / 1024 / 1024)} Mo maximum).`,
+      );
+    }
+
+    return this.storage.presignerEnvoi(dto.bucket, this.buildObjectKey(dto.fileName));
+  }
+
+  /**
+   * Enregistre un fichier déposé directement dans le stockage.
+   *
+   * Rien de ce que le navigateur annonce n'est cru : la taille et le type sont
+   * relus auprès du stockage. Sans cela, une vidéo de 300 Mo pourrait être
+   * déclarée à 2 Mo, ou un exécutable passer pour une image.
+   */
+  async enregistrer(dto: ConfirmMediaDto, userId: string): Promise<MediaAsset> {
+    const reel = await this.storage.decrire(dto.objectKey);
+    if (!reel) {
+      throw new BadRequestException(
+        "Aucun fichier à cette adresse : l'envoi n'a pas abouti.",
+      );
+    }
+
+    if (!ALLOWED_MIME.includes(reel.mimeType)) {
+      // Le type est celui que le stockage a reçu, pas celui annoncé.
+      await this.storage.remove(dto.objectKey).catch(() => undefined);
+      throw new BadRequestException(`Type de fichier non accepté : ${reel.mimeType}.`);
+    }
+
+    const plafond = plafondPour(reel.mimeType);
+    if (reel.sizeBytes > plafond) {
+      await this.storage.remove(dto.objectKey).catch(() => undefined);
+      throw new BadRequestException(
+        `Fichier trop volumineux (${Math.round(plafond / 1024 / 1024)} Mo maximum).`,
+      );
+    }
+
+    const asset = await this.prisma.mediaAsset.create({
+      data: {
+        ...this.toData(dto),
+        bucket: dto.bucket,
+        objectKey: dto.objectKey,
+        url: dto.url,
+        mimeType: reel.mimeType,
+        sizeBytes: reel.sizeBytes,
+        uploadedById: userId,
+      },
+    });
+
     if (asset.showInGallery && !this.isPublishable(asset)) {
       return this.prisma.mediaAsset.update({
         where: { id: asset.id },
