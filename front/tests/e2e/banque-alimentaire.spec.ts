@@ -16,6 +16,9 @@ test.describe.configure({ mode: 'serial' });
 const apport = {
   nom: `Essai Apport ${MARQUE}`,
   email: `apport.${MARQUE.toLowerCase()}@exemple.test`,
+  // Le téléphone est devenu obligatoire : un apport se convient de vive voix,
+  // et l'association doit pouvoir rappeler.
+  telephone: '+229 90 00 00 00',
 };
 
 /** Premier article de la réserve, avec son unité et son stock du moment. */
@@ -73,6 +76,7 @@ test('un apport annoncé ne bouge pas le stock ; sa validation le bouge', async 
 
   await page.fill('input[name=name]', apport.nom);
   await page.fill('input[name=email]', apport.email);
+  await page.fill('input[name=phone]', apport.telephone);
   await page.locator('#banque-article').selectOption(avant.id);
   await page.fill('input[name=quantity]', '9');
   await page.click('form button[type=submit]');
@@ -150,6 +154,7 @@ test('le classement écarte les dons anonymes', async ({ page, request }) => {
       kind: 'DON',
       name: `Essai Anonyme ${MARQUE}`,
       email: `anonyme.${MARQUE.toLowerCase()}@exemple.test`,
+      phone: '+229 90 00 00 01',
       categoryId: cible.id,
       quantity: 4,
       isAnonymous: true,

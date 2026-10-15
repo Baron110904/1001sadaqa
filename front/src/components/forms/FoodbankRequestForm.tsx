@@ -78,7 +78,16 @@ export function FoodbankRequestForm({
         />
       </div>
 
-      <TextField id="banque-tel" name="phone" type="tel" label="Téléphone" autoComplete="tel" />
+      {/* Obligatoire : un apport comme un retrait se conviennent de vive voix,
+          et sans numéro la demande reste sans suite. */}
+      <TextField
+        id="banque-tel"
+        name="phone"
+        type="tel"
+        label="Téléphone"
+        autoComplete="tel"
+        required
+      />
 
       <SelectField
         id="banque-article"

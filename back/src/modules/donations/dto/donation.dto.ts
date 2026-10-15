@@ -21,10 +21,25 @@ export class CreateDonationDto {
   @IsEmail({}, { message: 'Adresse e-mail invalide.' })
   donorEmail!: string;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(30)
-  donorPhone?: string;
+  /**
+   * Obligatoire : le règlement passe par Mobile Money.
+   *
+   * C'est le numéro qui reçoit la demande de paiement, et celui par lequel
+   * l'association rappelle si l'encaissement n'aboutit pas. Facultatif, il
+   * laissait des dons en attente sans moyen de joindre le donateur.
+   *
+   * La colonne reste nullable en base : les dons déjà enregistrés n'en ont
+   * pas, et les priver d'historique pour une règle nouvelle n'aurait aucun
+   * sens. Seules les demandes à venir sont concernées.
+   */
+  // La longueur maximale est déclarée **en premier** à dessein : les messages
+  // reviennent dans l'ordre inverse de leur déclaration, et le site n'affiche
+  // que le premier. Déclarée en dernier, elle produisait « Le numéro de
+  // téléphone est trop long » pour un champ simplement absent.
+  @MaxLength(30, { message: 'Le numéro de téléphone est trop long.' })
+  @IsString({ message: 'Indiquez un numéro de téléphone.' })
+  @MinLength(6, { message: 'Indiquez un numéro de téléphone.' })
+  donorPhone!: string;
 
   /**
    * Pays et ville, choisis dans deux listes liées côté site.

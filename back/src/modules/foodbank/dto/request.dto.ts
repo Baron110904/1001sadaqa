@@ -32,10 +32,21 @@ export class CreateFoodbankRequestDto {
   @IsEmail({}, { message: 'Adresse e-mail invalide.' })
   email!: string;
 
-  @IsOptional()
-  @IsString()
-  @MaxLength(30)
-  phone?: string;
+  /**
+   * Obligatoire : c'est par là que l'association rappelle.
+   *
+   * Un apport comme un retrait se conviennent de vive voix — on fixe un
+   * moment, on vérifie la quantité. Sans numéro, la demande reste sans suite
+   * et personne ne sait pourquoi.
+   */
+  // La longueur maximale est déclarée **en premier** à dessein : les messages
+  // reviennent dans l'ordre inverse de leur déclaration, et le site n'affiche
+  // que le premier. Déclarée en dernier, elle parlait de numéro « trop long »
+  // alors que le champ était vide.
+  @MaxLength(30, { message: 'Le numéro de téléphone est trop long.' })
+  @IsString({ message: 'Indiquez un numéro de téléphone.' })
+  @MinLength(6, { message: 'Indiquez un numéro de téléphone.' })
+  phone!: string;
 
   /**
    * Anonymat **public**.

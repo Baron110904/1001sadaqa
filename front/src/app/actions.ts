@@ -139,7 +139,7 @@ export async function sendDonation(
   const result = await submit('/donations', {
     donorName: `${firstName} ${lastName}`.trim(),
     donorEmail: text(form, 'email'),
-    donorPhone: optional(form, 'phone'),
+    donorPhone: text(form, 'phone'),
     donorCountry: optional(form, 'country'),
     donorCity: optional(form, 'city'),
     amount,
@@ -279,7 +279,7 @@ export async function sendFoodbankRequest(
     kind: text(form, 'kind'),
     name: text(form, 'name'),
     email: text(form, 'email'),
-    phone: optional(form, 'phone'),
+    phone: text(form, 'phone'),
     isAnonymous: form.get('isAnonymous') === 'on',
     // « Autre » n'est pas une catégorie : c'est l'absence de catégorie, plus
     // un libellé libre que l'association rattachera elle-même.

@@ -55,6 +55,9 @@ test('le formulaire de don mène au règlement', async ({ page, request }) => {
   await don.locator('input[name=firstName]').fill('Essai');
   await don.locator('input[name=lastName]').fill(`Don ${MARQUE}`);
   await don.locator('input[name=email]').fill(`don.${MARQUE}@example.com`);
+  // Le téléphone est obligatoire : c'est lui qui reçoit la demande de paiement
+  // Mobile Money, et par lui que l'association rappelle si rien n'aboutit.
+  await don.locator('input[name=phone]').fill('+229 90 00 00 02');
 
   // Pays puis ville. La ville est une liste qui se filtre à la frappe : les
   // pays comptent jusqu'à près de neuf mille communes, qu'on ne fait pas

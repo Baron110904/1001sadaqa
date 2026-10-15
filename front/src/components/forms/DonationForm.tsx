@@ -378,12 +378,16 @@ export function DonationForm({ programs, payment, seasonal, causeId, initial }: 
               required
             />
 
+            {/* Obligatoire : c'est le numéro qui reçoit la demande de
+                paiement Mobile Money, et celui par lequel l'association
+                rappelle si l'encaissement n'aboutit pas. */}
             <TextField
               id="don-phone"
               name="phone"
               type="tel"
               label={t('fields.phone')}
               autoComplete="tel"
+              required
             />
 
             <div className="grid gap-3 sm:grid-cols-2">

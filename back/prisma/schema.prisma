@@ -29,6 +29,24 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+
+  /// Connexion **directe**, hors pool, réservée aux migrations.
+  ///
+  /// Neon propose deux adresses pour la même base : l'une passe par un pool
+  /// de connexions — son nom contient `-pooler` — l'autre non. Le pool est le
+  /// bon choix pour servir l'API, qui ouvre et referme beaucoup de connexions
+  /// courtes.
+  ///
+  /// Mais une migration commence par poser un verrou de session
+  /// (`pg_advisory_lock`), et un pool ne garantit pas que deux requêtes
+  /// successives empruntent la même session : le verrou est posé sur une
+  /// connexion, puis cherché sur une autre, et `prisma migrate deploy`
+  /// s'arrête au bout de dix secondes sur « Timed out trying to acquire a
+  /// postgres advisory lock ». Le déploiement échoue sans que la base ait
+  /// le moindre problème.
+  ///
+  /// En local, où il n'y a pas de pool, les deux adresses sont identiques.
+  directUrl = env("DIRECT_URL")
 }
 
 // ── Administration ───────────────────────────────────────────────────────────
