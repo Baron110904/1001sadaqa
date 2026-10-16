@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useRef, useState, useTransition } from 'react';
 import { FileText, ImageOff, Trash2, Upload } from 'lucide-react';
 import { confirmerEnvoi, presignerEnvoi, uploadFile } from '@/app/admin/actions';
@@ -180,12 +179,18 @@ export function FileField({
         <span className="relative flex size-24 shrink-0 items-center justify-center overflow-hidden rounded-card border border-ink/10 bg-sand">
           {url && !broken ? (
             isImage ? (
-              <Image
+              // Vignette volontairement servie telle quelle, sans passer par
+              // l'optimiseur : celui-ci refuse tout hôte absent de
+              // `remotePatterns` et renvoie une erreur 400. Un envoi réussi
+              // s'affichait alors comme un échec - l'aperçu restait vide - et
+              // rien ne distinguait ce refus de configuration d'un fichier
+              // perdu. Un aperçu d'administration de 96 px n'a de toute façon
+              // rien à gagner à être optimisé.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={url}
                 alt=""
-                fill
-                sizes="96px"
-                className="object-contain"
+                className="absolute inset-0 size-full object-contain"
                 onError={() => setBroken(true)}
               />
             ) : variant === 'video' ? (

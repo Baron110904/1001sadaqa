@@ -5,6 +5,7 @@ import { getFoodbankDonors } from '@/lib/api';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { formatNumber, formatXof } from '@/lib/format';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 import { text } from '@/lib/text';
 
 export async function generateMetadata({
@@ -12,9 +13,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('foodbank.donors');
-  return { title: t('metaTitle'), description: t('metaDescription') };
+  return { title: t('metaTitle'), description: t('metaDescription'), alternates: canoniquePour('/banque-alimentaire/donateurs', langue) };
 }
 
 /**

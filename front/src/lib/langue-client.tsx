@@ -27,7 +27,7 @@ export function FournisseurDeLangue({
   return <ContexteDeLangue.Provider value={langue}>{children}</ContexteDeLangue.Provider>;
 }
 
-export const useLangue = (): Langue => useContext(ContexteDeLangue);
+const useLangue = (): Langue => useContext(ContexteDeLangue);
 
 /** Équivalent client de `text()`, lié à la langue du contexte. */
 export function useText(namespace?: string): (key: string) => string {

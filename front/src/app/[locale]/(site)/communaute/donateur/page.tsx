@@ -6,15 +6,16 @@ import { DonationForm } from '@/components/forms/DonationForm';
 import { offres } from '@/lib/seasonal';
 import { headingLines } from '@/lib/heading';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('donate');
-  return { title: t('eyebrow') };
+  return { title: t('eyebrow'), alternates: canoniquePour('/communaute/donateur', langue) };
 }
 
 export default async function DonatePage({

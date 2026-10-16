@@ -3,6 +3,7 @@ import { MemberForm } from '@/components/forms/MemberForm';
 import { PageHero } from '@/components/blocks/PageHero';
 import { Reveal } from '@/components/motion/Reveal';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 import { text } from '@/lib/text';
 import { headingLines } from '@/lib/heading';
 
@@ -11,9 +12,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('member');
-  return { title: t('metaTitle'), description: t('metaDescription') };
+  return { title: t('metaTitle'), description: t('metaDescription'), alternates: canoniquePour('/communaute/membre', langue) };
 }
 
 /** Ce que permet l'adhésion, repris du dossier institutionnel (§13). */

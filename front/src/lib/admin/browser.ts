@@ -25,7 +25,7 @@ export class SessionFinie extends Error {
   }
 }
 
-export class ApiErreur extends Error {
+class ApiErreur extends Error {
   constructor(
     readonly statut: number,
     message: string,
@@ -62,7 +62,7 @@ function obtenirJeton(): Promise<string | null> {
 }
 
 /** Oublie le jeton mémorisé : forcera un nouvel échange au prochain appel. */
-export function oublierJeton(): void {
+function oublierJeton(): void {
   jeton = null;
 }
 

@@ -12,6 +12,7 @@ import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { formatDate, toParagraphs } from '@/lib/format';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 
 export async function generateStaticParams() {
   try {
@@ -27,7 +28,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const { slug } = await params;
 
   try {
@@ -35,6 +36,7 @@ export async function generateMetadata({
     return {
       title: article.title,
       description: article.excerpt ?? undefined,
+      alternates: canoniquePour(`/actualites/${slug}`, langue),
       openGraph: {
         type: 'article',
         publishedTime: article.publishedAt ?? undefined,

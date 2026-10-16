@@ -5,7 +5,6 @@ import type {
   NewsArticle,
   Paginated,
   Partner,
-  PartnerDocument,
   Program,
   Project,
   SiteSettings,
@@ -191,8 +190,6 @@ export const getTestimonials = () => get<Testimonial[]>('/testimonials', [TAGS.t
 export const getTeam = () => get<TeamMember[]>('/team', [TAGS.team]);
 export const getMissions = () => get<VolunteerMission[]>('/volunteers/missions', [TAGS.missions]);
 export const getPartners = () => get<Partner[]>('/partners', [TAGS.partners]);
-export const getPartnerDocuments = () =>
-  get<PartnerDocument[]>('/partners/documents', [TAGS.documents]);
 
 export const getDomains = () => get<Domain[]>('/domains', [TAGS.programs]);
 export const getDomain = (slug: string) =>
@@ -205,8 +202,6 @@ export const getEvents = (params: { program?: string; limit?: number } = {}) => 
   const suffix = query.size ? `?${query}` : '';
   return get<Paginated<SiteEvent>>(`/events${suffix}`, [TAGS.events]);
 };
-
-export const getEvent = (slug: string) => get<SiteEvent>(`/events/${slug}`, [TAGS.events]);
 
 /**
  * Habillage de fête — **désactivé**.
@@ -283,44 +278,4 @@ export interface SubmitResult {
   /** Message d'erreur destiné à l'utilisateur, si l'envoi a échoué. */
   message?: string;
   data?: unknown;
-}
-
-export async function post(path: string, body: unknown): Promise<SubmitResult> {
-  try {
-    const response = await fetch(`${BASE}${path}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-      cache: 'no-store',
-    });
-
-    const payload = (await response.json().catch(() => null)) as
-      | { message?: string | string[] }
-      | null;
-
-    if (!response.ok) {
-      // NestJS renvoie soit un message, soit la liste des erreurs de validation.
-      const raw = payload?.message;
-      const message = Array.isArray(raw) ? raw[0] : raw;
-
-      if (response.status === 429) {
-        return {
-          ok: false,
-          message: 'Trop de tentatives. Patientez quelques minutes avant de réessayer.',
-        };
-      }
-
-      return {
-        ok: false,
-        message: message ?? "L'envoi a échoué. Réessayez dans un instant.",
-      };
-    }
-
-    return { ok: true, data: payload };
-  } catch {
-    return {
-      ok: false,
-      message: 'Le service est momentanément injoignable. Réessayez dans un instant.',
-    };
-  }
 }

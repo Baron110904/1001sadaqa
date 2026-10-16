@@ -42,6 +42,12 @@ export function FoodbankRequestForm({
   const horsListe = articleId === AUTRE;
   const unite = horsListe ? uniteLibre.trim() || 'unités' : (article?.unit ?? '');
 
+  // L'API renvoie la demande créée ; le code n'y figure que pour un retrait.
+  const codeDeRetrait =
+    state?.ok && state.data && typeof state.data === 'object' && 'pickupCode' in state.data
+      ? ((state.data as { pickupCode: string | null }).pickupCode ?? null)
+      : null;
+
   if (state?.ok) {
     return (
       <div className="rounded-panel border border-leaf/25 bg-mist p-7 md:p-9">
@@ -56,6 +62,25 @@ export function FoodbankRequestForm({
             ? 'L’association vous recontacte pour convenir du dépôt. Le stock affiché sur cette page ne bougera qu’une fois les denrées reçues à l’entrepôt - c’est ce qui garantit que le registre dit vrai.'
             : 'L’association examine votre demande et vous recontacte. La sortie ne sera inscrite au registre qu’au moment de la remise.'}
         </p>
+
+        {/* Le code de retrait, quand il y en a un : seules les demandes de
+            retrait en reçoivent. Affiché ici comme il l'est dans
+            l'application mobile — sans quoi un visiteur du site obtiendrait
+            un code qu'il ne verrait jamais, et qu'on lui demanderait
+            pourtant au comptoir. */}
+        {codeDeRetrait && (
+          <div className="mt-6 rounded-card border border-leaf/30 bg-paper px-5 py-4">
+            <p className="text-[0.8125rem] font-semibold text-muted">
+              Code de retrait à présenter
+            </p>
+            <p className="mt-1 font-mono text-[1.5rem] font-bold tracking-[0.35em] text-leaf">
+              {codeDeRetrait}
+            </p>
+            <p className="mt-2 text-[0.8125rem] leading-relaxed text-muted">
+              Notez-le : il identifie votre demande au moment de la remise.
+            </p>
+          </div>
+        )}
       </div>
     );
   }

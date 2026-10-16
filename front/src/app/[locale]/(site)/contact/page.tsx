@@ -10,15 +10,16 @@ import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { whatsappLink } from '@/lib/format';
 import { headingLines } from '@/lib/heading';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('contact');
-  return { title: t('eyebrow') };
+  return { title: t('eyebrow'), alternates: canoniquePour('/contact', langue) };
 }
 
 export default async function ContactPage({

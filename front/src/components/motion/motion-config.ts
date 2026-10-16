@@ -23,16 +23,6 @@ export const transition = {
 /** Distance de translation des révélations, en pixels. */
 export const RISE = 26;
 
-export const riseVariants: Variants = {
-  hidden: { opacity: 0, y: RISE },
-  shown: { opacity: 1, y: 0, transition: transition.base },
-};
-
-export const fadeVariants: Variants = {
-  hidden: { opacity: 0 },
-  shown: { opacity: 1, transition: transition.base },
-};
-
 /** Conteneur d'une série d'éléments révélés en cascade. */
 export const staggerVariants = (stagger = 0.08, delay = 0): Variants => ({
   hidden: {},

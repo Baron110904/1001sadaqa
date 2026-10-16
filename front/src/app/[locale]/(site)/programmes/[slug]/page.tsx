@@ -13,6 +13,7 @@ import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { ActionLink } from '@/components/ui/Button';
 import { toParagraphs } from '@/lib/format';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 
 // Les pages de programme sont pré-rendues : leur nombre est faible et stable.
 export async function generateStaticParams() {
@@ -31,7 +32,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ slug: string; locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const { slug } = await params;
 
   try {
@@ -39,6 +40,7 @@ export async function generateMetadata({
     return {
       title: program.title,
       description: program.description,
+      alternates: canoniquePour(`/programmes/${slug}`, langue),
       openGraph: program.image ? { images: [{ url: program.image }] } : undefined,
     };
   } catch {

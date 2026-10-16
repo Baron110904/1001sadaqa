@@ -1,3 +1,4 @@
+import { randomBytes } from 'node:crypto';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import {
   DonationStatus,
@@ -413,7 +414,7 @@ export class FoodbankService {
       unit = categorie.unit;
     }
 
-    return this.prisma.foodbankRequest.create({
+    const demande = await this.prisma.foodbankRequest.create({
       data: {
         kind: dto.kind,
         name: dto.name,
@@ -427,8 +428,47 @@ export class FoodbankService {
         quantity: dto.quantity,
         unit,
         message: dto.message,
+        // Seul un retrait donne lieu à un code : qui apporte des denrées n'a
+        // rien à venir chercher.
+        pickupCode: retrait ? await this.codeDeRetraitLibre() : null,
       },
     });
+
+    return demande;
+  }
+
+  /**
+   * Un code de retrait court, lisible à voix haute et sans ambiguïté.
+   *
+   * Ni `0`/`O` ni `1`/`I` : le code se lit au comptoir, souvent depuis un
+   * écran de téléphone, et confondre deux caractères ferait chercher une
+   * demande qui n'existe pas.
+   *
+   * Le tirage est aléatoire plutôt que séquentiel — un numéro qui se suit
+   * laisserait deviner le code du voisin — et l'unicité est vérifiée en base,
+   * avec quelques tentatives : à 32⁶ combinaisons, une collision est
+   * improbable, mais « improbable » n'est pas « impossible ».
+   */
+  private async codeDeRetraitLibre(): Promise<string> {
+    const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+    for (let essai = 0; essai < 5; essai++) {
+      const code = Array.from(randomBytes(6))
+        .map((octet) => ALPHABET[octet % ALPHABET.length])
+        .join('');
+
+      const pris = await this.prisma.foodbankRequest.findUnique({
+        where: { pickupCode: code },
+        select: { id: true },
+      });
+      if (!pris) return code;
+    }
+
+    // Cinq tirages tous pris relèverait d'un défaut, pas du hasard : mieux
+    // vaut le signaler que rendre un code déjà attribué à quelqu'un d'autre.
+    throw new BadRequestException(
+      'Impossible de générer un code de retrait. Réessayez dans un instant.',
+    );
   }
 
   /** Les demandes, pour le back-office. */

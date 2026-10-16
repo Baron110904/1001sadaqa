@@ -27,7 +27,7 @@ export interface TokenPair {
  * quand le rendu prend plus de temps que prévu — l'appel partait alors avec un
  * jeton expiré depuis quelques secondes.
  */
-export const RENEW_MARGIN = 300;
+const RENEW_MARGIN = 300;
 
 /** Durée pendant laquelle un échange déjà fait reste resservi, en ms. */
 const EXCHANGE_TTL = 30_000;

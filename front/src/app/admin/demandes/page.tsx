@@ -124,6 +124,8 @@ interface DemandeBanque {
   quantity: number;
   unit: string;
   message: string | null;
+  /** Code présenté au comptoir par la personne qui vient retirer. */
+  pickupCode: string | null;
   movementId: string | null;
   createdAt: string;
   category: { id: string; name: string; unit: string } | null;
@@ -283,6 +285,18 @@ async function DemandesBanque({ kind, retour }: { kind: 'DON' | 'RETRAIT'; retou
                   </td>
                   <td className="px-4 py-3 font-semibold text-ink tabular whitespace-nowrap">
                     {ligne.quantity} {ligne.unit}
+                    {/* Le code que la personne présente au comptoir. Affiché
+                        sous la quantité plutôt qu'en colonne à part : il ne
+                        concerne que les retraits, et une colonne vide aux
+                        deux tiers n'aurait servi à personne. */}
+                    {ligne.pickupCode && (
+                      <span
+                        className="mt-1 block font-mono text-[0.75rem] font-bold tracking-widest text-leaf"
+                        title="Code de retrait à présenter"
+                      >
+                        {ligne.pickupCode}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-muted whitespace-nowrap">
                     {formatDate(ligne.createdAt)}

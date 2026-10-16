@@ -3,6 +3,7 @@ import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowRight, CalendarDays } from 'lucide-react';
 import { text } from '@/lib/text';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 import { getDomains } from '@/lib/api';
 import { PageHero } from '@/components/blocks/PageHero';
 import { GrilleDomaines } from '@/components/blocks/GrilleDomaines';
@@ -15,9 +16,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('programs');
-  return { title: t('eyebrow'), description: t('lead') };
+  return { title: t('eyebrow'), description: t('lead'), alternates: canoniquePour('/programmes', langue) };
 }
 
 /**

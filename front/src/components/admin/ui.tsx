@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 
 /** En-tête de page du back-office : titre, phrase d'aide, actions à droite. */
@@ -81,52 +80,6 @@ export function EmptyState({
       <p className="mx-auto mt-2 max-w-md text-[0.875rem] text-muted">{body}</p>
       {action && <div className="mt-6 flex justify-center">{action}</div>}
     </div>
-  );
-}
-
-/** Tuile de compteur du tableau de bord. */
-export function CountTile({
-  label,
-  value,
-  href,
-  tone = 'light',
-}: {
-  label: string;
-  value: number | string;
-  href?: string;
-  tone?: 'light' | 'gold' | 'dark';
-}) {
-  const tones = {
-    light: 'bg-paper border border-ink/10 text-ink hover:border-gold/45',
-    gold: 'bg-gold text-ink',
-    dark: 'bg-ink text-paper',
-  } as const;
-
-  const body = (
-    <>
-      <p className="font-display text-3xl leading-none font-bold tracking-tight tabular">
-        {value}
-      </p>
-      <p
-        className={`mt-2 text-[0.8125rem] font-medium ${
-          tone === 'dark' ? 'text-paper/70' : tone === 'gold' ? 'text-ink/75' : 'text-muted'
-        }`}
-      >
-        {label}
-      </p>
-    </>
-  );
-
-  const classes = `block rounded-panel p-5 transition-all duration-300 ${tones[tone]} ${
-    href ? 'hover:-translate-y-0.5 hover:shadow-soft' : ''
-  }`;
-
-  return href ? (
-    <Link href={href} className={classes}>
-      {body}
-    </Link>
-  ) : (
-    <div className={classes}>{body}</div>
   );
 }
 

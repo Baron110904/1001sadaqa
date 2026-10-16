@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { Lien as Link } from '@/components/ui/Lien';
 import { ArrowDown, ArrowRight, ArrowUp } from 'lucide-react';
 import { getFoodbank, getFoodbankComments } from '@/lib/api';
@@ -6,7 +7,21 @@ import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { FoodbankCommentForm } from '@/components/forms/FoodbankCommentForm';
 import { formatNumber } from '@/lib/format';
 import { poserLaLangueDe, langueCourante } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 import { text } from '@/lib/text';
+
+/**
+ * Titre et description viennent du gabarit de la rubrique : seule l'adresse
+ * canonique dépend de la page, et un gabarit ignore le chemin qu'il habille.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const langue = await poserLaLangueDe(params);
+  return { alternates: canoniquePour('/banque-alimentaire', langue) };
+}
 
 /**
  * Banque alimentaire : ce que l'entrepôt contient, et ce qui lui manque.

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { getDomains, getSeasonalCampaign, getSettings } from '@/lib/api';
 import { SeasonalDailyBar } from '@/components/seasonal/SeasonalDailyBar';
+import { DonneesStructurees } from '@/components/layout/DonneesStructurees';
 import { SiteHeader } from '@/components/layout/SiteHeader';
 import { SiteFooter } from '@/components/layout/SiteFooter';
 import { WhatsAppFab } from '@/components/layout/WhatsAppFab';
@@ -19,6 +20,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
 
   return (
     <>
+      <DonneesStructurees settings={settings} />
       <Mesure ga4Id={settings['analytics.ga4Id']} />
       <ScrollProgress />
 

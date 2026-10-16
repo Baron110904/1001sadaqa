@@ -127,7 +127,7 @@ const ORDER: FieldDef = {
   help: 'Les valeurs les plus basses apparaissent en premier.',
 };
 
-export const RESOURCES: ResourceDef[] = [
+const RESOURCES: ResourceDef[] = [
   {
     slug: 'programmes',
     siblings: ["domaines"],

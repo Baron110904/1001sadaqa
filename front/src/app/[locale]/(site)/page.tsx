@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { text } from '@/lib/text';
 import { ArrowRight, HandCoins, HandHeart, Handshake, Stethoscope, UserPlus } from 'lucide-react';
 import { Lien as Link } from '@/components/ui/Lien';
@@ -29,6 +30,21 @@ import { Counter } from '@/components/motion/Counter';
 import { ParallaxMedia } from '@/components/motion/ParallaxMedia';
 import { headingLines } from '@/lib/heading';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
+
+/**
+ * L'accueil n'a ni titre ni description propres : ceux du gabarit racine sont
+ * les siens. Seule l'adresse canonique le concerne — sans elle, l'accueil
+ * français et l'accueil anglais se présenteraient comme une même page.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const langue = await poserLaLangueDe(params);
+  return { alternates: canoniquePour('/', langue) };
+}
 
 export default async function HomePage({
   params,

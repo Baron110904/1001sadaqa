@@ -50,7 +50,23 @@ import { SiteModule } from './modules/site/site.module';
     }),
     // Plafond général ; les routes sensibles (connexion, formulaires) posent
     // leur propre limite via @Throttle.
-    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
+    //
+    // `skipIf` existe pour la suite de bout en bout, et pour elle seule. Les
+    // formulaires publics n'acceptent que trois à six envois par tranche de
+    // cinq minutes - c'est voulu, et c'est la bonne valeur face à un robot -
+    // mais une suite qui dépose vingt formulaires en dix minutes épuise ce
+    // quota et échoue sur un 429 qui n'accuse pourtant aucun défaut du site.
+    // Le symptôme trompe : deux tests tombaient en suite complète et passaient
+    // isolément, ce qui ressemble à de l'intermittence.
+    //
+    // La production ne peut pas s'en servir : le réglage y est ignoré, quoi
+    // qu'il contienne. Un plafond désactivé par une variable mal posée serait
+    // une porte ouverte sur les formulaires de don et de contact.
+    ThrottlerModule.forRoot({
+      throttlers: [{ ttl: 60_000, limit: 120 }],
+      skipIf: () =>
+        process.env.NODE_ENV !== 'production' && process.env.THROTTLE_DESACTIVE === 'true',
+    }),
     PrismaModule,
 
     AuthModule,

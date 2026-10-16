@@ -31,7 +31,7 @@ export function cookieOptions() {
   };
 }
 
-export async function readTokens(): Promise<{ access?: string; refresh?: string }> {
+async function readTokens(): Promise<{ access?: string; refresh?: string }> {
   const bocal = await cookies();
   return {
     access: bocal.get(ACCESS_COMPTE)?.value,

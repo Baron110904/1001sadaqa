@@ -994,6 +994,17 @@ model FoodbankRequest {
 
   /// Mouvement engendré par la validation. Sa présence dit que le stock a
   /// bougé ; son absence, que rien n'a été compté.
+  /// Code à présenter au moment du retrait.
+  ///
+  /// Délivré dès le dépôt de la demande, et seulement pour un retrait : qui
+  /// apporte des denrées n'a rien à venir chercher. L'application mobile le
+  /// garde sur l'appareil, et l'association le retrouve ici pour reconnaître
+  /// la personne qui se présente.
+  ///
+  /// Unique : c'est ce qui permet de le chercher sans ambiguïté. Nul sur les
+  /// demandes déjà enregistrées, et sur les apports.
+  pickupCode String? @unique
+
   movementId String?        @unique
   movement   StockMovement? @relation(fields: [movementId], references: [id], onDelete: SetNull)
 

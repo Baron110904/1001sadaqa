@@ -14,6 +14,28 @@ const hoteDesMedias = (process.env.NEXT_PUBLIC_MEDIA_HOST ?? '')
   .replace(/^https?:\/\//, '')
   .replace(/\/.*$/, '');
 
+/**
+ * Construction en ligne sans hôte de médias : on le dit, fort.
+ *
+ * `next/image` refuse tout hôte absent de `remotePatterns` et répond 400. Sans
+ * cette variable, chaque image téléversée depuis le back-office disparaît donc
+ * du site - y compris sa propre vignette d'aperçu, ce qui fait passer un envoi
+ * réussi pour un échec. Rien, ni dans le journal de construction ni à l'écran,
+ * ne reliait le symptôme à la variable manquante : la panne a coûté une
+ * soirée. Le repère est l'adresse de l'API, la seule variable qui distingue
+ * ici un poste de développement d'un déploiement.
+ */
+if (!hoteDesMedias && !/localhost|127\.0\.0\.1/.test(process.env.NEXT_PUBLIC_API_URL ?? '')) {
+  console.warn(
+    '\n  ⚠  NEXT_PUBLIC_MEDIA_HOST est vide alors que l’API est distante.\n' +
+      '     Les images téléversées depuis le back-office ne s’afficheront pas :\n' +
+      '     l’optimiseur de Next refusera leur hôte (erreur 400).\n' +
+      '     Posez-y le nom d’hôte public du stockage, par exemple\n' +
+      '     « pub-xxxxxxxx.r2.dev », puis reconstruisez - la valeur est figée\n' +
+      '     dans la construction.\n',
+  );
+}
+
 const config: NextConfig = {
   poweredByHeader: false,
   compress: true,

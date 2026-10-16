@@ -6,6 +6,7 @@ import { PageHero } from '@/components/blocks/PageHero';
 import { ProjectCard } from '@/components/blocks/ProjectCard';
 import { Reveal, RevealGroup, RevealItem } from '@/components/motion/Reveal';
 import { poserLaLangueDe } from '@/lib/langue';
+import { canoniquePour } from '@/lib/seo';
 import { text } from '@/lib/text';
 import { headingLines } from '@/lib/heading';
 
@@ -14,9 +15,9 @@ export async function generateMetadata({
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  await poserLaLangueDe(params);
+  const langue = await poserLaLangueDe(params);
   const t = text('toFund');
-  return { title: t('metaTitle'), description: t('metaDescription') };
+  return { title: t('metaTitle'), description: t('metaDescription'), alternates: canoniquePour('/projets/a-financer', langue) };
 }
 
 export const revalidate = 300;

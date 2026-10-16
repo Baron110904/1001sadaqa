@@ -12,11 +12,6 @@ export type Langue = (typeof LANGUES)[number];
 
 export const LANGUE_PAR_DEFAUT: Langue = 'fr';
 
-export const NOMS_DE_LANGUE: Record<Langue, string> = {
-  fr: 'Français',
-  en: 'English',
-};
-
 export const estUneLangue = (valeur: string): valeur is Langue =>
   (LANGUES as readonly string[]).includes(valeur);
 

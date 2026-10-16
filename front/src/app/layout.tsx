@@ -38,7 +38,11 @@ export function generateMetadata(): Metadata {
     },
     description: t('defaultDescription'),
     icons: { icon: '/brand/logo.png', apple: '/brand/logo.png' },
-    alternates: { canonical: '/' },
+    // Pas de `alternates.canonical` ici : les métadonnées d'un gabarit se
+    // fusionnent dans celles de chaque page, et un gabarit ignore le chemin
+    // qu'il habille. Une canonique posée à la racine désignait donc l'accueil
+    // depuis les vingt-sept pages du site, qui s'annonçaient ainsi toutes
+    // comme un doublon de la page d'accueil. Chaque page déclare la sienne.
     openGraph: {
       type: 'website',
       siteName: t('siteName'),
